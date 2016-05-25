@@ -8,9 +8,11 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -23,6 +25,7 @@ import android.util.Log;
 public class MediaPlayerService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnInfoListener, MediaPlayer.OnErrorListener{
     private NotificationManager nm;
     private MediaPlayer mPlayer;
+    private WifiManager.WifiLock mWifiLock = null;
 
     ArrayList<Messenger> mClients = new ArrayList<Messenger>(); // Keeps track of all current registered clients.
     static final int MSG_REGISTER_CLIENT = 1;
@@ -128,6 +131,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         super.onCreate();
         Log.i("roger", "Service Started.");
         nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
+        mWifiLock = ((WifiManager) getSystemService(Context.WIFI_SERVICE))
+                .createWifiLock(WifiManager.WIFI_MODE_FULL, "mylock");
+        mWifiLock.acquire();
+
         preparePlayer();
     }
 
@@ -145,6 +153,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         nm.cancel(R.string.service_started); // Cancel the persistent notification.
         mPlayer.release();
         mPlayer = null;
+
+        mWifiLock.release();
     }
 
     @Override
@@ -167,7 +177,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         mPlayer.setOnErrorListener(this);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-        //wifi lock
+
         try {
             mPlayer.setDataSource("http://stream.uclaradio.com:8000/listen");
             mPlayer.prepareAsync();

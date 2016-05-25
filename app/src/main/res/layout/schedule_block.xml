@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/schedule_block"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@layout/border"
+    >
+
+    <TextView
+        android:text="Time"
+        android:id="@+id/show_time"
+        android:layout_margin="@dimen/schedule_item_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="Show Name"
+        android:id="@+id/show_name"
+        android:layout_below="@id/show_time"
+        android:layout_margin="@dimen/schedule_item_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:text="Host Name"
+        android:id="@+id/host_name"
+        android:layout_below="@id/show_name"
+        android:layout_margin="@dimen/schedule_item_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:text="Genre Name"
+        android:id="@+id/genre_name"
+        android:layout_below="@id/host_name"
+        android:layout_margin="@dimen/schedule_item_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>
