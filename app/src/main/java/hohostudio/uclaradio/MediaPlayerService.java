@@ -80,7 +80,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
 
     public boolean onInfo(MediaPlayer player, int what, int extra) {
         //if 701 then display loading, if 702 then display play again
-
+        android.util.Log.v("roger", "onInfo " + what);
+        android.util.Log.v("roger", "and extra is: " + extra);
         switch(what) {
             case MediaPlayer.MEDIA_INFO_BUFFERING_START:
                 break;

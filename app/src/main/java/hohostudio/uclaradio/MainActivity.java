@@ -11,11 +11,14 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     Messenger mService = null;
     boolean mIsBound;
     boolean enabled = false;
@@ -70,6 +73,25 @@ public class MainActivity extends Activity {
         restoreMe(savedInstanceState);
 
         doBindService();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_my, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_schedule) {
+            Intent intent = new Intent(this, ScheduleActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
