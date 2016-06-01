@@ -34,7 +34,10 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.*;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+    int listLength = 6;
     Messenger mService = null;
     boolean mIsBound;
     boolean enabled = false;
@@ -53,10 +56,20 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject obj = new JSONObject(response);
                         JSONArray array = obj.getJSONObject("recenttracks").getJSONArray("track");
                         android.util.Log.v("roger", "Array length is" + array.length());
-                        for(int i = 0; i < array.length(); i++) {
+                        SongInfo[] arr = new SongInfo[listLength];
+                        for(int i = 0; i < listLength; i++) {
                             JSONObject cur = array.getJSONObject(i);
-                            android.util.Log.v("roger", cur.toString());
+                            String artist = cur.getJSONObject("artist").getString("#text");
+                            String name = cur.getString("name");
+                            android.util.Log.v("roger", "Artist is: " + artist + " and songName is " + name);
+                            SongInfo curSong = new SongInfo(artist, name, "");
+                            if(i < listLength) {
+                                arr[i] = curSong;
+                            }
                         }
+                        mAdapter = new RecentlyPlayedAdapter(arr);
+                        mRecyclerView.setAdapter(mAdapter);
+
                     } catch (Exception e) {
                         android.util.Log.v("roger", "json exception: " + e);
                     }
@@ -131,6 +144,12 @@ public class MainActivity extends AppCompatActivity {
             mQueue.start();
         }
 
+        SongInfo[] arr = new SongInfo[1];
+        arr[0] = new SongInfo("ArtistName", "SongName","");
+        mAdapter = new RecentlyPlayedAdapter(arr);
+        mRecyclerView.setAdapter(mAdapter);
+
+
         doBindService();
     }
 
@@ -146,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         lastFetchTime = curTime;
         mQueue.add(stringRequest);
 
-
+/*
         SongInfo one = new SongInfo("Drake", "One Dance", "");
         SongInfo second = new SongInfo("Justin Timberlake", "Can't Stop The Feeling", "");
         SongInfo third = new SongInfo("Fifth Harmony", "Work From Home", "");
@@ -156,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter = new RecentlyPlayedAdapter(recent);
         mRecyclerView.setAdapter(mAdapter);
+        */
     }
 
 

@@ -77,7 +77,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
 
     public void onPrepared(MediaPlayer player) {
         android.util.Log.v("roger", "prepared");
-        //player.start();
+
         sendMessageToUI(MSG_PLAYER_PREPARED);
     }
 
