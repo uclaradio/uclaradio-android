@@ -34,8 +34,6 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.*;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
     int listLength = 6;
     Messenger mService = null;
@@ -89,17 +87,31 @@ public class MainActivity extends AppCompatActivity {
     class IncomingHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
+            View loader = findViewById(R.id.loader);
+            View btn = findViewById(R.id.playButton);
             switch (msg.what) {
+
                 case MediaPlayerService.MSG_SET_INT_VALUE:
                     break;
                 case MediaPlayerService.MSG_SET_STRING_VALUE:
                     break;
                 case MediaPlayerService.MSG_PLAYER_PREPARED:
-                    View view = findViewById(R.id.loader);
-                    view.setVisibility(View.INVISIBLE);
-                    view = findViewById(R.id.playButton);
-                    view.setVisibility(View.VISIBLE);
+                    loader.setVisibility(View.INVISIBLE);
+                    btn.setVisibility(View.VISIBLE);
                     enabled = true;
+                    break;
+                case MediaPlayerService.MSG_PLAYER_BUFFER_START:
+                    android.util.Log.v("roger", "buffering");
+                    enabled = false;
+                    loader.setVisibility(View.VISIBLE);
+                    btn.setVisibility(View.INVISIBLE);
+
+                    break;
+                case MediaPlayerService.MSG_PLAYER_BUFFER_END:
+                    android.util.Log.v("roger", "buffering end");
+                    enabled = true;
+                    loader.setVisibility(View.INVISIBLE);
+                    btn.setVisibility(View.VISIBLE);
                     break;
                 default:
                     super.handleMessage(msg);
@@ -164,20 +176,7 @@ public class MainActivity extends AppCompatActivity {
         }
         lastFetchTime = curTime;
         mQueue.add(stringRequest);
-
-/*
-        SongInfo one = new SongInfo("Drake", "One Dance", "");
-        SongInfo second = new SongInfo("Justin Timberlake", "Can't Stop The Feeling", "");
-        SongInfo third = new SongInfo("Fifth Harmony", "Work From Home", "");
-        SongInfo four = new SongInfo("The Chainsmokers", "Don't Let Me Down", "");
-        SongInfo five = new SongInfo("Mike Posner", "I Took A Pill In Ibiza", "");
-        SongInfo[] recent = {one, second, third, four, five};
-
-        mAdapter = new RecentlyPlayedAdapter(recent);
-        mRecyclerView.setAdapter(mAdapter);
-        */
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

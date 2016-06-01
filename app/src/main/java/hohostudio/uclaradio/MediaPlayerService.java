@@ -36,6 +36,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
     static final int MSG_PLAYER_PLAY = 6;
     static final int MSG_PLAYER_PAUSE = 7;
     static final int MSG_PLAYER_RESTART = 8;
+    static final int MSG_PLAYER_BUFFER_START= 9;
+    static final int MSG_PLAYER_BUFFER_END= 10;
+
 
     final Messenger mMessenger = new Messenger(new IncomingHandler()); // Target we publish for clients to send messages to IncomingHandler.
 
@@ -76,8 +79,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
     }
 
     public void onPrepared(MediaPlayer player) {
-        android.util.Log.v("roger", "prepared");
-
         sendMessageToUI(MSG_PLAYER_PREPARED);
     }
 
@@ -87,6 +88,10 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         android.util.Log.v("roger", "and extra is: " + extra);
         switch(what) {
             case MediaPlayer.MEDIA_INFO_BUFFERING_START:
+                sendMessageToUI(MSG_PLAYER_BUFFER_START);
+                break;
+            case MediaPlayer.MEDIA_INFO_BUFFERING_END:
+                sendMessageToUI(MSG_PLAYER_BUFFER_END);
                 break;
             default:
 
@@ -106,18 +111,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         for (int i=mClients.size()-1; i>=0; i--) {
             try {
                 mClients.get(i).send(Message.obtain(null, intvaluetosend));
-                // Send data as an Integer
-                //mClients.get(i).send(Message.obtain(null, MSG_SET_INT_VALUE, intvaluetosend, 0));
-
-                //Send data as a String
-                /*
-                Bundle b = new Bundle();
-                b.putString("str1", "ab" + intvaluetosend + "cd");
-                Message msg = Message.obtain(null, MSG_SET_STRING_VALUE);
-                msg.setData(b);
-                mClients.get(i).send(msg);
-                */
-
             }
             catch (Exception e) {
                 // The client is dead. Remove it from the list; we are going through the list from back to front so this is safe to do inside the loop.
