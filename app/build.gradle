@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "19.1.0"
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "hohostudio.uclaradio"
@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
+    compile 'com.android.volley:volley:1.0.0'
 }

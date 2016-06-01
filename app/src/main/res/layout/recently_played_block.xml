@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recently_played_block"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_width="72dp"
+    android:layout_height="80dp"
+    >
+
+    <ImageView
+        android:id="@+id/album_art"
+        android:src="@drawable/no_artwork"
+        android:layout_centerHorizontal="true"
+        android:layout_width="48dp"
+        android:layout_height="48dp" />
+
+    <TextView
+        android:text="Song"
+        android:id="@+id/song_name"
+        android:layout_below="@id/album_art"
+        android:layout_centerHorizontal="true"
+        android:textSize="12dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="Artist"
+        android:id="@+id/artist_name"
+        android:layout_below="@id/song_name"
+        android:layout_centerHorizontal="true"
+        android:textSize="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package hohostudio.uclaradio;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +13,26 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+
+import com.android.volley.Cache;
+import com.android.volley.Network;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.*;
 
 public class MainActivity extends AppCompatActivity {
     Messenger mService = null;
@@ -24,6 +40,37 @@ public class MainActivity extends AppCompatActivity {
     boolean enabled = false;
     boolean playing = false;
     final Messenger mMessenger = new Messenger(new IncomingHandler());
+    int lastFetchTime = 0;
+    RequestQueue mQueue = null;
+    String url = "http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=uclaradio&api_key=d3e63e89b35e60885c944fe9b7341b76&limit=6&format=json";
+    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    // Display the first 500 characters of the response string.
+                    android.util.Log.v("roger", response);
+                    try {
+                        JSONObject obj = new JSONObject(response);
+                        JSONArray array = obj.getJSONObject("recenttracks").getJSONArray("track");
+                        android.util.Log.v("roger", "Array length is" + array.length());
+                        for(int i = 0; i < array.length(); i++) {
+                            JSONObject cur = array.getJSONObject(i);
+                            android.util.Log.v("roger", cur.toString());
+                        }
+                    } catch (Exception e) {
+                        android.util.Log.v("roger", "json exception: " + e);
+                    }
+                }
+            }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            android.util.Log.v("roger", error.toString());
+        }
+    });
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private LinearLayoutManager mLayoutManager;
 
 
     class IncomingHandler extends Handler {
@@ -71,9 +118,46 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         restoreMe(savedInstanceState);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recentList);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        if(mQueue == null) {
+            Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024);
+            Network network = new BasicNetwork(new HurlStack());
+            mQueue = new RequestQueue(cache, network);
+            mQueue.start();
+        }
 
         doBindService();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        android.util.Log.v("roger", "in resume");
+        int curTime = (int) (System.currentTimeMillis());
+        if(curTime - lastFetchTime < 120000) {
+            android.util.Log.v("roger", "fetched recently, returning");
+            return;
+        }
+        lastFetchTime = curTime;
+        mQueue.add(stringRequest);
+
+
+        SongInfo one = new SongInfo("Drake", "One Dance", "");
+        SongInfo second = new SongInfo("Justin Timberlake", "Can't Stop The Feeling", "");
+        SongInfo third = new SongInfo("Fifth Harmony", "Work From Home", "");
+        SongInfo four = new SongInfo("The Chainsmokers", "Don't Let Me Down", "");
+        SongInfo five = new SongInfo("Mike Posner", "I Took A Pill In Ibiza", "");
+        SongInfo[] recent = {one, second, third, four, five};
+
+        mAdapter = new RecentlyPlayedAdapter(recent);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

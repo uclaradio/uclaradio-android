@@ -6,4 +6,6 @@
     <color name="colorBackground">#3284BF</color>
     <color name="transparent">#FF4D00</color>
     <color name="white">#FFFFFF</color>
+    <color name="yellow">#FFD970</color>
+    <color name="gray">#CADDED</color>
 </resources>

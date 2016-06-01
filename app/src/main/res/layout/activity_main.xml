@@ -43,7 +43,7 @@
         android:text="Live Stream"
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
-        android:textColor="@color/white"
+        android:textColor="@color/yellow"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/banner"/>
 
@@ -66,5 +66,24 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
         android:onClick="fastForward" />
+
+    <TextView
+        android:id="@+id/recentlyPlayed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/gray"
+        android:layout_alignLeft="@id/banner"
+
+        android:text="Recently Played:"
+        android:layout_below="@id/playButton"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recentList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/banner"
+        android:layout_below="@id/recentlyPlayed">
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
