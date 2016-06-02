@@ -1,11 +1,17 @@
-package hohostudio.uclaradio;
+package hohostudio.testapp;
 
-        import android.support.v7.widget.RecyclerView;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.RelativeLayout;
-        import android.widget.TextView;
+import android.graphics.Bitmap;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 
 public class RecentlyPlayedAdapter extends RecyclerView.Adapter<RecentlyPlayedAdapter.ViewHolder> {
     private SongInfo[] mDataset;
@@ -50,6 +56,24 @@ public class RecentlyPlayedAdapter extends RecyclerView.Adapter<RecentlyPlayedAd
 
         TextView artistName = (TextView) holder.mRelativeLayout.findViewById(R.id.artist_name);
         artistName.setText(item.getArtistName());
+
+        final ImageView imageView = (ImageView) holder.mRelativeLayout.findViewById(R.id.album_art);
+        String url = item.getURL();
+        if(url != "") {
+            ImageRequest request = new ImageRequest(url,
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap bitmap) {
+                            imageView.setImageBitmap(bitmap);
+                        }
+                    }, 0, 0, null,
+                    new Response.ErrorListener() {
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    });
+
+            MainActivity.mQueue.add(request);
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

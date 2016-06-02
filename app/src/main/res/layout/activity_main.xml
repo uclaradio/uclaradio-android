@@ -26,7 +26,7 @@
         android:layout_marginLeft="8dp"
         android:onClick="togglePlay" />
 
-    <hohostudio.uclaradio.GIFView
+    <hohostudio.testapp.GIFView
         android:id="@+id/loader"
         android:background="@android:color/transparent"
         android:layout_width="36dp"

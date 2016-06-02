@@ -1,4 +1,4 @@
-package hohostudio.uclaradio;
+package hohostudio.testapp;
 
 import android.content.Context;
 import android.graphics.Canvas;

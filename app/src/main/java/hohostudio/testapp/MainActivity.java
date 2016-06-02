@@ -1,4 +1,4 @@
-package hohostudio.uclaradio;
+package hohostudio.testapp;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     boolean playing = false;
     final Messenger mMessenger = new Messenger(new IncomingHandler());
     int lastFetchTime = 0;
-    RequestQueue mQueue = null;
+    static RequestQueue mQueue = null;
     String url = "http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=uclaradio&api_key=d3e63e89b35e60885c944fe9b7341b76&limit=6&format=json";
     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
             new Response.Listener<String>() {
@@ -59,8 +59,12 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject cur = array.getJSONObject(i);
                             String artist = cur.getJSONObject("artist").getString("#text");
                             String name = cur.getString("name");
-                            android.util.Log.v("roger", "Artist is: " + artist + " and songName is " + name);
-                            SongInfo curSong = new SongInfo(artist, name, "");
+
+                            String url = cur.getJSONArray("image").getJSONObject(1).getString("#text");
+                            android.util.Log.v("roger", "url is " + url);
+                            android.util.Log.v("roger", "Artist is: " + artist + " and songName is " + name + " and url is " + url);
+
+                            SongInfo curSong = new SongInfo(artist, name, url);
                             if(i < listLength) {
                                 arr[i] = curSong;
                             }
@@ -287,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        android.util.Log.v("roger", "destorying main activity");
         try {
             doUnbindService();
         }

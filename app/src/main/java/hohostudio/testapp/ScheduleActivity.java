@@ -1,4 +1,4 @@
-package hohostudio.uclaradio;
+package hohostudio.testapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

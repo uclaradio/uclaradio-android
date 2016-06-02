@@ -1,4 +1,4 @@
-package hohostudio.uclaradio;
+package hohostudio.testapp;
 
 /**
  * Created by Roger Ho on 5/4/2016.
