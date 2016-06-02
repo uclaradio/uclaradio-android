@@ -1,1 +1,1 @@
-UCLA Radio is a mobile way to play content from UCLA's entirely student-run radio station. UCLA Radio broadcasts all day, every day from their studios in Ackerman Student Union. Use the app to listen anytime!
+UCLA Radio is a mobile way to play content from UCLA's entirely student-run radio station. UCLA Radio broadcasts all day, every day from their studios in Ackerman Student Union. Use the app to listen anytime!!
