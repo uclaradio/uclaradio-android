@@ -45,6 +45,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         // - replace the contents of the view with that element
         ScheduleInfo item = mDataset[position];
 
+        TextView showDay = (TextView) holder.mRelativeLayout.findViewById(R.id.show_day);
+        showDay.setText(item.getShowDay());
+
         TextView showTime = (TextView) holder.mRelativeLayout.findViewById(R.id.show_time);
         showTime.setText(item.getShowTime());
 

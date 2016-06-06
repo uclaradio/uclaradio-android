@@ -5,11 +5,13 @@ package hohostudio.testapp;
  */
 public class ScheduleInfo {
     protected String mShowTime;
+    protected String mShowDay;
     protected String mShowName;
     protected String mHostName;
     protected String mGenreName;
 
-    public ScheduleInfo(String showTime, String showName, String hostName, String genreName) {
+    public ScheduleInfo(String showName, String hostName, String genreName, String showDay, String showTime) {
+        mShowDay = showDay;
         mShowTime = showTime;
         mShowName = showName;
         mHostName = hostName;
@@ -31,4 +33,6 @@ public class ScheduleInfo {
     public String getGenreName() {
         return mGenreName;
     }
+
+    public String getShowDay() { return mShowDay; }
 }
