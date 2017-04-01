@@ -6,4 +6,45 @@
     android:layout_height="match_parent"
     tools:context="com.uclaradio.uclaradio.About">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="240dp"
+        android:layout_height="232dp"
+        android:text="@string/about"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="46dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Facebook"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="278dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tumblr"
+        tools:layout_editor_absoluteX="210dp"
+        tools:layout_editor_absoluteY="278dp" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Instagram"
+        tools:layout_editor_absoluteX="75dp"
+        tools:layout_editor_absoluteY="345dp" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Twitter"
+        tools:layout_editor_absoluteX="210dp"
+        tools:layout_editor_absoluteY="345dp" />
+
 </android.support.constraint.ConstraintLayout>
