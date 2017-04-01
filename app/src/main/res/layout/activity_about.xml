@@ -6,4 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.uclaradio.uclaradio.About">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="240dp"
+        android:layout_height="232dp"
+        android:text="@string/about"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="46dp" />
 </android.support.constraint.ConstraintLayout>
