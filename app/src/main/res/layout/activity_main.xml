@@ -1,89 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    android:background="@color/colorBackground"
-    android:orientation="vertical" >
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/banner"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/radio_banner"/>
-
-    <ImageButton
-        android:id="@+id/playButton"
-        android:visibility="invisible"
-        android:background="@android:color/transparent"
-        android:src="@drawable/play_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/banner"
-        android:layout_alignLeft="@id/banner"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:onClick="togglePlay" />
-
-    <hohostudio.testapp.GIFView
-        android:id="@+id/loader"
-        android:background="@android:color/transparent"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_below="@id/banner"
-        android:layout_alignLeft="@id/banner"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp" />
-
-    <TextView
-        android:id="@+id/liveStreamText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Live Stream"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:textColor="@color/yellow"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/banner"/>
+    tools:context="com.uclaradio.uclaradio.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="UCLA Radio"
-        android:textColor="@color/white"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/liveStreamText"/>
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/nextButton"
-        android:src="@drawable/next_button"
-        android:background="@android:color/transparent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/banner"
-        android:layout_alignRight="@id/banner"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:onClick="fastForward" />
-
-    <TextView
-        android:id="@+id/recentlyPlayed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/gray"
-        android:layout_alignLeft="@id/banner"
-
-        android:text="Recently Played:"
-        android:layout_below="@id/playButton"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recentList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/banner"
-        android:layout_below="@id/recentlyPlayed">
-    </android.support.v7.widget.RecyclerView>
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

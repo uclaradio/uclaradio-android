@@ -1,11 +1,3 @@
 <resources>
-    <string name="app_name">UclaRadio</string>
-    <string name="schedule_name">Schedule</string>
-    <string name="action_schedule">Schedule</string>
-    <string name="edit_message">Enter a message!</string>
-    <string name="button_play">Play</string>
-    <string name="schedule">Schedule</string>
-    <string name="title_activity_display_message">My Message</string>
-    <string name="service_started">Service Started</string>
-    <string name="service_label">Service Label</string>
+    <string name="app_name">UCLA Radio</string>
 </resources>
