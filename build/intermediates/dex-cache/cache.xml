@@ -3,30 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="/Users/tanzeelakhan/Desktop/apple/radio/uclaradio-Android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b7994b95441df0d9fc86231e0d7aa3801fb5ddcc">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_0785469b9e645028554ca44b7d9ecefafdc1da82/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
-        <dex dex="/Users/tanzeelakhan/Desktop/apple/radio/uclaradio-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_5bfd478045e86594939b29cb53c0598bb53d7c96/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/tanzeelakhan/Desktop/apple/radio/uclaradio-Android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6c1cbc20f693288c2c8ddaf18ad46243b728ea4d">
-        <dex dex="/Users/tanzeelakhan/Desktop/apple/radio/uclaradio-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_0e9ec7d5d4e4371ce6ab71cd0c847d9639bcd7a3/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/tanzeelakhan/.android/build-cache/efaabbdd74d341466a01bbbbe8cc549c309fa594/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="efad9c82b3daf1b87c716ff4fefc8d86c2b92851">
-        <dex dex="/Users/tanzeelakhan/Desktop/apple/radio/uclaradio-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_6b0a24cc743fc013068b11b0424b4e670eee3a09/classes.dex" />
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_2dae536d7b07945757cded752c2ba74e576672fc/classes.dex" />
     </item>
 
 </items>
