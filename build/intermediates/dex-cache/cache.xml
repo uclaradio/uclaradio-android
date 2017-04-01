@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_2dae536d7b07945757cded752c2ba74e576672fc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/.android/build-cache/4d81cc7749c3e3f27f87a3d3f6119169eacdbd48/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="efad9c82b3daf1b87c716ff4fefc8d86c2b92851">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_feac04b4f10546f749548345a3cb7b0509018b92/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/.android/build-cache/871c097870d5fa6114781bc3cca132c2eafde7a9/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_af2354ea1359b0b3dd59be7aba3a519f344b177f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/.android/build-cache/a6b41eb2ffac1d6da5df03a9e3ddcbb60d29fe24/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4b746ef0fd46acb5aaf3d9ab9a4cec22c28d3211">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_01a6e1aa9e1e2d6706c7632c83e8938abb49a8e2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/.android/build-cache/0d663f804cfa78e2092a07ba7b306631ad4b5457/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d6a04527c17597019dad82777c5094a3d60d1c33">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8db441fee816c28a2f4ceca0e5b4e34129ce887a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/.android/build-cache/b0035b614739c65d40c2cc9311b005a3423f33d2/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="93c10d68ab5ea070f15782ae6d3a28d1f1d8f45e">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_47d8debd25e5b1c5e246f85f5bd798f719cb6fab/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/.android/build-cache/7489617f4ab4bcb7c2d4347b2703bbd8eb67f757/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_96e85a9f6c66ff86837c53d64bf9da516e8e5c8a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/.android/build-cache/d75219e23e589e120f7d94a075348a3eb09f9668/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="518768f3200963fbfec652f498da2c9d39245234">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_a7323cb4923ba73afb5633eafc761f32fe2b08f0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/.android/build-cache/fe30dfcdbfaa4c508617f446c12ef9339d623187/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="70f23cb87278f89aa51e6f57e8f0fd5266572d95">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_5d6f693c453898ab9a6b58452fdacf5efd81bced/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.0/support-annotations-25.3.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="dd84903d2e1af25a6081ef9038ad863cb14ca3a0">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.3.0_39b438646884eb4efc281181bbc7d48133d5b14d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/.android/build-cache/b05a4eb9cb879ba901812c25bffb6435c2988dae/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5cc5ef8347a6bafa14556cbd35230aa9b3431bb0">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_37287a181169441af7ee79144e8d5ab5045f8505/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/constraint-layout-solver-1.0.2_254ea658c32c7c5c32620acf19774d17766279b7/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b61dad4110b7b72a16999a2bb5b2a7e10bee747d">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_0785469b9e645028554ca44b7d9ecefafdc1da82/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/.android/build-cache/32156159da8f8de48687e83fe68d2f34c01fdde6/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="425c7b17887e5c3f8cbdf67ba171bc246f29b42c">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e52a1e80546681b51ba7509d798727bc9ba79751/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nathan/.android/build-cache/2e34c20aaf21efd12cad5bb69d1e516ef16d2b17/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="93c1199fcb0a34b980e6fff8350daff62e696ec2">
+        <dex dex="/Users/nathan/Developer/UCLARadio/uclaradio-android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_77d4f8020a99e685535e3d9333cd999eff38c126/classes.dex" />
+    </item>
+
+</items>
