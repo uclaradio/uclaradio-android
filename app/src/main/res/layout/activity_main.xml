@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,40 +8,59 @@
 
     <com.manolovn.trianglify.TrianglifyView
         android:id="@+id/trianglify_view_sample"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
         />
 
+    <RelativeLayout
+        android:id="@+id/buttonsHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerInParent="true">
+
+
     <Button
-        android:id="@+id/button"
+        android:id="@+id/scheduleBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Schedule"
-        tools:layout_editor_absoluteX="145dp"
-        tools:layout_editor_absoluteY="118dp" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tickets"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
         tools:layout_editor_absoluteX="147dp"
         tools:layout_editor_absoluteY="252dp" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/djsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DJs"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="187dp" />
+        android:layout_below="@id/scheduleBtn"
+        android:layout_centerHorizontal="true"
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="252dp" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/ticketsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tickets"
+        android:layout_below="@id/djsBtn"
+        android:layout_centerHorizontal="true"
+
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="252dp" />
+
+    <Button
+        android:id="@+id/aboutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="About"
+        android:layout_below="@id/ticketsBtn"
+        android:layout_centerHorizontal="true"
         tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="332dp" />
+        tools:layout_editor_absoluteY="252dp" />
 
-</android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
