@@ -1,9 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     tools:context="com.uclaradio.uclaradio.Schedule">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/buttonsHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+
+        <Button
+            android:id="@+id/scheduleBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="Schedule"
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="252dp" />
+
+        <Button
+            android:id="@+id/djsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scheduleBtn"
+            android:layout_centerHorizontal="true"
+            android:text="DJs"
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="252dp" />
+
+        <Button
+            android:id="@+id/ticketsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/djsBtn"
+            android:layout_centerHorizontal="true"
+            android:text="Tickets"
+
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="252dp" />
+
+        <Button
+            android:id="@+id/aboutBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ticketsBtn"
+            android:layout_centerHorizontal="true"
+            android:text="About"
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="252dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
