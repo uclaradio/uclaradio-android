@@ -40,7 +40,9 @@ public class Djs extends AppCompatActivity {
             JSONArray djs = json.getJSONArray("djs");
             for (int i = 0; i < djs.length(); i++) {
                 JSONObject dj = djs.getJSONObject(i);
-                Log.i("tag", dj.getString("username"));
+                if (dj.has("djName")) {
+                    Log.i("tag", dj.getString("djName"));
+                }
             }
         } catch (JSONException jsone) {
             Log.wtf("help", jsone);
