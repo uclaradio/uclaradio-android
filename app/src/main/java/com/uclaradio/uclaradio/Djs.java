@@ -2,6 +2,7 @@ package com.uclaradio.uclaradio;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,6 +26,9 @@ public class Djs extends AppCompatActivity {
         setContentView(R.layout.activity_djs);
 
         recyclerView = (RecyclerView) findViewById(R.id.dj_ids_rv);
+        final int numberOfCols = 2;
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfCols));
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -40,9 +44,9 @@ public class Djs extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             LinearLayoutManager linearLayoutManager =
                                     new LinearLayoutManager(Djs.this, LinearLayoutManager.VERTICAL, false);
+                            recyclerView.setLayoutManager(new GridLayoutManager(Djs.this, numberOfCols));
                             DjAdapter adapter = new DjAdapter(response.body().getDjList());
                             recyclerView.setAdapter(adapter);
-                            recyclerView.setLayoutManager(linearLayoutManager);
                             for (DjData dj : response.body().getDjList()) {
                                 Log.d("TAG", "DJ NAME IS: " + dj.getUsername());
                             }
