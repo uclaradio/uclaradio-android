@@ -2,6 +2,7 @@ package com.uclaradio.uclaradio;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -37,7 +38,11 @@ public class Djs extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<DjList> call, Response<DjList> response) {
                         if (response.isSuccessful()) {
-
+                            LinearLayoutManager linearLayoutManager =
+                                    new LinearLayoutManager(Djs.this, LinearLayoutManager.VERTICAL, false);
+                            DjAdapter adapter = new DjAdapter(response.body().getDjList());
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(linearLayoutManager);
                             for (DjData dj : response.body().getDjList()) {
                                 Log.d("TAG", "DJ NAME IS: " + dj.getUsername());
                             }

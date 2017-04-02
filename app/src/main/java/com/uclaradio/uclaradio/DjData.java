@@ -11,11 +11,19 @@ public class DjData {
     @SerializedName("username")
     private String username;
 
+    @SerializedName("picture")
+    private String pictureUrl;
+
 //    @SerializedName("fullName")
 //    private String fullName;
 
 //    @SerializedName("email")
 //    private String email;
+
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
 
     public String getUsername() {
         return username;
