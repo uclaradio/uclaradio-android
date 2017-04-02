@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import org.json.*;
 
 import retrofit2.Call;
@@ -38,9 +36,9 @@ public class Djs extends AppCompatActivity {
                 .enqueue(new Callback<DjList>() {
                     @Override
                     public void onResponse(Call<DjList> call, Response<DjList> response) {
-                        if(response.isSuccessful()) {
+                        if (response.isSuccessful()) {
 
-                            for(DjData dj : response.body().getDjList()) {
+                            for (DjData dj : response.body().getDjList()) {
                                 Log.d("TAG", "DJ NAME IS: " + dj.getUsername());
                             }
                         } else {
@@ -53,37 +51,5 @@ public class Djs extends AppCompatActivity {
                         Log.e("TAG", "FAILED TO MAKE API CALL");
                     }
                 });
-
-//        downloadDJs();
     }
-
-    private void downloadDJs() {
-        Ion.with(this)
-                .load("https://uclaradio.com/api/djs")
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String result) {
-                        // data has arrived
-                        processDJs(result);
-                    }
-                });
-
-    }
-
-    private void processDJs(String result) {
-        try {
-            JSONObject json = new JSONObject(result);
-            JSONArray djs = json.getJSONArray("djs");
-            for (int i = 0; i < djs.length(); i++) {
-                JSONObject dj = djs.getJSONObject(i);
-                if (dj.has("djName")) {
-                    Log.i("tag", dj.getString("djName"));
-                }
-            }
-        } catch (JSONException jsone) {
-            Log.wtf("help", jsone);
-        }
-    }
-
 }
