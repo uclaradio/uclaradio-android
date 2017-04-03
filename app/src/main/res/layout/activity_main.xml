@@ -22,14 +22,14 @@
 
     <RelativeLayout
         android:id="@+id/buttonsHolder"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
 
     <Button
         android:id="@+id/scheduleBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Schedule"
         android:layout_centerHorizontal="true"
@@ -39,7 +39,7 @@
 
     <Button
         android:id="@+id/djsBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="DJs"
         android:layout_below="@id/scheduleBtn"
@@ -49,7 +49,7 @@
 
     <Button
         android:id="@+id/ticketsBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tickets"
         android:layout_below="@id/djsBtn"
@@ -60,7 +60,7 @@
 
     <Button
         android:id="@+id/aboutBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="About"
         android:layout_below="@id/ticketsBtn"
@@ -69,5 +69,17 @@
         tools:layout_editor_absoluteY="252dp" />
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/streamBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="135dp"
+        android:layout_marginRight="135dp"
+        android:text="Live Stream" />
+
 
 </RelativeLayout>
