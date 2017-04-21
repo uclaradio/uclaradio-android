@@ -7,42 +7,47 @@
     android:background="@color/colorAccent"
     tools:context="com.uclaradio.uclaradio.Schedule">
 
-    <LinearLayout
-        android:id="@+id/Monday"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/shows_ids_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"/>
+    <!--<LinearLayout-->
+    <!--android:id="@+id/Monday"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:orientation="vertical">-->
 
 
-        <Button
-            android:id="@+id/scheduleBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="147dp"
-            tools:layout_editor_absoluteY="252dp" />
+    <!--<Button-->
+    <!--android:id="@+id/scheduleBtn"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--tools:layout_editor_absoluteX="147dp"-->
+    <!--tools:layout_editor_absoluteY="252dp" />-->
 
-        <Button
-            android:id="@+id/djsBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="147dp"
-            tools:layout_editor_absoluteY="252dp" />
+    <!--<Button-->
+    <!--android:id="@+id/djsBtn"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--tools:layout_editor_absoluteX="147dp"-->
+    <!--tools:layout_editor_absoluteY="252dp" />-->
 
-        <Button
-            android:id="@+id/ticketsBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="147dp"
-            tools:layout_editor_absoluteY="252dp" />
+    <!--<Button-->
+    <!--android:id="@+id/ticketsBtn"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--tools:layout_editor_absoluteX="147dp"-->
+    <!--tools:layout_editor_absoluteY="252dp" />-->
 
-        <Button
-            android:id="@+id/aboutBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="147dp"
-            tools:layout_editor_absoluteY="252dp" />
+    <!--<Button-->
+    <!--android:id="@+id/aboutBtn"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--tools:layout_editor_absoluteX="147dp"-->
+    <!--tools:layout_editor_absoluteY="252dp" />-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
 </LinearLayout>

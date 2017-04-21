@@ -13,5 +13,5 @@ public interface RadioPlatform {
     Call<DjList> getDjs();
 
     @GET("/api/schedule")
-    Call<ShowSchedule> getSchedules();
+    Call<ScheduleList> getSchedules();
 }
