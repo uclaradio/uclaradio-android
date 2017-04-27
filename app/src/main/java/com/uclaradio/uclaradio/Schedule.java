@@ -38,7 +38,11 @@ public class Schedule extends AppCompatActivity {
                             for (ScheduleData show : response.body().getScheduleList())
                             {
                                 Log.d("TAG", "SHOW NAME IS " + show.getTitle());
+                                Log.d("TAG", "Time: " + show.getTime());
+                                Log.d("TAG", "Day: " + show.getDay());
+                                Log.d("TAG", "Genre: " + show.getGenre());
                             }
+
                         } else {
                             Log.e("TAG", "HERE FAILED");
                         }
