@@ -1,10 +1,15 @@
 package com.uclaradio.uclaradio;
 
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -33,10 +38,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         holder.text_title.setText(item.getTitle());
         holder.text_time.setText(item.getTime());
         holder.text_genre.setText(item.getGenre());
-        //String imageUrl = "https://uclaradio.com" + item.getPictureUrl();
-        //Log.d("TAG", "ALBUM IMAGE URL: " + imageUrl);
-//        Picasso.with(holder.text_title.getContext())
-//                .load(imageUrl).into(holder.imageView);
+        String imageUrl = "https://uclaradio.com" + item.getPictureUrl();
+        Log.d("TAG", "ALBUM IMAGE URL: " + imageUrl);
+        Picasso.with(holder.text_title.getContext())
+                .load(imageUrl).into(holder.image_show);
     }
 
     @Override
@@ -48,12 +53,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         private TextView text_title;
         private TextView text_genre;
         private TextView text_time;
+        private ImageView image_show;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.text_title = (TextView) itemView.findViewById(R.id.schedule_title);
             this.text_time = (TextView) itemView.findViewById(R.id.schedule_time);
             this.text_genre = (TextView) itemView.findViewById(R.id.schedule_genre);
+            this.image_show = (ImageView) itemView.findViewById(R.id.schedule_image);
         }
     }
 }

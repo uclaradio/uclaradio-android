@@ -20,9 +20,11 @@ public class ScheduleData {
     @SerializedName("day")
     private String day;
 
-
     @SerializedName("genre")
     private String genre;
+
+    @SerializedName("picture")
+    private String pictureUrl;
 
 
     public String getUsername() {
@@ -43,6 +45,10 @@ public class ScheduleData {
 
     public String getGenre(){
         return genre;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
     }
 
 
