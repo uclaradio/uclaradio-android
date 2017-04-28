@@ -6,11 +6,6 @@
     android:layout_width="175dp"
     android:layout_height="200dp">
 
-    <!--<ImageView-->
-        <!--android:id="@+id/image"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="175dp"-->
-        <!--android:scaleType="centerCrop"/>-->
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"

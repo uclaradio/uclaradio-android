@@ -2,6 +2,7 @@ package com.uclaradio.uclaradio;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -35,6 +36,14 @@ public class Schedule extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<ScheduleList> call, Response<ScheduleList> response) {
                         if(response.isSuccessful()) {
+                            LinearLayoutManager linearLayoutManager =
+                                    new LinearLayoutManager(Schedule.this, LinearLayoutManager.VERTICAL, false);
+                            ScheduleAdapter adapter = new ScheduleAdapter(response.body().getScheduleList());
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(linearLayoutManager);
+
+
+
                             for (ScheduleData show : response.body().getScheduleList())
                             {
                                 Log.d("TAG", "SHOW NAME IS " + show.getTitle());
@@ -50,7 +59,7 @@ public class Schedule extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ScheduleList> call, Throwable t) {
-
+                        Log.e("TAG", "FAILED TO MAKE API CALL");
                     }
 
 
