@@ -31,6 +31,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         ScheduleData item = items.get(position);
         holder.text_title.setText(item.getTitle());
+        holder.text_time.setText(item.getTime());
+        holder.text_genre.setText(item.getGenre());
         //String imageUrl = "https://uclaradio.com" + item.getPictureUrl();
         //Log.d("TAG", "ALBUM IMAGE URL: " + imageUrl);
 //        Picasso.with(holder.text_title.getContext())
@@ -44,9 +46,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView text_title;
+        private TextView text_genre;
+        private TextView text_time;
+
         public ViewHolder(View itemView) {
             super(itemView);
             this.text_title = (TextView) itemView.findViewById(R.id.schedule_title);
+            this.text_time = (TextView) itemView.findViewById(R.id.schedule_time);
+            this.text_genre = (TextView) itemView.findViewById(R.id.schedule_genre);
         }
     }
 }
