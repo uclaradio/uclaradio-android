@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="UCLA RADIO"
-        android:textSize="60sp" />
+        android:textSize="60sp"
+        android:gravity="center"/>
 
     <RelativeLayout
         android:id="@+id/buttonsHolder"
@@ -27,46 +28,46 @@
         android:layout_centerInParent="true">
 
 
-    <Button
-        android:id="@+id/scheduleBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Schedule"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="252dp" />
+        <Button
+            android:id="@+id/scheduleBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Schedule"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="252dp" />
 
-    <Button
-        android:id="@+id/djsBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="DJs"
-        android:layout_below="@id/scheduleBtn"
-        android:layout_centerHorizontal="true"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="252dp" />
+        <Button
+            android:id="@+id/djsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DJs"
+            android:layout_below="@id/scheduleBtn"
+            android:layout_centerHorizontal="true"
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="252dp" />
 
-    <Button
-        android:id="@+id/ticketsBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tickets"
-        android:layout_below="@id/djsBtn"
-        android:layout_centerHorizontal="true"
+        <Button
+            android:id="@+id/ticketsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tickets"
+            android:layout_below="@id/djsBtn"
+            android:layout_centerHorizontal="true"
 
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="252dp" />
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="252dp" />
 
-    <Button
-        android:id="@+id/aboutBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="About"
-        android:layout_below="@id/ticketsBtn"
-        android:layout_centerHorizontal="true"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="252dp" />
+        <Button
+            android:id="@+id/aboutBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:layout_below="@id/ticketsBtn"
+            android:layout_centerHorizontal="true"
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="252dp" />
 
     </RelativeLayout>
 
@@ -77,8 +78,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="135dp"
-        android:layout_marginRight="135dp"
         android:text="Live Stream" />
 
 
