@@ -33,7 +33,7 @@ public class Stream extends AppCompatActivity {
                     streamBtn.setText("Pause Streaming");
 
                     if (initialStage) {
-                        new Player().execute("http://ssaurel.com/tmp/mymusic.mp3");
+                        new Player().execute("http://uclaradio.com:8000/;");
                     } else {
                         if(!mediaPlayer.isPlaying())
                             mediaPlayer.start();
