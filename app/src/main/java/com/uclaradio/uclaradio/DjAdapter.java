@@ -36,6 +36,8 @@ public class DjAdapter extends RecyclerView.Adapter<DjAdapter.ViewHolder> {
         DjData item = items.get(position);
         holder.text.setText(item.getUsername());
         String imageUrl = "https://uclaradio.com" + item.getPictureUrl();
+        if (item.getPictureUrl() == null)
+            imageUrl = "https://raw.githubusercontent.com/uclaradio/uclaradio-iOS/master/UCLA%20Radio/UCLA%20Radio/images/bear.png";
         Log.d("TAG", "IMAGE URL: " + imageUrl);
         Picasso.with(holder.text.getContext())
                 .load(imageUrl).into(holder.imageView);
