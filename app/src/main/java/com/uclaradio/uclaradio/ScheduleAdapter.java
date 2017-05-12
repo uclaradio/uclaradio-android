@@ -1,6 +1,7 @@
 package com.uclaradio.uclaradio;
 
 import android.media.Image;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +40,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         holder.text_time.setText(item.getTime());
         holder.text_genre.setText(item.getGenre());
         String imageUrl = "https://uclaradio.com" + item.getPictureUrl();
+        if (item.getPictureUrl() == null)
+            imageUrl = "https://raw.githubusercontent.com/uclaradio/uclaradio-iOS/master/UCLA%20Radio/UCLA%20Radio/images/radio.png";
         Log.d("TAG", "ALBUM IMAGE URL: " + imageUrl);
         Picasso.with(holder.text_title.getContext())
                 .load(imageUrl).into(holder.image_show);
