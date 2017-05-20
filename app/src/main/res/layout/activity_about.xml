@@ -4,16 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     tools:context="com.uclaradio.uclaradio.About">
+
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="240dp"
-        android:layout_height="232dp"
         android:text="@string/about"
         android:inputType="textMultiLine"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="46dp" />
+        android:textColor="#000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="87dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="16dp"
+        tools:layout_constraintLeft_creator="0"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        tools:layout_constraintTop_creator="0"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="16dp"
+        tools:layout_constraintRight_creator="0"
+        />
 
     <Button
         android:id="@+id/button2"
