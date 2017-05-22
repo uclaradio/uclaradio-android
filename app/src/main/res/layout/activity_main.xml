@@ -32,17 +32,22 @@
             android:id="@+id/scheduleBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Schedule"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="?android:attr/detailsElementBackground"
+            android:stateListAnimator="@null"
+            android:text="Schedule"
             tools:layout_editor_absoluteX="147dp"
-            tools:layout_editor_absoluteY="252dp" />
+            tools:layout_editor_absoluteY="252dp"
+            />
 
         <Button
             android:id="@+id/djsBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="DJs"
+            android:backgroundTint="?android:attr/detailsElementBackground"
+            android:stateListAnimator="@null"
             android:layout_below="@id/scheduleBtn"
             android:layout_centerHorizontal="true"
             tools:layout_editor_absoluteX="147dp"
@@ -53,6 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tickets"
+            android:backgroundTint="?android:attr/detailsElementBackground"
+            android:stateListAnimator="@null"
             android:layout_below="@id/djsBtn"
             android:layout_centerHorizontal="true"
 
@@ -64,6 +71,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="About"
+            android:backgroundTint="?android:attr/detailsElementBackground"
+            android:stateListAnimator="@null"
             android:layout_below="@id/ticketsBtn"
             android:layout_centerHorizontal="true"
             tools:layout_editor_absoluteX="147dp"
@@ -78,7 +87,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="Live Stream" />
+        android:text="Live Stream"
+        android:backgroundTint="?android:attr/detailsElementBackground"
+        android:stateListAnimator="@null"/>
 
 
 </RelativeLayout>
