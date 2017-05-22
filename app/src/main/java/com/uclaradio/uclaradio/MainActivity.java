@@ -1,10 +1,16 @@
 package com.uclaradio.uclaradio;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,12 +20,16 @@ public class MainActivity extends AppCompatActivity {
     Button ticketsBtn;
     Button aboutBtn;
     Button streamBtn;
+    ImageView radioGraphic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        radioGraphic = (ImageView)findViewById(R.id.radioGraphic);
+
+        Picasso.with(getApplicationContext()).load("https://raw.githubusercontent.com/uclaradio/uclaradio-iOS/master/UCLA%20Radio/UCLA%20Radio/images/radio_wide.png").into(radioGraphic);
 
         scheduleBtn = (Button)findViewById(R.id.scheduleBtn);
         scheduleBtn.setOnClickListener(new View.OnClickListener() {
