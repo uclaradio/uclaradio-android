@@ -9,15 +9,14 @@
     <com.manolovn.trianglify.TrianglifyView
         android:id="@+id/trianglify_view_sample"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        />
+        android:layout_height="match_parent" />
 
     <ImageView
         android:id="@+id/radioGraphic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        
+        android:padding="20dp"
        />
 
     <RelativeLayout
@@ -30,7 +29,7 @@
         <Button
             android:id="@+id/scheduleBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:backgroundTint="?android:attr/detailsElementBackground"
@@ -43,7 +42,7 @@
         <Button
             android:id="@+id/djsBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:text="DJs"
             android:backgroundTint="?android:attr/detailsElementBackground"
             android:stateListAnimator="@null"
@@ -55,7 +54,7 @@
         <Button
             android:id="@+id/ticketsBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:text="Tickets"
             android:backgroundTint="?android:attr/detailsElementBackground"
             android:stateListAnimator="@null"
@@ -68,7 +67,7 @@
         <Button
             android:id="@+id/aboutBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:text="About"
             android:backgroundTint="?android:attr/detailsElementBackground"
             android:stateListAnimator="@null"
@@ -86,9 +85,10 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:backgroundTint="@android:color/background_dark"
+        android:stateListAnimator="@null"
         android:text="Live Stream"
-        android:backgroundTint="?android:attr/detailsElementBackground"
-        android:stateListAnimator="@null"/>
+        android:textColor="@android:color/background_light" />
 
 
 </RelativeLayout>

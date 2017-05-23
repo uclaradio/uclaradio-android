@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         radioGraphic = (ImageView)findViewById(R.id.radioGraphic);
-
         Picasso.with(getApplicationContext()).load("https://raw.githubusercontent.com/uclaradio/uclaradio-iOS/master/UCLA%20Radio/UCLA%20Radio/images/radio_wide.png").into(radioGraphic);
 
         scheduleBtn = (Button)findViewById(R.id.scheduleBtn);

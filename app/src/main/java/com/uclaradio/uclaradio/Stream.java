@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 public class Stream extends AppCompatActivity {
 
@@ -17,15 +20,21 @@ public class Stream extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
     private boolean initialStage = true;
+    private ImageView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stream);
+
+        logo = (ImageView) findViewById(R.id.logo);
         streamBtn = (Button) findViewById(R.id.streamBtn);
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         progressDialog = new ProgressDialog(this);
+
+        Picasso.with(getApplicationContext()).load("https://raw.githubusercontent.com/uclaradio/uclaradio-iOS/master/UCLA%20Radio/UCLA%20Radio/images/radio_banner%403x.png").into(logo);
+
         streamBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
