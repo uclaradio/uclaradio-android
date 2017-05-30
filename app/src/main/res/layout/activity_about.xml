@@ -8,57 +8,74 @@
     tools:context="com.uclaradio.uclaradio.About">
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:text="@string/about"
-        android:inputType="textMultiLine"
-        android:textColor="#000000"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layTxtAndBtns"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        tools:layout_editor_absoluteX="163dp"
-        tools:layout_editor_absoluteY="87dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="16dp"
-        tools:layout_constraintLeft_creator="0"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
-        tools:layout_constraintTop_creator="0"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginEnd="16dp"
-        tools:layout_constraintRight_creator="0"
-        />
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        >
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Facebook"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="278dp" />
+        <TextView
+            android:id="@+id/textView"
+            android:text="@string/about"
+            android:inputType="textMultiLine"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tumblr"
-        tools:layout_editor_absoluteX="210dp"
-        tools:layout_editor_absoluteY="278dp" />
+        <LinearLayout
+            android:id="@+id/laytbtns"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Instagram"
-        tools:layout_editor_absoluteX="75dp"
-        tools:layout_editor_absoluteY="345dp" />
+            <ImageButton
+                android:id="@+id/button1"
+                android:layout_width="47dip"
+                android:layout_height="47dip"
+                android:scaleType="fitXY"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/facebook"
+                />
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Twitter"
-        tools:layout_editor_absoluteX="210dp"
-        tools:layout_editor_absoluteY="345dp" />
+            <ImageButton
+                android:id="@+id/button2"
+                android:layout_width="55dip"
+                android:layout_height="55dip"
+                android:scaleType="fitXY"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/instagram"
+                />
+
+            <ImageButton
+                android:id="@+id/button3"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:scaleType="fitXY"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/twitter"
+                />
+
+            <ImageButton
+                android:id="@+id/button4"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:scaleType="fitXY"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/tumblr"
+                />
+            </LinearLayout>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
