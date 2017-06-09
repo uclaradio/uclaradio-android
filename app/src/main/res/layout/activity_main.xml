@@ -9,7 +9,11 @@
     <com.manolovn.trianglify.TrianglifyView
         android:id="@+id/trianglify_view_sample"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:cellSize="175"
+        app:variance="75"
+        app:bleedX="50"
+        app:bleedY="50"/>
 
     <ImageView
         android:id="@+id/radioGraphic"
@@ -35,6 +39,8 @@
             android:backgroundTint="?android:attr/detailsElementBackground"
             android:stateListAnimator="@null"
             android:text="Schedule"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             tools:layout_editor_absoluteX="147dp"
             tools:layout_editor_absoluteY="252dp"
             />
@@ -48,6 +54,8 @@
             android:stateListAnimator="@null"
             android:layout_below="@id/scheduleBtn"
             android:layout_centerHorizontal="true"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             tools:layout_editor_absoluteX="147dp"
             tools:layout_editor_absoluteY="252dp" />
 
@@ -60,7 +68,8 @@
             android:stateListAnimator="@null"
             android:layout_below="@id/djsBtn"
             android:layout_centerHorizontal="true"
-
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             tools:layout_editor_absoluteX="147dp"
             tools:layout_editor_absoluteY="252dp" />
 
@@ -73,6 +82,8 @@
             android:stateListAnimator="@null"
             android:layout_below="@id/ticketsBtn"
             android:layout_centerHorizontal="true"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             tools:layout_editor_absoluteX="147dp"
             tools:layout_editor_absoluteY="252dp" />
 
@@ -88,7 +99,8 @@
         android:backgroundTint="@android:color/background_dark"
         android:stateListAnimator="@null"
         android:text="Live Stream"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@android:color/background_light"
+        android:textSize="8pt"/>
 
 
 </RelativeLayout>
