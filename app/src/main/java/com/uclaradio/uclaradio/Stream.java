@@ -9,18 +9,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
 public class Stream extends AppCompatActivity {
 
-    private Button streamBtn;
+//    private Button streamBtn;
+    private ImageButton streamBtnImg;
     private boolean playPause;
     private MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
     private boolean initialStage = true;
     private ImageView logo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +31,20 @@ public class Stream extends AppCompatActivity {
         setContentView(R.layout.activity_stream);
 
         logo = (ImageView) findViewById(R.id.logo);
-        streamBtn = (Button) findViewById(R.id.streamBtn);
+//        streamBtn = (Button) findViewById(R.id.streamBtn);
+        streamBtnImg = (ImageButton) findViewById(R.id.streamBtnImg);
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         progressDialog = new ProgressDialog(this);
 
         Picasso.with(getApplicationContext()).load("https://raw.githubusercontent.com/uclaradio/uclaradio-iOS/master/UCLA%20Radio/UCLA%20Radio/images/radio_banner%403x.png").into(logo);
 
-        streamBtn.setOnClickListener(new View.OnClickListener() {
+        streamBtnImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!playPause){
-                    streamBtn.setText("Pause Streaming");
+//                    streamBtn.setText("Pause");
+                    streamBtnImg.setImageResource(android.R.drawable.ic_media_pause);
 
                     if (initialStage) {
                         new Player().execute("http://uclaradio.com:8000/;");
@@ -49,7 +54,8 @@ public class Stream extends AppCompatActivity {
                     }
                     playPause = true;
                 } else {
-                    streamBtn.setText("Launch Streaming");
+//                    streamBtn.setText("Play");
+                    streamBtnImg.setImageResource(android.R.drawable.ic_media_play);
 
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
@@ -82,7 +88,8 @@ public class Stream extends AppCompatActivity {
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         initialStage = true;
                         playPause = false;
-                        streamBtn.setText("Launch Streaming");
+//                        streamBtn.setText("Play");//Launch Streaming
+                        streamBtnImg.setImageResource(android.R.drawable.ic_media_pause);
                         mediaPlayer.stop();
                         mediaPlayer.reset();
                     }
@@ -114,8 +121,8 @@ public class Stream extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            progressDialog.setMessage("Buffering...");
-            progressDialog.show();
+//            progressDialog.setMessage("Buffering..."); //Buffering...
+//            progressDialog.show();
         }
     }
 }

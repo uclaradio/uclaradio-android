@@ -12,23 +12,33 @@
         android:id="@+id/logo"
         android:layout_width="400dp"
         android:layout_height="400dp"
+        android:layout_marginLeft="10dp"
         android:layout_gravity="center"
         android:contentDescription="@string/app_name"
         android:padding="40dp"/>
 
-    <Button
-        android:id="@+id/streamBtn"
-        android:layout_width="400dp"
-        android:layout_height="50dp"
+    <!--<Button-->
+        <!--android:id="@+id/streamBtn"-->
+        <!--android:layout_width="400dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_below="@id/logo"-->
+        <!--android:text="Play"-->
+        <!--android:textSize="18sp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:backgroundTint="?android:attr/detailsElementBackground"-->
+        <!--android:stateListAnimator="@null"-->
+        <!--android:layout_marginLeft="40dp"-->
+        <!--android:layout_marginRight="40dp"/>-->
+
+
+    <ImageButton
+        android:id="@+id/streamBtnImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_below="@id/logo"
-        android:text="Launch Streaming"
-        android:textSize="18sp"
-        android:layout_gravity="center"
-        android:backgroundTint="?android:attr/detailsElementBackground"
-        android:stateListAnimator="@null"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"/>
-
-
+        android:scaleType="fitXY"
+        android:layout_centerInParent="true"
+        android:background="@android:color/transparent"
+        app:srcCompat="@android:drawable/ic_media_play" />
 
 </RelativeLayout>
