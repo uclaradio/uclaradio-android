@@ -11,6 +11,9 @@ public class DjData {
     @SerializedName("username")
     private String username;
 
+    @SerializedName("djName")
+    private String djName;
+
     @SerializedName("picture")
     private String pictureUrl;
 
@@ -27,6 +30,10 @@ public class DjData {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getDjName() {
+        return djName;
     }
 
 //    public String getFullName() {
