@@ -48,14 +48,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ticketsBtn = (Button)findViewById(R.id.ticketsBtn);
-        ticketsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, Tickets.class));
-                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-            }
-        });
+//        ticketsBtn = (Button)findViewById(R.id.ticketsBtn);
+//        ticketsBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(MainActivity.this, Tickets.class));
+//                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+//            }
+//        });
 
         aboutBtn = (Button)findViewById(R.id.aboutBtn);
         aboutBtn.setOnClickListener(new View.OnClickListener() {

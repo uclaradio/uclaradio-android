@@ -80,7 +80,7 @@
             android:text="About"
             android:backgroundTint="?android:attr/detailsElementBackground"
             android:stateListAnimator="@null"
-            android:layout_below="@id/ticketsBtn"
+            android:layout_below="@id/djsBtn"
             android:layout_centerHorizontal="true"
             android:textColor="@android:color/black"
             android:textSize="8pt"
