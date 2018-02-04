@@ -40,7 +40,9 @@ public class DjAdapter extends RecyclerView.Adapter<DjAdapter.ViewHolder> {
       imageUrl = "https://uclaradio.com/img/bear_transparent.png";
     Log.d("TAG", "IMAGE URL: " + imageUrl);
     Picasso.with(holder.text.getContext())
-    .load(imageUrl).into(holder.imageView);
+            .load(imageUrl)
+            .resize(250, 250)
+            .into(holder.imageView);
   }
 
   @Override

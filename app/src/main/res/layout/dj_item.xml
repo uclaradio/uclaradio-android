@@ -11,7 +11,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/image"
         android:layout_width="175dp"
-        android:layout_height="175dp"
+        android:layout_height="165dp"
         android:scaleType="centerCrop"
         android:paddingLeft="40dp"
         />
