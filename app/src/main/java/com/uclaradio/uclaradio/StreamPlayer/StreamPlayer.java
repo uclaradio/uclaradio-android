@@ -1,7 +1,9 @@
 package com.uclaradio.uclaradio.StreamPlayer;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.PowerManager;
 import android.util.Log;
 
 import java.io.IOException;
@@ -10,8 +12,9 @@ public class StreamPlayer extends AsyncTask<String, Void, Boolean> {
     private MediaPlayer mediaPlayer;
     private boolean initialStage;
 
-    public StreamPlayer() {
+    public StreamPlayer(Context context) {
         mediaPlayer = new MediaPlayer();
+        mediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
         initialStage = true;
 
         this.execute("http://uclaradio.com:8000/;");

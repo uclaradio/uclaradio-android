@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
 
     initializeActionBar();
 
-    streamPlayer = new StreamPlayer();
+    streamPlayer = new StreamPlayer(this);
   }
 
   @Override
