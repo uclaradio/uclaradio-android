@@ -46,6 +46,4 @@ public class ScheduleData {
   public String getPictureUrl() {
     return pictureUrl;
   }
-
-
 }

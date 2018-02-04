@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.uclaradio.uclaradio.Fragments.AboutFragment.AboutFragment;
 import com.uclaradio.uclaradio.Fragments.DJsFragment.DJsFragment;
 import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleFragment;
 import com.uclaradio.uclaradio.Fragments.StreamingFragment.StreamingFragment;
@@ -16,7 +17,8 @@ import com.uclaradio.uclaradio.TabPager.TabPager;
 public class MainActivity extends AppCompatActivity
     implements StreamingFragment.OnFragmentInteractionListener,
         ScheduleFragment.OnFragmentInteractionListener,
-        DJsFragment.OnFragmentInteractionListener {
+        DJsFragment.OnFragmentInteractionListener,
+        AboutFragment.OnFragmentInteractionListener {
 
   private ActionBar actionBar;
 

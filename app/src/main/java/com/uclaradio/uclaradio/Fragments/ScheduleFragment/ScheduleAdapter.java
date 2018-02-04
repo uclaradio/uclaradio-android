@@ -28,7 +28,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
   }
 
   public ScheduleAdapter(List<ScheduleData> items) {
-
     dayToNum.put("Sun",0);
     dayToNum.put("Mon",1);
     dayToNum.put("Tue",2);
@@ -52,23 +51,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
           Log.d("aTime", aTime);
           String bTime = b.getTime().toUpperCase();
           Log.d("bTime", bTime);
-//                    Date aTimeD = sdf.parse("Thu Jun 18 20:56:02 EDT 2009");
           return a.getTime().compareTo(b.getTime());
         }
       }
     };
     Collections.sort(items, dateComparator);
 
-
-
-//        Collections.sort(items, new Comparator<ScheduleData>(){
-//            public int compare(ScheduleData a, ScheduleData b){
-//
-//
-//
-//                return a.getDay().compareTo(b.getDay());
-//            }
-//        });
     this.items = items;
   }
 
@@ -84,13 +72,22 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     ScheduleData item = items.get(position);
     holder.text_title.setText(item.getTitle());
     holder.text_time.setText(item.getTime());
-    holder.text_genre.setText(item.getGenre());
+
+    if(item.getGenre() == null) {
+      holder.text_genre.setVisibility(View.GONE);
+    } else {
+      holder.text_genre.setText(item.getGenre());
+    }
+
     String imageUrl = "https://uclaradio.com" + item.getPictureUrl();
     if (item.getPictureUrl() == null)
-      imageUrl = "https://raw.githubusercontent.com/uclaradio/uclaradio-iOS/master/UCLA%20Radio/UCLA%20Radio/images/radio.png";
+      imageUrl = "https://uclaradio.com/img/bear_transparent.png";
     Log.d("TAG", "ALBUM IMAGE URL: " + imageUrl);
+
     Picasso.with(holder.text_title.getContext())
-    .load(imageUrl).into(holder.image_show);
+            .load(imageUrl)
+            .resize(250, 250)
+            .into(holder.image_show);
   }
 
   @Override
@@ -106,10 +103,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     public ViewHolder(View itemView) {
       super(itemView);
-      this.text_title = (TextView) itemView.findViewById(R.id.schedule_title);
-      this.text_time = (TextView) itemView.findViewById(R.id.schedule_time);
-      this.text_genre = (TextView) itemView.findViewById(R.id.schedule_genre);
-      this.image_show = (ImageView) itemView.findViewById(R.id.schedule_image);
+      this.text_title = itemView.findViewById(R.id.schedule_title);
+      this.text_time = itemView.findViewById(R.id.schedule_time);
+      this.text_genre = itemView.findViewById(R.id.schedule_genre);
+      this.image_show = itemView.findViewById(R.id.schedule_image);
     }
   }
 }

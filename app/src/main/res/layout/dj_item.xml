@@ -22,8 +22,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/image"
         android:paddingLeft="40dp"
-        android:textColor="@android:color/black" />
-
-
-
+        android:textColor="@android:color/black"
+        android:textAlignment="center"/>
 </RelativeLayout>

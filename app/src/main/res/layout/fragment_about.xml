@@ -4,18 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
-    tools:context="com.uclaradio.uclaradio.About"
+    android:background="#FFFFFF"
     android:gravity="center">
-
 
     <LinearLayout
         android:id="@+id/layTxtAndBtns"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        >
+        android:gravity="center">
 
         <TextView
             android:id="@+id/textView"
@@ -77,7 +74,7 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/tumblr"
                 />
-            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
