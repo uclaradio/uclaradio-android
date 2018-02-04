@@ -30,73 +30,73 @@ import com.uclaradio.uclaradio.R;
  * create an instance of this fragment.
  */
 public class StreamingFragment extends Fragment {
-    private ImageButton streamBtnImg;
-    private boolean playPause;
-    private ProgressDialog progressDialog;
-    private boolean initialStage = true;
-    private ImageView logo;
-    private boolean streamLoaded = false;
+  private ImageButton streamBtnImg;
+  private boolean playPause;
+  private ProgressDialog progressDialog;
+  private boolean initialStage = true;
+  private ImageView logo;
+  private boolean streamLoaded = false;
 
-    private OnFragmentInteractionListener mListener;
+  private OnFragmentInteractionListener mListener;
 
-    public StreamingFragment() {
+  public StreamingFragment() {
+  }
+
+  public static StreamingFragment newInstance() {
+    StreamingFragment fragment = new StreamingFragment();
+    Bundle args = new Bundle();
+    fragment.setArguments(args);
+
+    return fragment;
+  }
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    return inflater.inflate(R.layout.fragment_streaming, container, false);
+  }
+
+  public void onButtonPressed(Uri uri) {
+    if (mListener != null) {
+      mListener.onFragmentInteraction(uri);
     }
+  }
 
-    public static StreamingFragment newInstance() {
-        StreamingFragment fragment = new StreamingFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-
-        return fragment;
+  @Override
+  public void onAttach(Context context) {
+    super.onAttach(context);
+    if (context instanceof OnFragmentInteractionListener) {
+      mListener = (OnFragmentInteractionListener) context;
+    } else {
+      throw new RuntimeException(context.toString()
+              + " must implement OnFragmentInteractionListener");
     }
+  }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+  @Override
+  public void onDetach() {
+    super.onDetach();
+    mListener = null;
+  }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_streaming, container, false);
-    }
+  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    logo = (ImageView) getView().findViewById(R.id.logo);
+    streamBtnImg = (ImageButton) getView().findViewById(R.id.streamBtnImg);
+    final MainActivity mainActivity = (MainActivity) getActivity();
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+    streamBtnImg.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View v) {
+        mainActivity.getStreamPlayer().playPause();
+      }
+    });
+  }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        logo = (ImageView) getView().findViewById(R.id.logo);
-        streamBtnImg = (ImageButton) getView().findViewById(R.id.streamBtnImg);
-        final MainActivity mainActivity = (MainActivity)getActivity();
-
-        streamBtnImg.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mainActivity.getStreamPlayer().playPause();
-            }
-        });
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
+  public interface OnFragmentInteractionListener {
+    void onFragmentInteraction(Uri uri);
+  }
 }

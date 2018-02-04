@@ -24,7 +24,7 @@ public class DjAdapter extends RecyclerView.Adapter<DjAdapter.ViewHolder> {
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.dj_item, parent, false);
+            .inflate(R.layout.dj_item, parent, false);
     return new ViewHolder(itemView);
   }
 

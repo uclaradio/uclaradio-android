@@ -36,7 +36,7 @@ import com.uclaradio.uclaradio.StreamPlayer.StreamPlayer;
 import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity
-    implements StreamingFragment.OnFragmentInteractionListener,
+        implements StreamingFragment.OnFragmentInteractionListener,
         ScheduleFragment.OnFragmentInteractionListener,
         DJsFragment.OnFragmentInteractionListener,
         AboutFragment.OnFragmentInteractionListener {
@@ -68,9 +68,8 @@ public class MainActivity extends AppCompatActivity
 
     int actionBarHeight = 0;
     TypedValue tv = new TypedValue();
-    if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-    {
-      actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+    if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+      actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
     }
 
     actionBar = getSupportActionBar();
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity
 
     actionBar.setDisplayShowTitleEnabled(true);
 
-    ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
+    ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
     viewPager.setAdapter(new TabPager(this, getSupportFragmentManager()));
 
     TabLayout tabLayout = findViewById(R.id.sliding_tabs);
