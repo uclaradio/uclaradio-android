@@ -1,21 +1,17 @@
-package com.uclaradio.uclaradio;
+package com.uclaradio.uclaradio.Fragments.DJsFragment;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by tanzeelakhan on 4/1/17.
- */
-
 public class DjData {
 
-    @SerializedName("username")
-    private String username;
+  @SerializedName("username")
+  private String username;
 
-    @SerializedName("djName")
-    private String djName;
+  @SerializedName("djName")
+  private String djName;
 
-    @SerializedName("picture")
-    private String pictureUrl;
+  @SerializedName("picture")
+  private String pictureUrl;
 
 //    @SerializedName("fullName")
 //    private String fullName;
@@ -24,17 +20,17 @@ public class DjData {
 //    private String email;
 
 
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
+  public String getPictureUrl() {
+    return pictureUrl;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public String getDjName() {
-        return djName;
-    }
+  public String getDjName() {
+    return djName;
+  }
 
 //    public String getFullName() {
 //        return fullName;

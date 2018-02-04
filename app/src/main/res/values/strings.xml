@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">UCLA Radio</string>
     <string name="about"><b>UCLA Radio</b> is a completely student-run organization offering cultural content created by 100+ DJs. Please direct any feedback to the web department at radio.web@media.ucla.edu\n\nFollow <b>@uclaradio</b> on social media!"</string>
+    <string name="radio_graphic_url">https://raw.githubusercontent.com/uclaradio/uclaradio-iOS/master/UCLA%20Radio/UCLA%20Radio/images/radio_wide.png</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment_stream">stream</string>
+    <string name="hello_blank_fragment_schedule">schedule</string>
+    <string name="hello_blank_fragment_djs">djs</string>
 </resources>

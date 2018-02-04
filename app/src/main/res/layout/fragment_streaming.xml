@@ -1,0 +1,27 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.uclaradio.uclaradio.Fragments.StreamingFragment.StreamingFragment">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/app_name"
+        android:padding="40dp"/>
+
+    <ImageButton
+        android:id="@+id/streamBtnImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/logo"
+        android:scaleType="fitXY"
+        android:layout_centerInParent="true"
+        android:background="@android:color/transparent"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+</FrameLayout>
