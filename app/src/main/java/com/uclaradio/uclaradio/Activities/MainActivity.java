@@ -1,8 +1,14 @@
 package com.uclaradio.uclaradio.Activities;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,8 +17,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.uclaradio.uclaradio.Fragments.AboutFragment.AboutFragment;
@@ -21,6 +31,9 @@ import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleFragment;
 import com.uclaradio.uclaradio.Fragments.StreamingFragment.StreamingFragment;
 import com.uclaradio.uclaradio.R;
 import com.uclaradio.uclaradio.TabPager.TabPager;
+import com.uclaradio.uclaradio.StreamPlayer.StreamPlayer;
+
+import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity
     implements StreamingFragment.OnFragmentInteractionListener,
@@ -29,13 +42,24 @@ public class MainActivity extends AppCompatActivity
         AboutFragment.OnFragmentInteractionListener {
 
   private ActionBar actionBar;
+  private StreamPlayer streamPlayer;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    setupTabs();
+    initializeActionBar();
+
+    streamPlayer = new StreamPlayer();
+  }
+
+  @Override
+  public void onFragmentInteraction(Uri uri) {
+  }
+
+  private void initializeActionBar() {
+    android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 
     Display display = getWindowManager().getDefaultDisplay();
     Point size = new Point();
@@ -61,14 +85,6 @@ public class MainActivity extends AppCompatActivity
     BitmapDrawable iconDrawable = new BitmapDrawable(Bitmap.createScaledBitmap(icon, 750, 93, false));
     ImageView logo = findViewById(R.id.logo);
     logo.setImageBitmap(icon);
-  }
-
-  @Override
-  public void onFragmentInteraction(Uri uri) {
-  }
-
-  private void setupTabs() {
-    android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 
     actionBar.setDisplayShowTitleEnabled(true);
 
@@ -77,5 +93,9 @@ public class MainActivity extends AppCompatActivity
 
     TabLayout tabLayout = findViewById(R.id.sliding_tabs);
     tabLayout.setupWithViewPager(viewPager);
+  }
+
+  public StreamPlayer getStreamPlayer() {
+    return streamPlayer;
   }
 }

@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.uclaradio.uclaradio.Activities.MainActivity;
 import com.uclaradio.uclaradio.R;
 
 
@@ -31,7 +32,6 @@ import com.uclaradio.uclaradio.R;
 public class StreamingFragment extends Fragment {
     private ImageButton streamBtnImg;
     private boolean playPause;
-    private MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
     private boolean initialStage = true;
     private ImageView logo;
@@ -87,106 +87,16 @@ public class StreamingFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         logo = (ImageView) getView().findViewById(R.id.logo);
         streamBtnImg = (ImageButton) getView().findViewById(R.id.streamBtnImg);
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        progressDialog = new ProgressDialog(getActivity());
-
-        Picasso.with(getActivity().getApplicationContext()).load("https://raw.githubusercontent.com/uclaradio/uclaradio-iOS/master/UCLA%20Radio/UCLA%20Radio/images/radio_banner%403x.png").into(logo);
+        final MainActivity mainActivity = (MainActivity)getActivity();
 
         streamBtnImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!playPause) {
-//                    streamBtn.setText("Pause");
-                    streamBtnImg.setImageResource(android.R.drawable.ic_media_pause);
-
-                    if (initialStage) {
-                        new StreamingFragment.Player().execute("http://uclaradio.com:8000/;");
-                        playPause = true;
-                    } else {
-                        if(!mediaPlayer.isPlaying() && streamLoaded)
-                            mediaPlayer.start();
-                            playPause = true;
-                    }
-                } else {
-//                    streamBtn.setText("Play");
-                    streamBtnImg.setImageResource(android.R.drawable.ic_media_play);
-
-                    if (mediaPlayer.isPlaying()) {
-                        mediaPlayer.pause();
-                    }
-
-                    playPause = false;
-                }
-            }
-        });
-
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                streamLoaded = true;
+            public void onClick(View v) {
+                mainActivity.getStreamPlayer().playPause();
             }
         });
     }
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        if (mediaPlayer != null) {
-            mediaPlayer.reset();
-            mediaPlayer.release();;
-            mediaPlayer = null;
-        }
-    }
-
-    class Player extends AsyncTask<String, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            Boolean prepared = false;
-            try {
-                mediaPlayer.setDataSource(strings[0]);
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mediaPlayer) {
-                        initialStage = true;
-                        playPause = false;
-//                        streamBtn.setText("Play");//Launch Streaming
-                        streamBtnImg.setImageResource(android.R.drawable.ic_media_pause);
-                        mediaPlayer.stop();
-                        mediaPlayer.reset();
-                    }
-                });
-
-                mediaPlayer.prepare();
-                prepared = true;
-            } catch(Exception e) {
-                Log.e("MyAudoiStreamApp", e.getMessage());
-                prepared = false;
-            }
-
-            return prepared;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-
-            if (progressDialog.isShowing()) {
-                progressDialog.cancel();
-            }
-
-            mediaPlayer.start();
-            initialStage = false;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
     }
 }
