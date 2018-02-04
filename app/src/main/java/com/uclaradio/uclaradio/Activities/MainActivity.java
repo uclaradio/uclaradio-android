@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity
 
     actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     actionBar.setCustomView(R.layout.abs_layout);
-    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.raw.logo);
-    BitmapDrawable iconDrawable = new BitmapDrawable(Bitmap.createScaledBitmap(icon, 450, 450, false));
+    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.raw.logo_long);
+    BitmapDrawable iconDrawable = new BitmapDrawable(Bitmap.createScaledBitmap(icon, 750, 93, false));
     ImageView logo = findViewById(R.id.logo);
     logo.setImageBitmap(icon);
   }
