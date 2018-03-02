@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
     actionBar.setCustomView(R.layout.abs_layout);
     Bitmap icon = BitmapFactory.decodeResource(getResources(), R.raw.logo_long);
     BitmapDrawable iconDrawable = new BitmapDrawable(Bitmap.createScaledBitmap(icon, 750, 93, false));
-    ImageView logo = findViewById(R.id.logo);
+    ImageView logo = (ImageView)findViewById(R.id.logo);
     logo.setImageBitmap(icon);
 
     actionBar.setDisplayShowTitleEnabled(true);
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
     ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
     viewPager.setAdapter(new TabPager(this, getSupportFragmentManager()));
 
-    TabLayout tabLayout = findViewById(R.id.sliding_tabs);
+    TabLayout tabLayout = (TabLayout)findViewById(R.id.sliding_tabs);
     tabLayout.setupWithViewPager(viewPager);
   }
 
