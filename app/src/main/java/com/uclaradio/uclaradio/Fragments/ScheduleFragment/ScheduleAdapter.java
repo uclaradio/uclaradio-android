@@ -84,7 +84,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
       imageUrl = "https://uclaradio.com/img/bear_transparent.png";
     Log.d("TAG", "ALBUM IMAGE URL: " + imageUrl);
 
-    Picasso.with(holder.text_title.getContext())
+    Picasso.get()
             .load(imageUrl)
             .resize(250, 250)
             .into(holder.image_show);

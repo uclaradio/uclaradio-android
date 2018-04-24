@@ -1,6 +1,7 @@
 package com.uclaradio.uclaradio;
 
 import com.uclaradio.uclaradio.Fragments.DJsFragment.DjList;
+import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleData;
 import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleList;
 
 import retrofit2.Call;
@@ -12,4 +13,7 @@ public interface RadioPlatform {
 
   @GET("/api/schedule")
   Call<ScheduleList> getSchedules();
+
+  @GET("/api/nowplaying")
+  Call<ScheduleData> getCurrentShow();
 }
