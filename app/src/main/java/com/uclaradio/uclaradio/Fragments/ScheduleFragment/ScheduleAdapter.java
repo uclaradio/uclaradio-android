@@ -11,30 +11,33 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.uclaradio.uclaradio.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
 
   private List<ScheduleData> items;
-  HashMap<String, Integer> dayToNum = new HashMap<String, Integer>();
+  private HashMap<String, Integer> dayToNum = new HashMap<>();
+  private HashMap<String, String> dayToLongDay = new HashMap<>();
 
-  public int convertDayToNum(String day) {
+  private int convertDayToNum(String day) {
     return dayToNum.get(day);
   }
 
   public ScheduleAdapter(List<ScheduleData> items) {
-    dayToNum.put("Sun",0);
-    dayToNum.put("Mon",1);
-    dayToNum.put("Tue",2);
-    dayToNum.put("Wed",3);
-    dayToNum.put("Thu",4);
-    dayToNum.put("Fri",5);
-    dayToNum.put("Sat",6);
+    dayToNum.put("Sun",0); dayToLongDay.put("Sun", "Sunday");
+    dayToNum.put("Mon",1); dayToLongDay.put("Mon", "Monday");
+    dayToNum.put("Tue",2); dayToLongDay.put("Tue", "Tuesday");
+    dayToNum.put("Wed",3); dayToLongDay.put("Wed", "Wednesday");
+    dayToNum.put("Thu",4); dayToLongDay.put("Thu", "Thursday");
+    dayToNum.put("Fri",5); dayToLongDay.put("Fri", "Friday");
+    dayToNum.put("Sat",6); dayToLongDay.put("Sat", "Saturday");
 
     Comparator<ScheduleData> dateComparator = new Comparator<ScheduleData>() {
       @Override
@@ -46,12 +49,18 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
           return dayComp;
         }
         else {
-          SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy"); //hourAM/PM
-          String aTime = a.getTime().toUpperCase();
-          Log.d("aTime", aTime);
-          String bTime = b.getTime().toUpperCase();
-          Log.d("bTime", bTime);
-          return a.getTime().compareTo(b.getTime());
+          SimpleDateFormat sdf = new SimpleDateFormat("hhaa"); //hourAM/PM
+          try {
+            Date aTime = sdf.parse(a.getTime().toUpperCase());
+            Log.d("aTime", aTime.toString());
+            Date bTime = sdf.parse(b.getTime().toUpperCase());
+            Log.d("bTime", bTime.toString());
+
+            return aTime.compareTo(bTime);
+          } catch (ParseException ex) {
+              Log.e("ERROR", ex.getMessage());
+              return a.getTime().compareTo(b.getTime());
+          }
         }
       }
     };
@@ -69,14 +78,23 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
-    ScheduleData item = items.get(position);
+    holder.setIsRecyclable(false);
+    ScheduleData item = items.get(holder.getAdapterPosition());
     holder.text_title.setText(item.getTitle());
     holder.text_time.setText(item.getTime());
+    holder.text_day.setText(dayToLongDay.get(item.getDay()));
 
     if(item.getGenre() == null) {
       holder.text_genre.setVisibility(View.GONE);
     } else {
       holder.text_genre.setText(item.getGenre());
+    }
+
+    // If it's the first item in the list or if the day doesn't match the previous
+    //  entry's day
+    if (holder.getAdapterPosition() == 0
+            || !item.getDay().equals(items.get(holder.getAdapterPosition()-1).getDay())) {
+        holder.text_day.setVisibility(View.VISIBLE);
     }
 
     String imageUrl = "https://uclaradio.com" + item.getPictureUrl();
@@ -99,6 +117,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     private TextView text_title;
     private TextView text_genre;
     private TextView text_time;
+    private TextView text_day;
     private ImageView image_show;
 
     public ViewHolder(View itemView) {
@@ -107,6 +126,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
       this.text_time = itemView.findViewById(R.id.schedule_time);
       this.text_genre = itemView.findViewById(R.id.schedule_genre);
       this.image_show = itemView.findViewById(R.id.schedule_image);
+      this.text_day = itemView.findViewById(R.id.schedule_day);
     }
   }
 }
