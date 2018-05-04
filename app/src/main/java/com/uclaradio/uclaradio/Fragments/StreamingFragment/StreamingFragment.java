@@ -1,16 +1,25 @@
 package com.uclaradio.uclaradio.Fragments.StreamingFragment;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,7 +51,11 @@ public class StreamingFragment extends Fragment {
   private ProgressDialog progressDialog;
   private boolean initialStage = true;
   private ImageView logo, showArtImg;
+  private final Intent callIntent = new Intent(Intent.ACTION_CALL);
+  private Button onAirCallBtn, requestCallBtn;
   private boolean streamLoaded = false;
+
+  private static final int REQUEST_PHONE_CALL = 982;
 
   private RadioPlatform platform;
 
@@ -93,12 +106,35 @@ public class StreamingFragment extends Fragment {
     mListener = null;
   }
 
+  @Override
+  public void onRequestPermissionsResult(int requestCode,
+                                         @NonNull String permissions[],
+                                         @NonNull int grantResults[]) {
+      switch (requestCode) {
+        case REQUEST_PHONE_CALL:
+          if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            startActivity(callIntent);
+          else {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Enable call permissions")
+                    .setMessage("To make calls, navigate to Settings > Apps > UCLA Radio > Permissions and "
+                              + "enable the calling permission.")
+                    .create().show();
+          }
+          break;
+        default:
+          // Do nothing
+      }
+  }
+
   // Only updates the current playing show whenever the view is created--obviously will
   //  not update if the show changes while the app is still open.
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    logo = (ImageView) getView().findViewById(R.id.logo);
-    streamBtnImg = (ImageButton) getView().findViewById(R.id.stream_btn_img);
-    showArtImg = (ImageView) getView().findViewById(R.id.show_art_img);
+    logo = getView().findViewById(R.id.logo);
+    streamBtnImg = getView().findViewById(R.id.stream_btn_img);
+    showArtImg = getView().findViewById(R.id.show_art_img);
+    onAirCallBtn = getView().findViewById(R.id.on_air_btn);
+    requestCallBtn = getView().findViewById(R.id.request_call_btn);
     final MainActivity mainActivity = (MainActivity) getActivity();
 
     Retrofit retrofit = new Retrofit.Builder()
@@ -141,6 +177,31 @@ public class StreamingFragment extends Fragment {
         else
           ((ImageButton) v).setImageResource(android.R.drawable.ic_media_pause);
         isPlaying = !isPlaying;
+      }
+    });
+
+
+    onAirCallBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+          callIntent.setData(Uri.parse("tel:3107949348"));
+          if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)
+                    != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(getActivity(),
+                      new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+          else startActivity(callIntent);
+      }
+    });
+
+    requestCallBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        callIntent.setData(Uri.parse("tel:3108259999"));
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED)
+          ActivityCompat.requestPermissions(getActivity(),
+                  new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+        else startActivity(callIntent);
       }
     });
   }
