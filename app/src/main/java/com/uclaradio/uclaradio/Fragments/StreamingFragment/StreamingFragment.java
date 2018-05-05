@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -48,12 +49,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class StreamingFragment extends Fragment {
   private ImageButton streamBtnImg;
   private boolean isPlaying = false;
-  private ProgressDialog progressDialog;
-  private boolean initialStage = true;
-  private ImageView logo, showArtImg;
+  private ImageView showArtImg;
   private final Intent callIntent = new Intent(Intent.ACTION_CALL);
   private Button onAirCallBtn, requestCallBtn;
-  private boolean streamLoaded = false;
 
   private static final int REQUEST_PHONE_CALL = 982;
 
@@ -112,14 +110,21 @@ public class StreamingFragment extends Fragment {
                                          @NonNull int grantResults[]) {
       switch (requestCode) {
         case REQUEST_PHONE_CALL:
-          if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            startActivity(callIntent);
-          else {
-            new AlertDialog.Builder(getActivity())
-                    .setTitle("Enable call permissions")
-                    .setMessage("To make calls, navigate to Settings > Apps > UCLA Radio > Permissions and "
-                              + "enable the calling permission.")
-                    .create().show();
+          if (grantResults.length > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+              startActivity(callIntent);
+            else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+              if (!shouldShowRequestPermissionRationale(permissions[0]))
+              {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Calling disabled")
+                        .setMessage("It looks like you've permanently disabled calling from this app. " +
+                                "To re-enable calling, navigate to Settings > Apps > UCLA Radio > Permissions and "
+                                + "tap the \"Phone\" option.")
+                        .setPositiveButton("OK", null)
+                        .create().show();
+              }
+            }
           }
           break;
         default:
@@ -130,7 +135,6 @@ public class StreamingFragment extends Fragment {
   // Only updates the current playing show whenever the view is created--obviously will
   //  not update if the show changes while the app is still open.
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    logo = getView().findViewById(R.id.logo);
     streamBtnImg = getView().findViewById(R.id.stream_btn_img);
     showArtImg = getView().findViewById(R.id.show_art_img);
     onAirCallBtn = getView().findViewById(R.id.on_air_btn);
@@ -187,8 +191,7 @@ public class StreamingFragment extends Fragment {
           callIntent.setData(Uri.parse("tel:3107949348"));
           if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)
                     != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(getActivity(),
-                      new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+            requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
           else startActivity(callIntent);
       }
     });
