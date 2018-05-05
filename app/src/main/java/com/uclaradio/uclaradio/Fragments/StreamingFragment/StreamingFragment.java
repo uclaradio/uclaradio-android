@@ -30,6 +30,9 @@ import com.uclaradio.uclaradio.Activities.MainActivity;
 import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleData;
 import com.uclaradio.uclaradio.R;
 import com.uclaradio.uclaradio.RadioPlatform;
+import com.uclaradio.uclaradio.streamplayer.StreamService;
+
+import org.w3c.dom.Text;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,6 +55,8 @@ public class StreamingFragment extends Fragment {
   private ImageView showArtImg;
   private final Intent callIntent = new Intent(Intent.ACTION_CALL);
   private Button onAirCallBtn, requestCallBtn;
+
+  private StreamService stream;
 
   private static final int REQUEST_PHONE_CALL = 982;
 
@@ -154,8 +159,11 @@ public class StreamingFragment extends Fragment {
               public void onResponse(Call<ScheduleData> call, Response<ScheduleData> response) {
                   if (response.isSuccessful()) {
                     ScheduleData currentShow = response.body();
-                    ((TextView) getView().findViewById(R.id.show_title_text))
-                            .setText("LIVE: " + currentShow.getTitle());
+                    TextView showTitle = getView().findViewById(R.id.show_title_text);
+                    if (currentShow.getTitle() == null)
+                      showTitle.setText("No show playing.");
+                    else
+                      showTitle.setText("LIVE: " + currentShow.getTitle());
                     Picasso.get().setLoggingEnabled(true);
                     String imageUrl = "https://uclaradio.com" + currentShow.getPictureUrl();
                     if (currentShow.getPictureUrl() == null)
@@ -173,14 +181,25 @@ public class StreamingFragment extends Fragment {
                 Log.e("TAG", "FAILED TO MAKE API CALL");
               }
             });
+
     streamBtnImg.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
-        mainActivity.getStreamPlayer().playPause();
-        if (isPlaying)
+        if (!mainActivity.isBound()) {
+          Log.d("Service", "Not yet bound");
+          return;
+        }
+        if (MainActivity.stream == null) {
+          Log.d("Service", "Stream is null...");
+          return;
+        }
+        if (MainActivity.stream.isPlaying()) {
+            MainActivity.stream.pause();
           ((ImageButton) v).setImageResource(android.R.drawable.ic_media_play);
-        else
+        }
+        else {
+          MainActivity.stream.play();
           ((ImageButton) v).setImageResource(android.R.drawable.ic_media_pause);
-        isPlaying = !isPlaying;
+        }
       }
     });
 

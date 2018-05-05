@@ -1,14 +1,14 @@
 package com.uclaradio.uclaradio.Activities;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
-import android.provider.MediaStore;
+import android.os.IBinder;
 import android.support.v7.app.ActionBar;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,9 +20,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.uclaradio.uclaradio.Fragments.AboutFragment.AboutFragment;
@@ -31,9 +28,9 @@ import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleFragment;
 import com.uclaradio.uclaradio.Fragments.StreamingFragment.StreamingFragment;
 import com.uclaradio.uclaradio.R;
 import com.uclaradio.uclaradio.TabPager.TabPager;
-import com.uclaradio.uclaradio.StreamPlayer.StreamPlayer;
+import com.uclaradio.uclaradio.streamplayer.StreamService;
 
-import java.util.stream.Stream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
         implements StreamingFragment.OnFragmentInteractionListener,
@@ -42,7 +39,8 @@ public class MainActivity extends AppCompatActivity
         AboutFragment.OnFragmentInteractionListener {
 
   private ActionBar actionBar;
-  private StreamPlayer streamPlayer;
+  public static StreamService stream;
+  private boolean bound = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +48,22 @@ public class MainActivity extends AppCompatActivity
     setContentView(R.layout.activity_main);
 
     initializeActionBar();
+  }
 
-    streamPlayer = new StreamPlayer(this);
+  @Override
+  protected void onStart() {
+    super.onStart();
+
+    Intent intent = new Intent(this, StreamService.class);
+    bindService(intent, connection, Context.BIND_AUTO_CREATE);
+  }
+
+  @Override
+  protected void onStop() {
+    unbindService(connection);
+    bound = false;
+    Log.d("Service", "Stopped");
+    super.onStop();
   }
 
   @Override
@@ -94,7 +106,23 @@ public class MainActivity extends AppCompatActivity
     tabLayout.setupWithViewPager(viewPager);
   }
 
-  public StreamPlayer getStreamPlayer() {
-    return streamPlayer;
-  }
+  public boolean isBound() { return bound; }
+
+  private ServiceConnection connection = new ServiceConnection() {
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+      StreamService.LocalBinder binder = (StreamService.LocalBinder) iBinder;
+      stream = binder.getService();
+      bound = true;
+      if (stream == null) Log.d("Service", "It looks like the stream is null, but...");
+      Log.d("Service", binder.getService().toString());
+      Log.d("Service", "Bound.");
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+        bound = false;
+        Log.d("Service", "Unbound.");
+    }
+  };
 }

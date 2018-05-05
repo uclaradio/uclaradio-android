@@ -1,4 +1,4 @@
-package com.uclaradio.uclaradio.StreamPlayer;
+package com.uclaradio.uclaradio.streamplayer;
 
 import android.content.Context;
 import android.media.MediaPlayer;
