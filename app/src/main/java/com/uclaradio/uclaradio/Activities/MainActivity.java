@@ -1,5 +1,9 @@
 package com.uclaradio.uclaradio.Activities;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +12,9 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -38,6 +44,9 @@ public class MainActivity extends AppCompatActivity
         DJsFragment.OnFragmentInteractionListener,
         AboutFragment.OnFragmentInteractionListener {
 
+  private static final int SERVICE_ID = 41243;
+  private static final String CHANNEL_ID = "41243";
+
   private ActionBar actionBar;
   public static StreamService stream;
   private boolean bound = false;
@@ -60,10 +69,18 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   protected void onStop() {
-    unbindService(connection);
-    bound = false;
     Log.d("Service", "Stopped");
     super.onStop();
+  }
+
+  @Override
+  protected void onDestroy() {
+    unbindService(connection);
+    bound = false;
+    stream.stopForeground(true);
+    stream.stopSelf();
+    Log.d("Service", "Destroying stream...");
+    super.onDestroy();
   }
 
   @Override
@@ -106,6 +123,20 @@ public class MainActivity extends AppCompatActivity
     tabLayout.setupWithViewPager(viewPager);
   }
 
+  // For API 26 and above
+  private void createNotificationChannel() {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        CharSequence name = "UCLA Radio Stream";
+        String description = "Persistent notification for managing stream.";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+        channel.setDescription(description);
+
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        manager.createNotificationChannel(channel);
+      }
+  }
+
   public boolean isBound() { return bound; }
 
   private ServiceConnection connection = new ServiceConnection() {
@@ -117,12 +148,21 @@ public class MainActivity extends AppCompatActivity
       if (stream == null) Log.d("Service", "It looks like the stream is null, but...");
       Log.d("Service", binder.getService().toString());
       Log.d("Service", "Bound.");
+      NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+              .setSmallIcon(R.mipmap.ic_launcher)
+              .setContentTitle("RADIO")
+              .setContentText("TEXT")
+              .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+              .setCategory(NotificationCompat.CATEGORY_SERVICE);
+      createNotificationChannel();
+      stream.startForeground(SERVICE_ID, notifBuilder.build());
+      Log.d("Service", "Started in foreground.");
     }
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
         bound = false;
-        Log.d("Service", "Unbound.");
+        Log.d("Service", "Disconnected.");
     }
   };
 }

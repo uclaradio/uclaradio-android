@@ -14,8 +14,8 @@ import android.util.Log;
 import java.io.IOException;
 
 public class StreamService extends Service implements MediaPlayer.OnPreparedListener {
-    private final String STREAM_URL = "http://uclaradio.com:8000/;";
-    private final String BROADCAST_ACTION = "BROADCAST_COMPLETE";
+    private final static String STREAM_URL = "http://uclaradio.com:8000/;";
+    private final static String BROADCAST_ACTION = "BROADCAST_COMPLETE";
 
     private MediaPlayer stream;
     private final IBinder binder = new LocalBinder();
@@ -45,6 +45,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         stream.stop();
         stream.release();
         Log.d("Service", "Destroyed");
+        super.onDestroy();
     }
 
     public void play() { stream.start(); }

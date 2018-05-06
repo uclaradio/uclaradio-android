@@ -19,8 +19,6 @@ import java.io.IOException;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private final String streamUrl = "http://uclaradio.com:8000/;";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
