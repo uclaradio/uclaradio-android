@@ -24,6 +24,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        Log.d("Test", "Real Splash");
         startService(new Intent(this, StreamService.class));
         LocalBroadcastManager.getInstance(this).registerReceiver(streamBroadcastReceiver,
                 new IntentFilter("BROADCAST_COMPLETE"));
