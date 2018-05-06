@@ -1,6 +1,5 @@
 package com.uclaradio.uclaradio.streamplayer;
 
-import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -29,6 +28,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         initStream();
+        Log.d("Service", "Started!");
 
         return START_STICKY;
     }

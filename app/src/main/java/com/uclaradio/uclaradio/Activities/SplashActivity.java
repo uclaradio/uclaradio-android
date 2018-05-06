@@ -32,6 +32,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(streamBroadcastReceiver);
+        stopService(new Intent(this, StreamService.class));
         super.onDestroy();
     }
 

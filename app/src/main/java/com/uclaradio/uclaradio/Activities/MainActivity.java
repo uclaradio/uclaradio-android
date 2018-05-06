@@ -102,14 +102,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     actionBar = getSupportActionBar();
-    Bitmap background = BitmapFactory.decodeResource(getResources(), R.raw.background);
+    Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
     BitmapDrawable background_drawable = new BitmapDrawable(Bitmap.createScaledBitmap(background, width * 4, actionBarHeight * 4, false));
     background_drawable.setTileModeX(android.graphics.Shader.TileMode.REPEAT);
     actionBar.setBackgroundDrawable(background_drawable);
 
     actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     actionBar.setCustomView(R.layout.abs_layout);
-    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.raw.logo_long);
+    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.logo_long);
     BitmapDrawable iconDrawable = new BitmapDrawable(Bitmap.createScaledBitmap(icon, 750, 93, false));
     ImageView logo = (ImageView)findViewById(R.id.logo);
     logo.setImageBitmap(icon);
