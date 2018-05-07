@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -20,6 +21,8 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.uclaradio.uclaradio.Fragments.AboutFragment.AboutFragment;
 import com.uclaradio.uclaradio.Fragments.DJsFragment.DJsFragment;
 import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleFragment;
@@ -106,10 +109,11 @@ public class MainActivity extends AppCompatActivity
 
     actionBar.setDisplayShowTitleEnabled(true);
 
-    ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+    ViewPager viewPager = findViewById(R.id.viewpager);
     viewPager.setAdapter(new TabPager(this, getSupportFragmentManager()));
+    viewPager.setOffscreenPageLimit(3);
 
-    TabLayout tabLayout = (TabLayout)findViewById(R.id.sliding_tabs);
+    TabLayout tabLayout = findViewById(R.id.sliding_tabs);
     tabLayout.setupWithViewPager(viewPager);
   }
 
@@ -125,6 +129,7 @@ public class MainActivity extends AppCompatActivity
       Log.d("Service", binder.getService().toString());
       Log.d("Service", "Bound.");
       stream.startForeground(SERVICE_ID, stream.setUpNotification(MainActivity.this));
+      stream.updateCurrentShowInfo();
       Log.d("Service", "Started in foreground.");
     }
 

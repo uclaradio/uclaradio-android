@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/show_title_text"
-        android:text="LIVE: [Show Title Here]"
+        android:text="Loading show..."
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

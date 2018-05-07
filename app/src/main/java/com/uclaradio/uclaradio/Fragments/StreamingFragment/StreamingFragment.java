@@ -5,9 +5,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +36,8 @@ import com.uclaradio.uclaradio.streamplayer.StreamService;
 
 import org.w3c.dom.Text;
 
+import java.util.Observable;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,8 +55,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class StreamingFragment extends Fragment {
   private ImageButton streamBtnImg;
-  private boolean isPlaying = false;
-  private ImageView showArtImg;
+
+  private TextView showTitleTv;
+  private ImageView showArtIv;
+
   private final Intent callIntent = new Intent(Intent.ACTION_CALL);
   private Button onAirCallBtn, requestCallBtn;
 
@@ -107,6 +113,8 @@ public class StreamingFragment extends Fragment {
   public void onDetach() {
     super.onDetach();
     mListener = null;
+    getContext().unregisterReceiver(showUpdateReceiver);
+    getContext().unregisterReceiver(toggleReceiver);
   }
 
   @Override
@@ -141,46 +149,14 @@ public class StreamingFragment extends Fragment {
   //  not update if the show changes while the app is still open.
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     streamBtnImg = getView().findViewById(R.id.stream_btn_img);
-    showArtImg = getView().findViewById(R.id.show_art_img);
+    showArtIv = getView().findViewById(R.id.show_art_img);
+    showTitleTv = getView().findViewById(R.id.show_title_text);
     onAirCallBtn = getView().findViewById(R.id.on_air_btn);
     requestCallBtn = getView().findViewById(R.id.request_call_btn);
     final MainActivity mainActivity = (MainActivity) getActivity();
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://uclaradio.com/")
-            .build();
-
-    platform = retrofit.create(RadioPlatform.class);
-    platform.getCurrentShow()
-            .enqueue(new Callback<ScheduleData>() {
-              @SuppressLint("SetTextI18n") // TODO: Worry about this later
-              @Override
-              public void onResponse(Call<ScheduleData> call, Response<ScheduleData> response) {
-                  if (response.isSuccessful()) {
-                    ScheduleData currentShow = response.body();
-                    TextView showTitle = getView().findViewById(R.id.show_title_text);
-                    if (currentShow.getTitle() == null)
-                      showTitle.setText("No show playing.");
-                    else
-                      showTitle.setText("LIVE: " + currentShow.getTitle());
-                    Picasso.get().setLoggingEnabled(true);
-                    String imageUrl = "https://uclaradio.com" + currentShow.getPictureUrl();
-                    if (currentShow.getPictureUrl() == null)
-                      imageUrl = "https://uclaradio.com/img/bear_transparent.png";
-                    Picasso.get()
-                            .load(imageUrl)
-                            .into(showArtImg);
-                  } else {
-                    Log.e("TAG", "RESPONSE FAILED");
-                  }
-              }
-
-              @Override
-              public void onFailure(Call<ScheduleData> call, Throwable t) {
-                Log.e("TAG", "FAILED TO MAKE API CALL");
-              }
-            });
+    getContext().registerReceiver(showUpdateReceiver,
+            new IntentFilter("UpdateShowInfo"));
 
     streamBtnImg.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
@@ -192,17 +168,14 @@ public class StreamingFragment extends Fragment {
           Log.d("Service", "Stream is null...");
           return;
         }
-        if (MainActivity.stream.isPlaying()) {
-            MainActivity.stream.pause();
-          ((ImageButton) v).setImageResource(android.R.drawable.ic_media_play);
-        }
-        else {
-          MainActivity.stream.play();
-          ((ImageButton) v).setImageResource(android.R.drawable.ic_media_pause);
-        }
+//        if (MainActivity.stream.isPlaying())
+//          ((ImageButton) v).setImageResource(android.R.drawable.ic_media_play);
+//        else
+//          ((ImageButton) v).setImageResource(android.R.drawable.ic_media_pause);
+//        MainActivity.stream.toggle();
+        getContext().sendBroadcast(new Intent("com.uclaradio.uclaradio.togglePlayPause"));
       }
     });
-
 
     onAirCallBtn.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -226,9 +199,32 @@ public class StreamingFragment extends Fragment {
         else startActivity(callIntent);
       }
     });
+
+    getContext().registerReceiver(toggleReceiver,
+            new IntentFilter("com.uclaradio.uclaradio.togglePlayPause"));
   }
 
   public interface OnFragmentInteractionListener {
     void onFragmentInteraction(Uri uri);
   }
+
+  private BroadcastReceiver showUpdateReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        showTitleTv.setText(intent.getStringExtra("showTitle"));
+        Picasso.get()
+                .load(intent.getStringExtra("showArtUrl"))
+                .into(showArtIv);
+    }
+  };
+
+  private BroadcastReceiver toggleReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      if (MainActivity.stream != null && MainActivity.stream.isPlaying())
+        streamBtnImg.setImageResource(android.R.drawable.ic_media_pause);
+      else
+        streamBtnImg.setImageResource(android.R.drawable.ic_media_play);
+    }
+  };
 }
