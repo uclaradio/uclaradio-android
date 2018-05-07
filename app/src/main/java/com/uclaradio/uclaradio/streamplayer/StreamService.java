@@ -123,10 +123,10 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
             public void run() {
                 Calendar calendar = Calendar.getInstance();
                 int currMin = calendar.get(Calendar.MINUTE);
-                if (currMin % 60 == 0)
+                if (currMin % 60 < 3)
                     updateCurrentShowInfo();
             }
-        }, 0, 10000); // Run every 10 seconds
+        }, 0, 20000); // Run every 15 seconds
     }
 
     public void updateCurrentShowInfo() {
