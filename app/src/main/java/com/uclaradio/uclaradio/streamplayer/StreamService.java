@@ -180,7 +180,6 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
 
                                 }
                             };
-                            Picasso.get().setLoggingEnabled(true);
                             Picasso.get()
                                     .load(showArtUrl)
                                     .into(notificationTarget[0]);

@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.TabLayout;
@@ -19,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.Window;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -98,13 +102,15 @@ public class MainActivity extends AppCompatActivity
     Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
     BitmapDrawable background_drawable = new BitmapDrawable(Bitmap.createScaledBitmap(background, width * 4, actionBarHeight * 4, false));
     background_drawable.setTileModeX(android.graphics.Shader.TileMode.REPEAT);
-    actionBar.setBackgroundDrawable(background_drawable);
+//    actionBar.setBackgroundDrawable(background_drawable);
+    int color = Color.parseColor("#80333333");
+    actionBar.setBackgroundDrawable(new ColorDrawable(color));
 
+    actionBar.setElevation(0);
     actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     actionBar.setCustomView(R.layout.abs_layout);
-    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.logo_long);
-    BitmapDrawable iconDrawable = new BitmapDrawable(Bitmap.createScaledBitmap(icon, 750, 93, false));
-    ImageView logo = (ImageView)findViewById(R.id.logo);
+    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.logo_banner_white);
+    ImageView logo = findViewById(R.id.logo);
     logo.setImageBitmap(icon);
 
     actionBar.setDisplayShowTitleEnabled(true);

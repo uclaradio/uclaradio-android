@@ -44,13 +44,13 @@ public class TabPager extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Stream";
+                return "STREAM";
             case 1:
-                return "Schedule";
+                return "SHOWS";
             case 2:
                 return "DJs";
             case 3:
-                return "About";
+                return "ABOUT";
             default:
                 return null;
         }

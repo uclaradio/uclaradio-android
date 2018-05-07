@@ -4,9 +4,9 @@
     <string name="radio_graphic_url">https://raw.githubusercontent.com/uclaradio/uclaradio-iOS/master/UCLA%20Radio/UCLA%20Radio/images/radio_wide.png</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment_stream">stream</string>
-    <string name="hello_blank_fragment_schedule">schedule</string>
-    <string name="hello_blank_fragment_djs">djs</string>
+    <string name="hello_blank_fragment_stream">STREAM</string>
+    <string name="hello_blank_fragment_schedule">SHOWS</string>
+    <string name="hello_blank_fragment_djs">DJs</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

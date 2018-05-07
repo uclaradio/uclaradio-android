@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">#FFDCDC</item>
+        <item name="android:windowBackground">@drawable/trianglify_bg_img</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,23 +14,24 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="PreSplashTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="PreSplashTheme" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabMaxWidth">100dp</item>
-        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabIndicatorColor">#FFFFFF</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabPaddingStart">12dp</item>
         <item name="tabPaddingEnd">12dp</item>
-        <item name="tabBackground">?attr/selectableItemBackground</item>
-        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
-        <item name="tabSelectedTextColor">?android:textColorPrimary</item>
+        <!--<item name="tabBackground">?attr/selectableItemBackground</item>-->
+        <item name="tabBackground">@android:color/transparent</item>
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+        <item name="tabSelectedTextColor">#FFFFFF</item>
     </style>
-    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">?android:textColorSecondary</item>
-        <item name="textAllCaps">true</item>
+        <item name="android:textColor">#B3FFFFFF</item>
+        <item name="textAllCaps">false</item>
     </style>
 </resources>
