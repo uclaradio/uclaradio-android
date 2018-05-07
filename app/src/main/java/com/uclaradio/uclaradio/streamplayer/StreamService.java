@@ -50,7 +50,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
 
     private Bitmap showArt;
     private String showArtUrl = "https://uclaradio.com/img/bear_transparent.png";
-    private String showTitle  = "No show playing.";
+    private String showTitle  = "Loading show...";
 
     final Target[] notificationTarget = new Target[1];
 
