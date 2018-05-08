@@ -21,6 +21,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 
 import com.squareup.picasso.Picasso;
@@ -252,6 +253,8 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         else playPauseDrawable = android.R.drawable.ic_media_play;
         PendingIntent playPausePendingIntent = PendingIntent.getBroadcast(context, 1, playPauseIntent, 0);
 
+        Palette.Swatch bgSwatch = Palette.from(newArt).generate().getVibrantSwatch();
+
         NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_notification) // TODO: Change this to a better icon
                 .setContentTitle(newTitle)
@@ -260,9 +263,12 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                 .setContentIntent(applicationPendingIntent)
                 .addAction(playPauseDrawable, "Play/Pause", playPausePendingIntent)
                 .setLargeIcon(newArt)
+                .setColorized(true)
                 .setShowWhen(false)
                 .setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle()
                         .setShowActionsInCompactView(0));
+
+        if (bgSwatch != null) notifBuilder.setColor(bgSwatch.getRgb());
 
         createNotificationChannel();
         return notifBuilder.build();
