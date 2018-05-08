@@ -27,6 +27,8 @@
 
         <activity android:name=".Activities.PreSplashActivity"
             android:theme="@style/PreSplashTheme"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation"
             android:enabled="@bool/first_splash_enabled">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,6 +38,8 @@
         </activity>
         <activity
             android:name=".Activities.SplashActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
