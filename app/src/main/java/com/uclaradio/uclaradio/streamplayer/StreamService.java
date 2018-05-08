@@ -100,7 +100,15 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         else play();
     }
 
-    public boolean isPlaying() { return stream.isPlaying(); }
+    public boolean isPlaying() {
+        try {
+            return stream.isPlaying();
+        } catch (IllegalStateException ex) {
+            Log.e("Service", "Trying to call isPlaying() on an uninitialized MediaPlayer.");
+            ex.printStackTrace();
+            return false;
+        }
+    }
 
     private void initStream() {
         stream = new MediaPlayer();
