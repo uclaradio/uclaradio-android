@@ -79,6 +79,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         Log.d("Service", "Prepared!");
         Intent prepared = new Intent(BROADCAST_ACTION);
         LocalBroadcastManager.getInstance(this).sendBroadcast(prepared);
+        toggle(); toggle(); // If the stream cuts out and reconnects, toggle twice to reset state
     }
 
     @Override
@@ -113,6 +114,28 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
             Log.e("MediaPlayerErr", ex.getMessage());
         }
         stream.setOnPreparedListener(this);
+        stream.setLooping(false);
+        stream.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                stream.prepareAsync();
+                Log.d("Service", "Stream stopped. Reconnecting...");
+            }
+        });
+        stream.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
+                if (what == MediaPlayer.MEDIA_ERROR_SERVER_DIED) {
+                    Log.d("Service", "Server died. Restarting media player...");
+                    initStream();
+                    return true;
+                }
+
+                if (extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT)
+                    Log.d("Service", "Connection timed out. Retrying...");
+                return false;
+            }
+        });
         stream.prepareAsync();
         Log.d("Service", "Preparing...");
     }
@@ -264,7 +287,6 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
 
     public void setShowArt(Bitmap bitmap) { showArt = bitmap; }
 
-    public String getShowArtUrl() { return showArtUrl; }
     public String getShowTitle() { return showTitle; }
 
     public class LocalBinder extends Binder {
