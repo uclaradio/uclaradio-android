@@ -40,6 +40,8 @@ public class DJsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private final int numberOfCols = 2;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -111,14 +113,16 @@ public class DJsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         recyclerView = getView().findViewById(R.id.dj_ids_rv);
-        final int numberOfCols = 2;
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfCols));
 
+        getDjs();
+    }
 
+    private void getDjs() {
         Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://uclaradio.com/")
-                .build();
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl("https://uclaradio.com/")
+        .build();
 
         platform = retrofit.create(RadioPlatform.class);
 
@@ -137,12 +141,14 @@ public class DJsFragment extends Fragment {
                             }
                         } else {
                             Log.e("TAG", "HERE FAILED");
+                            getDjs();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<DjList> call, Throwable t) {
                         Log.e("TAG", "FAILED TO MAKE API CALL");
+                        getDjs();
                     }
                 });
     }

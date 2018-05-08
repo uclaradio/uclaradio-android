@@ -110,6 +110,10 @@ public class ScheduleFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         recyclerView = getView().findViewById(R.id.shows_ids_rv);
 
+        getSchedules();
+    }
+
+    private void getSchedules() {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("https://uclaradio.com/")
@@ -138,12 +142,14 @@ public class ScheduleFragment extends Fragment {
 
                         } else {
                             Log.e("TAG", "HERE FAILED");
+                            getSchedules();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ScheduleList> call, Throwable t) {
                         Log.e("TAG", "FAILED TO MAKE API CALL");
+                        getSchedules();
                     }
 
 

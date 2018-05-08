@@ -27,6 +27,8 @@ import java.util.Arrays;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private boolean shouldStopService = false;
+
     public static ArrayList<String> badWifis
             = new ArrayList<>(Arrays.asList(
             "\"UCLA_WEB\"", "\"UCLA_WEB_RES\""
@@ -58,12 +60,14 @@ public class SplashActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                            shouldStopService = true;
                             finish();
                         }
                     })
                     .setNegativeButton("I DIDN'T WANT TO TUNE IN ANYWAY", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            shouldStopService = true;
                             finish();
                         }
                     }).create().show();
@@ -77,7 +81,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(streamBroadcastReceiver);
-        stopService(new Intent(this, StreamService.class));
+        if (shouldStopService) stopService(new Intent(this, StreamService.class));
         super.onDestroy();
     }
 

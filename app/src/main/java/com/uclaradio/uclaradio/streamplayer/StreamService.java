@@ -106,8 +106,13 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         } catch (IllegalStateException ex) {
             Log.e("Service", "Trying to call isPlaying() on an uninitialized MediaPlayer.");
             ex.printStackTrace();
-            return false;
+            initStream();
+        } catch (NullPointerException ex) {
+            Log.e("Service", "Trying to call isPlaying() on a null reference.");
+            ex.printStackTrace();
+            initStream();
         }
+        return stream.isPlaying();
     }
 
     private void initStream() {
@@ -217,6 +222,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                             Log.d("Test", "Updated show info!");
                         } else {
                             Log.e("TAG", "RESPONSE FAILED");
+                            updateCurrentShowInfo();
                         }
                     }
 
@@ -247,7 +253,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         PendingIntent playPausePendingIntent = PendingIntent.getBroadcast(context, 1, playPauseIntent, 0);
 
         NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher) // TODO: Change this to a better icon
+                .setSmallIcon(R.drawable.ic_stat_notification) // TODO: Change this to a better icon
                 .setContentTitle(newTitle)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
