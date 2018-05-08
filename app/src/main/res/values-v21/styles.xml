@@ -10,4 +10,14 @@
         <item name="android:statusBarColor">#80333333</item>
         <item name="android:navigationBarColor">#80333333</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:navigationBarColor">#00333333</item>
+    </style>
+
+    <style name="PreSplashTheme" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
 </resources>
