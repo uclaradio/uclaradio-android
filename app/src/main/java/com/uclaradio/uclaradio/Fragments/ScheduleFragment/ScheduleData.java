@@ -2,6 +2,9 @@ package com.uclaradio.uclaradio.Fragments.ScheduleFragment;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 public class ScheduleData {
 
   @SerializedName("username")
@@ -21,6 +24,12 @@ public class ScheduleData {
 
   @SerializedName("picture")
   private String pictureUrl;
+
+  @SerializedName("blurb")
+  private String blurb;
+
+  @SerializedName("djs")
+  private LinkedHashMap<String, String> djs;
 
 
   public String getUsername() {
@@ -45,5 +54,13 @@ public class ScheduleData {
 
   public String getPictureUrl() {
     return pictureUrl;
+  }
+
+  public String getBlurb() {
+    return blurb;
+  }
+
+  public HashMap<String, String> getDjs() {
+    return djs;
   }
 }

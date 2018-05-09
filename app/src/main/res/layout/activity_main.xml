@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_layout_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/sliding_tabs"
-        style="@style/MyCustomTabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#80333333"/>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    android:layout_height="match_parent">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent" />
-</LinearLayout>
+        android:orientation="vertical">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/sliding_tabs"
+            style="@style/MyCustomTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#80333333"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
+
+    <!--<include layout="@layout/show_bottom_sheet_layout" />-->
+</android.support.design.widget.CoordinatorLayout>

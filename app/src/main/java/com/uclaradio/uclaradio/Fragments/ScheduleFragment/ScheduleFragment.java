@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -128,7 +129,7 @@ public class ScheduleFragment extends Fragment {
                         if(response.isSuccessful()) {
                             LinearLayoutManager linearLayoutManager =
                                     new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                            ScheduleAdapter adapter = new ScheduleAdapter(response.body().getScheduleList());
+                            ScheduleAdapter adapter = new ScheduleAdapter(response.body().getScheduleList(), getActivity());
                             recyclerView.setAdapter(adapter);
                             recyclerView.setLayoutManager(linearLayoutManager);
 
