@@ -187,6 +187,8 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                                 showTitle = "LIVE: " + currentShow.getTitle();
                             if (currentShow.getPictureUrl() != null)
                                 showArtUrl = "https://uclaradio.com" + currentShow.getPictureUrl();
+                            else
+                                showArtUrl = "https://uclaradio.com/img/bear_transparent.png";
 
                             Intent intent = new Intent("UpdateShowInfo");
                             intent.putExtra("showTitle", showTitle);
