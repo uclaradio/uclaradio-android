@@ -1,5 +1,6 @@
 package com.uclaradio.uclaradio.Fragments.DJsFragment;
 
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.uclaradio.uclaradio.R;
 
@@ -35,6 +37,8 @@ public class DjAdapter extends RecyclerView.Adapter<DjAdapter.ViewHolder> {
       holder.text.setText(item.getUsername());
     else
       holder.text.setText(item.getDjName());
+    final ContentLoadingProgressBar progress = holder.image_progress;
+    progress.show();
     String imageUrl = "https://uclaradio.com" + item.getPictureUrl();
     if (item.getPictureUrl() == null)
       imageUrl = "https://uclaradio.com/img/bear_transparent.png";
@@ -42,7 +46,18 @@ public class DjAdapter extends RecyclerView.Adapter<DjAdapter.ViewHolder> {
     Picasso.get()
             .load(imageUrl)
             .resize(250, 250)
-            .into(holder.imageView);
+            .into(holder.imageView, new Callback() {
+              @Override
+              public void onSuccess() {
+                progress.hide();
+              }
+
+              @Override
+              public void onError(Exception e) {
+                Log.e("Picasso", "Error in Picasso!");
+                e.printStackTrace();
+              }
+            });
   }
 
   @Override
@@ -54,11 +69,13 @@ public class DjAdapter extends RecyclerView.Adapter<DjAdapter.ViewHolder> {
 
     private TextView text;
     private ImageView imageView;
+    private ContentLoadingProgressBar image_progress;
 
     public ViewHolder(View itemView) {
       super(itemView);
       this.text = (TextView) itemView.findViewById(R.id.dj_username);
       this.imageView = (ImageView) itemView.findViewById(R.id.image);
+      this.image_progress = itemView.findViewById(R.id.dj_image_progress);
     }
   }
 }

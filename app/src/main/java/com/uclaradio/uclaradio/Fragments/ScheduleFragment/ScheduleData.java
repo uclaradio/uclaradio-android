@@ -2,6 +2,7 @@ package com.uclaradio.uclaradio.Fragments.ScheduleFragment;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -60,7 +61,27 @@ public class ScheduleData {
     return blurb;
   }
 
-  public HashMap<String, String> getDjs() {
-    return djs;
+  public String getDjs() {
+    StringBuilder djString = new StringBuilder();
+    ArrayList<String> djList = new ArrayList<>(djs.values());
+
+    switch (djList.size()) {
+      case 1:
+        djString.append(djList.get(0));
+        break;
+      case 2:
+        djString.append(djList.get(0))
+                .append(" and ")
+                .append(djList.get(1));
+        break;
+      default:
+        for (int i = 0; i < djList.size()-1; i++) {
+          djString.append(djList.get(i))
+                  .append(", ");
+        }
+        djString.append("and ")
+                .append(djList.get(djList.size()-1));
+    }
+    return djString.toString();
   }
 }

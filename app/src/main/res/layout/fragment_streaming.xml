@@ -14,6 +14,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/show_art_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/show_title_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <ImageView
         android:id="@+id/show_art_img"
         android:layout_width="0dp"

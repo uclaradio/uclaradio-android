@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +59,8 @@ public class StreamingFragment extends Fragment {
 
   private TextView showTitleTv;
   private ImageView showArtIv;
+
+  private ContentLoadingProgressBar showArtProgress;
 
   private final Intent callIntent = new Intent(Intent.ACTION_CALL);
   private Button onAirCallBtn, requestCallBtn;
@@ -153,6 +156,8 @@ public class StreamingFragment extends Fragment {
     showTitleTv = getView().findViewById(R.id.show_title_text);
     onAirCallBtn = getView().findViewById(R.id.on_air_btn);
     requestCallBtn = getView().findViewById(R.id.request_call_btn);
+    showArtProgress = getView().findViewById(R.id.show_art_progress);
+    showArtProgress.show();
     final MainActivity mainActivity = (MainActivity) getActivity();
 
     getContext().registerReceiver(showUpdateReceiver,
@@ -214,7 +219,18 @@ public class StreamingFragment extends Fragment {
         showTitleTv.setText(intent.getStringExtra("showTitle"));
         Picasso.get()
                 .load(intent.getStringExtra("showArtUrl"))
-                .into(showArtIv);
+                .into(showArtIv, new com.squareup.picasso.Callback() {
+                  @Override
+                  public void onSuccess() {
+                      if (showArtProgress != null) showArtProgress.hide();
+                  }
+
+                  @Override
+                  public void onError(Exception e) {
+                      Log.e("Picasso", "Error in Picasso!");
+                      e.printStackTrace();
+                  }
+                });
     }
   };
 

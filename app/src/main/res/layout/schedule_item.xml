@@ -73,4 +73,14 @@
         android:elevation="2dp"
         android:scaleType="centerCrop" />
 
+    <!-- <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/schedule_details_progress"
+        style="?android:attr/progressBarStyle"
+        app:layout_constraintStart_toStartOf="@id/schedule_image"
+        app:layout_constraintTop_toTopOf="@id/schedule_image"
+        app:layout_constraintBottom_toBottomOf="@id/schedule_image"
+        app:layout_constraintEnd_toEndOf="@id/schedule_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" /> -->
+
 </android.support.constraint.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -107,12 +108,13 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         int position = holder.getAdapterPosition();
         ScheduleData show = items.get(position);
 
-        Picasso.get().setLoggingEnabled(true);
+        String imageUrl = "https://uclaradio.com" + show.getPictureUrl();
+        if (show.getPictureUrl() == null)
+          imageUrl = "https://uclaradio.com/img/bear_transparent.png";
         Picasso.get()
-                .load("https://uclaradio.com" + show.getPictureUrl())
+                .load(imageUrl)
                 .resize(250, 250)
                 .into(showImage);
-        Picasso.get().setLoggingEnabled(false);
         showTitle.setText(show.getTitle());
         showTime.setText(dayToLongDay.get(show.getDay()) + "s at " + show.getTime());
 
@@ -126,27 +128,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         else
           showBlurb.setText(show.getBlurb());
 
-        StringBuilder djString = new StringBuilder();
-        ArrayList<String> djs = new ArrayList<>(show.getDjs().values());
-
-        switch (djs.size()) {
-          case 1:
-            djString.append(djs.get(0));
-            break;
-          case 2:
-            djString.append(djs.get(0))
-                    .append(" and ")
-                    .append(djs.get(1));
-            break;
-          default:
-            for (int i = 0; i < djs.size()-1; i++) {
-              djString.append(djs.get(i))
-                      .append(", ");
-            }
-            djString.append("and ")
-                    .append(djs.get(djs.size()-1));
-        }
-        showDjs.setText(djString.toString());
+        showDjs.setText(show.getDjs());
 
         dialog.setContentView(sheetView);
         dialog.show();
@@ -163,6 +145,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     holder.text_title.setText(item.getTitle());
     holder.text_time.setText(item.getTime());
     holder.text_day.setText(dayToLongDay.get(item.getDay()));
+//    final ContentLoadingProgressBar progress = holder.image_progress;
+//    progress.show();
 
     if(item.getGenre() == null) {
       holder.text_genre.setVisibility(View.GONE);
@@ -185,7 +169,18 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     Picasso.get()
             .load(imageUrl)
             .resize(250, 250)
-            .into(holder.image_show);
+            .into(holder.image_show, new Callback() {
+              @Override
+              public void onSuccess() {
+//                progress.hide();
+              }
+
+              @Override
+              public void onError(Exception e) {
+                Log.e("Picasso", "Error in Picasso!");
+                e.printStackTrace();
+              }
+            });
   }
 
   @Override
@@ -199,6 +194,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     private TextView text_time;
     private TextView text_day;
     private ImageView image_show;
+//    private ContentLoadingProgressBar image_progress;
 
     public ViewHolder(View itemView) {
       super(itemView);
@@ -207,6 +203,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
       this.text_genre = itemView.findViewById(R.id.show_genre);
       this.image_show = itemView.findViewById(R.id.schedule_image);
       this.text_day = itemView.findViewById(R.id.schedule_day);
+//      this.image_progress = itemView.findViewById(R.id.schedule_details_progress);
     }
   }
 }

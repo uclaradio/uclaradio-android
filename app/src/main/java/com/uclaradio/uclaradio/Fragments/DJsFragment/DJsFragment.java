@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,8 @@ public class DJsFragment extends Fragment {
 
     private RadioPlatform platform;
     private RecyclerView recyclerView;
+
+    private ContentLoadingProgressBar djsProgress;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -114,6 +117,8 @@ public class DJsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         recyclerView = getView().findViewById(R.id.dj_ids_rv);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfCols));
+        djsProgress = getView().findViewById(R.id.djs_progress);
+        djsProgress.show();
 
         getDjs();
     }
@@ -139,6 +144,7 @@ public class DJsFragment extends Fragment {
                             for (DjData dj : response.body().getDjList()) {
                                 Log.d("TAG", "DJ NAME IS: " + dj.getUsername());
                             }
+                            djsProgress.hide();
                         } else {
                             Log.e("TAG", "HERE FAILED");
                             getDjs();

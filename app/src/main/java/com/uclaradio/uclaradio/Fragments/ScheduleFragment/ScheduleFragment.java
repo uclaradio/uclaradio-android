@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,6 +39,8 @@ public class ScheduleFragment extends Fragment {
 
     private RadioPlatform platform;
     private RecyclerView recyclerView;
+
+    private ContentLoadingProgressBar scheduleProgress;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -110,6 +113,8 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         recyclerView = getView().findViewById(R.id.shows_ids_rv);
+        scheduleProgress = getView().findViewById(R.id.schedule_progress);
+        scheduleProgress.show();
 
         getSchedules();
     }
@@ -140,6 +145,8 @@ public class ScheduleFragment extends Fragment {
                                 Log.d("TAG", "Day: " + show.getDay());
                                 Log.d("TAG", "Genre: " + show.getGenre());
                             }
+
+                            scheduleProgress.hide();
 
                         } else {
                             Log.e("TAG", "HERE FAILED");
