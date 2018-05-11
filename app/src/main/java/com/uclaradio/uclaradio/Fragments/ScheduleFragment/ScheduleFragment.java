@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -132,14 +133,17 @@ public class ScheduleFragment extends Fragment {
                     @Override
                     public void onResponse(Call<ScheduleList> call, Response<ScheduleList> response) {
                         if(response.isSuccessful()) {
-                            LinearLayoutManager linearLayoutManager =
-                                    new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                             ScheduleAdapter adapter = new ScheduleAdapter(response.body().getScheduleList(), getActivity());
                             recyclerView.setAdapter(adapter);
-                            recyclerView.setLayoutManager(linearLayoutManager);
+//                            LinearLayoutManager manager =
+//                                    new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                            GridLayoutManager manager =
+                                    new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
+                            recyclerView.setLayoutManager(manager);
 
                             for (ScheduleData show : response.body().getScheduleList())
                             {
+                                if (show == null) continue;
                                 Log.d("TAG", "SHOW NAME IS " + show.getTitle());
                                 Log.d("TAG", "Time: " + show.getTime());
                                 Log.d("TAG", "Day: " + show.getDay());

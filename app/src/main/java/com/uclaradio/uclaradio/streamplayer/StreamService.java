@@ -50,7 +50,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
     private final static String BROADCAST_ACTION = "BROADCAST_COMPLETE";
 
     private Bitmap showArt;
-    private String showArtUrl = "https://uclaradio.com/img/bear_transparent.png";
+    private String showArtUrl = "https://uclaradio.com/img/radio.png";
     private String showTitle  = "Loading show...";
 
     final Target[] notificationTarget = new Target[1];
@@ -194,7 +194,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                             if (currentShow.getPictureUrl() != null)
                                 showArtUrl = "https://uclaradio.com" + currentShow.getPictureUrl();
                             else
-                                showArtUrl = "https://uclaradio.com/img/bear_transparent.png";
+                                showArtUrl = "https://uclaradio.com/img/radio.png";
 
                             Intent intent = new Intent("UpdateShowInfo");
                             intent.putExtra("showTitle", showTitle);

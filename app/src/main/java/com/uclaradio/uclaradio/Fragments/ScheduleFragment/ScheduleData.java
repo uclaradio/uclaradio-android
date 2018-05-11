@@ -32,6 +32,8 @@ public class ScheduleData {
   @SerializedName("djs")
   private LinkedHashMap<String, String> djs;
 
+  private boolean newDay = false;
+
 
   public String getUsername() {
     return username;
@@ -66,6 +68,8 @@ public class ScheduleData {
     ArrayList<String> djList = new ArrayList<>(djs.values());
 
     switch (djList.size()) {
+      case 0:
+        break;
       case 1:
         djString.append(djList.get(0));
         break;
@@ -83,5 +87,13 @@ public class ScheduleData {
                 .append(djList.get(djList.size()-1));
     }
     return djString.toString();
+  }
+
+  public boolean isOnNewDay() {
+    return newDay;
+  }
+
+  public void setIsNewDay(boolean isNewDay) {
+    newDay = isNewDay;
   }
 }
