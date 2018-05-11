@@ -28,6 +28,7 @@ public class AboutFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @SuppressWarnings("unused")
     public static AboutFragment newInstance() {
         AboutFragment fragment = new AboutFragment();
         Bundle args = new Bundle();
@@ -38,8 +39,6 @@ public class AboutFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -49,7 +48,7 @@ public class AboutFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_about, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    @SuppressWarnings("unused")
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -74,7 +73,7 @@ public class AboutFragment extends Fragment {
     }
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        ImageButton fbk = getView().findViewById(R.id.button1);
+        ImageButton fbk = view.findViewById(R.id.button1);
         fbk.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Uri uri = Uri.parse("https://www.facebook.com/UCLARadio/?fref=ts");
@@ -83,7 +82,7 @@ public class AboutFragment extends Fragment {
             }
         });
 
-        ImageButton igm = getView().findViewById(R.id.button2);
+        ImageButton igm = view.findViewById(R.id.button2);
         igm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Uri uri = Uri.parse("https://www.instagram.com/uclaradio/");
@@ -92,7 +91,7 @@ public class AboutFragment extends Fragment {
             }
         });
 
-        ImageButton twr = getView().findViewById(R.id.button3);
+        ImageButton twr = view.findViewById(R.id.button3);
         twr.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Uri uri = Uri.parse("https://twitter.com/UCLAradio");
@@ -101,7 +100,7 @@ public class AboutFragment extends Fragment {
             }
         });
 
-        ImageButton tbr = getView().findViewById(R.id.button4);
+        ImageButton tbr = view.findViewById(R.id.button4);
         tbr.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Uri uri = Uri.parse("http://uclaradio.tumblr.com/");
@@ -122,7 +121,6 @@ public class AboutFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

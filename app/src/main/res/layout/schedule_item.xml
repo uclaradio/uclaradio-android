@@ -13,7 +13,6 @@
         android:id="@+id/schedule_day"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DAY"
         android:textSize="18sp"
         android:paddingTop="5dp"
         android:paddingBottom="20dp"
@@ -33,7 +32,6 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/show_title"
-            android:text="TEST"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +43,6 @@
             android:id="@+id/show_genre"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="TEST"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/show_title"
             android:textAlignment="gravity" />
@@ -55,7 +52,6 @@
             android:layout_width="match_parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/show_genre"
-            android:text="TEST"
             android:layout_height="30dp" />
     </android.support.constraint.ConstraintLayout>
 

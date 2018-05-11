@@ -1,5 +1,6 @@
 package com.uclaradio.uclaradio.Fragments.DJsFragment;
 
+import android.content.Context;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,8 +20,11 @@ public class DjAdapter extends RecyclerView.Adapter<DjAdapter.ViewHolder> {
 
   private List<DjData> items;
 
-  public DjAdapter(List<DjData> items) {
+  private String baseUrl;
+
+  DjAdapter(List<DjData> items, Context appContext) {
     this.items = items;
+    baseUrl = appContext.getResources().getString(R.string.website);
   }
 
   @Override
@@ -39,9 +43,9 @@ public class DjAdapter extends RecyclerView.Adapter<DjAdapter.ViewHolder> {
       holder.text.setText(item.getDjName());
     final ContentLoadingProgressBar progress = holder.image_progress;
     progress.show();
-    String imageUrl = "https://uclaradio.com" + item.getPictureUrl();
+    String imageUrl = baseUrl + item.getPictureUrl();
     if (item.getPictureUrl() == null)
-      imageUrl = "https://uclaradio.com/img/bear_transparent.png";
+      imageUrl = baseUrl + "/img/bear_transparent.png";
     Log.d("TAG", "IMAGE URL: " + imageUrl);
     Picasso.get()
             .load(imageUrl)
@@ -71,10 +75,10 @@ public class DjAdapter extends RecyclerView.Adapter<DjAdapter.ViewHolder> {
     private ImageView imageView;
     private ContentLoadingProgressBar image_progress;
 
-    public ViewHolder(View itemView) {
+    ViewHolder(View itemView) {
       super(itemView);
-      this.text = (TextView) itemView.findViewById(R.id.dj_username);
-      this.imageView = (ImageView) itemView.findViewById(R.id.image);
+      this.text = itemView.findViewById(R.id.dj_username);
+      this.imageView = itemView.findViewById(R.id.image);
       this.image_progress = itemView.findViewById(R.id.dj_image_progress);
     }
   }

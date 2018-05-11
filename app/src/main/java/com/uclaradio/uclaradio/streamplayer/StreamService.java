@@ -1,6 +1,5 @@
 package com.uclaradio.uclaradio.streamplayer;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -44,15 +43,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.uclaradio.uclaradio.Activities.MainActivity.CHANNEL_ID;
-
 public class StreamService extends Service implements MediaPlayer.OnPreparedListener {
-    private final static String STREAM_URL = "http://uclaradio.com:8000/;";
-    private final static String BROADCAST_ACTION = "BROADCAST_COMPLETE";
+    private static final String STREAM_URL = "http://uclaradio.com:8000/;";
+    public  static final String BROADCAST_ACTION = "com.uclaradio.uclaradio.BROADCAST_COMPLETE";
+    private static final String CHANNEL_ID = "com.uclaradio.uclaradio.notificationChannelId124813759";
 
     private Bitmap showArt;
-    private String showArtUrl = "https://uclaradio.com/img/radio.png";
-    private String showTitle  = "Loading show...";
+    private String showArtUrl;
+    private String showTitle;
 
     final Target[] notificationTarget = new Target[1];
 
@@ -68,8 +66,10 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         showArt = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
+        showArtUrl = getString(R.string.website) + "/img/radio.png";
+        showTitle = getString(R.string.loading_show);
         initStream();
-        registerReceiver(toggleReceiver, new IntentFilter("com.uclaradio.uclaradio.togglePlayPause"));
+        registerReceiver(toggleReceiver, new IntentFilter(getString(R.string.play_pause_intent)));
         checkCurrentTime();
         Log.d("Service", "Started!");
 
@@ -177,39 +177,40 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         Log.d("Test", "Updating");
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://uclaradio.com/")
+                .baseUrl(getString(R.string.website))
                 .build();
 
         RadioPlatform platform = retrofit.create(RadioPlatform.class);
         platform.getCurrentShow()
                 .enqueue(new Callback<ScheduleData>() {
-                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(retrofit2.Call<ScheduleData> call, Response<ScheduleData> response) {
                         if (response.isSuccessful()) {
                             ScheduleData currentShow = response.body();
                             if (currentShow.getTitle() == null)
-                                showTitle = "No show scheduled right now.";
+                                showTitle = getString(R.string.no_show_playing);
                             else
                                 showTitle = "LIVE: " + currentShow.getTitle();
                             if (currentShow.getPictureUrl() != null)
-                                showArtUrl = "https://uclaradio.com" + currentShow.getPictureUrl();
+                                showArtUrl = getString(R.string.website) + currentShow.getPictureUrl();
                             else
-                                showArtUrl = "https://uclaradio.com/img/radio.png";
+                                showArtUrl = getString(R.string.website) + "/img/radio.png";
 
-                            Intent intent = new Intent("UpdateShowInfo");
+                            Intent intent = new Intent(getString(R.string.update_show_info_intent));
                             intent.putExtra("showTitle", showTitle);
                             intent.putExtra("showArtUrl", showArtUrl);
                             sendBroadcast(intent);
 
                             final NotificationManager manager =
-                                    (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                                    (NotificationManager) getApplicationContext()
+                                            .getSystemService(Context.NOTIFICATION_SERVICE);
                             notificationTarget[0] = new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                     setShowArt(bitmap);
-                                    manager.notify(MainActivity.SERVICE_ID,
-                                            setUpNotification(getApplicationContext(), showTitle, bitmap));
+                                    if (manager != null)
+                                        manager.notify(MainActivity.SERVICE_ID,
+                                                setUpNotification(getApplicationContext(), showTitle, bitmap));
                                     Log.d("Test", "Bitmap loaded!");
                                 }
 
@@ -256,10 +257,10 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         applicationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         PendingIntent applicationPendingIntent = PendingIntent.getActivity(context, 0, applicationIntent, 0);
 
-        Intent playPauseIntent = new Intent("com.uclaradio.uclaradio.togglePlayPause");
+        Intent playPauseIntent = new Intent(getString(R.string.play_pause_intent));
         int playPauseDrawable;
-        if (stream != null && isPlaying()) playPauseDrawable = R.drawable.baseline_pause_white_48;
-        else playPauseDrawable = R.drawable.baseline_play_arrow_white_48;
+        if (stream != null && isPlaying()) playPauseDrawable = R.drawable.baseline_pause_white_36;
+        else playPauseDrawable = R.drawable.baseline_play_arrow_white_36;
         PendingIntent playPausePendingIntent = PendingIntent.getBroadcast(context, 1, playPauseIntent, 0);
 
         TypedValue value = new TypedValue();
@@ -300,7 +301,8 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
 
             NotificationManager manager =
                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            manager.createNotificationChannel(channel);
+            if (manager != null)
+                manager.createNotificationChannel(channel);
         }
     }
 
@@ -310,7 +312,8 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
             toggle();
             NotificationManager manager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            manager.notify(MainActivity.SERVICE_ID, setUpNotification(context));
+            if (manager != null)
+                manager.notify(MainActivity.SERVICE_ID, setUpNotification(context));
         }
     };
 

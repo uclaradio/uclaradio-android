@@ -10,9 +10,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.TabLayout;
@@ -22,11 +20,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
-import android.view.Window;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.uclaradio.uclaradio.Fragments.AboutFragment.AboutFragment;
 import com.uclaradio.uclaradio.Fragments.DJsFragment.DJsFragment;
 import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleFragment;
@@ -42,9 +38,7 @@ public class MainActivity extends AppCompatActivity
         AboutFragment.OnFragmentInteractionListener {
 
   public static final int SERVICE_ID = 41243;
-  public static final String CHANNEL_ID = "41243";
 
-  private ActionBar actionBar;
   public static StreamService stream;
   private boolean bound = false;
 
@@ -85,8 +79,6 @@ public class MainActivity extends AppCompatActivity
   }
 
   private void initializeActionBar() {
-    android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-
     Display display = getWindowManager().getDefaultDisplay();
     Point size = new Point();
     display.getSize(size);
@@ -98,17 +90,19 @@ public class MainActivity extends AppCompatActivity
       actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
     }
 
-    actionBar = getSupportActionBar();
+    android.support.v7.app.ActionBar actionBar = getSupportActionBar();
     Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
     BitmapDrawable background_drawable = new BitmapDrawable(Bitmap.createScaledBitmap(background, width * 4, actionBarHeight * 4, false));
     background_drawable.setTileModeX(android.graphics.Shader.TileMode.REPEAT);
 //    actionBar.setBackgroundDrawable(background_drawable);
     int color = Color.parseColor("#80333333");
-    actionBar.setBackgroundDrawable(new ColorDrawable(color));
-
-    actionBar.setElevation(0);
-    actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-    actionBar.setCustomView(R.layout.abs_layout);
+    if (actionBar != null) {
+      actionBar.setBackgroundDrawable(new ColorDrawable(color));
+      actionBar.setElevation(0);
+      actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+      actionBar.setCustomView(R.layout.abs_layout);
+      actionBar.setDisplayShowTitleEnabled(true);
+    }
     ImageView logo = findViewById(R.id.logo);
     try { // If there isn't enough memory to load the bitmap on the UI thread, use Picasso to make it async
       Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.logo_banner_white);
@@ -119,7 +113,6 @@ public class MainActivity extends AppCompatActivity
               .into(logo);
     }
 
-    actionBar.setDisplayShowTitleEnabled(true);
 
     ViewPager viewPager = findViewById(R.id.viewpager);
     viewPager.setAdapter(new TabPager(this, getSupportFragmentManager()));

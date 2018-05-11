@@ -13,7 +13,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.graphics.Palette;
@@ -29,7 +29,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.app.Fragment;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,8 +36,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.uclaradio.uclaradio.Activities.MainActivity;
 import com.uclaradio.uclaradio.R;
-import com.uclaradio.uclaradio.RadioPlatform;
-import com.uclaradio.uclaradio.streamplayer.StreamService;
 
 
 /**
@@ -58,19 +55,15 @@ public class StreamingFragment extends Fragment {
   private ContentLoadingProgressBar showArtProgress;
 
   private final Intent callIntent = new Intent(Intent.ACTION_CALL);
-  private Button onAirCallBtn, requestCallBtn;
-
-  private StreamService stream;
 
   private static final int REQUEST_PHONE_CALL = 982;
-
-  private RadioPlatform platform;
 
   private OnFragmentInteractionListener mListener;
 
   public StreamingFragment() {
   }
 
+  @SuppressWarnings("unused")
   public static StreamingFragment newInstance() {
     StreamingFragment fragment = new StreamingFragment();
     Bundle args = new Bundle();
@@ -90,6 +83,7 @@ public class StreamingFragment extends Fragment {
     return inflater.inflate(R.layout.fragment_streaming, container, false);
   }
 
+  @SuppressWarnings("unused")
   public void onButtonPressed(Uri uri) {
     if (mListener != null) {
       mListener.onFragmentInteraction(uri);
@@ -128,10 +122,8 @@ public class StreamingFragment extends Fragment {
               if (!shouldShowRequestPermissionRationale(permissions[0]))
               {
                 new AlertDialog.Builder(getContext())
-                        .setTitle("Calling disabled")
-                        .setMessage("It looks like you've permanently disabled calling from this app. " +
-                                "To re-enable calling, navigate to Settings > Apps > UCLA Radio > Permissions and "
-                                + "tap the \"Phone\" option.")
+                        .setTitle(R.string.calling_disabled)
+                        .setMessage(R.string.no_perms_dialog)
                         .setPositiveButton("OK", null)
                         .create().show();
               }
@@ -146,12 +138,12 @@ public class StreamingFragment extends Fragment {
   // Only updates the current playing show whenever the view is created--obviously will
   //  not update if the show changes while the app is still open.
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    playPauseBtn = getView().findViewById(R.id.playpause_btn);
-    showArtIv = getView().findViewById(R.id.show_art_img);
-    showTitleTv = getView().findViewById(R.id.show_title_text);
-    onAirCallBtn = getView().findViewById(R.id.on_air_btn);
-    requestCallBtn = getView().findViewById(R.id.request_call_btn);
-    showArtProgress = getView().findViewById(R.id.show_art_progress);
+    playPauseBtn = view.findViewById(R.id.playpause_btn);
+    showArtIv = view.findViewById(R.id.show_art_img);
+    showTitleTv = view.findViewById(R.id.show_title_text);
+    Button onAirCallBtn = view.findViewById(R.id.on_air_btn);
+    Button requestCallBtn = view.findViewById(R.id.request_call_btn);
+    showArtProgress = view.findViewById(R.id.show_art_progress);
     showArtProgress.show();
     final MainActivity mainActivity = (MainActivity) getActivity();
 
@@ -159,7 +151,7 @@ public class StreamingFragment extends Fragment {
       playPauseBtn.setStateListAnimator(null);
 
     getContext().registerReceiver(showUpdateReceiver,
-            new IntentFilter("UpdateShowInfo"));
+            new IntentFilter(getString(R.string.update_show_info_intent)));
 
     playPauseBtn.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
@@ -176,7 +168,7 @@ public class StreamingFragment extends Fragment {
 //        else
 //          ((ImageButton) v).setImageResource(android.R.drawable.ic_media_pause);
 //        MainActivity.stream.toggle();
-        getContext().sendBroadcast(new Intent("com.uclaradio.uclaradio.togglePlayPause"));
+        getContext().sendBroadcast(new Intent(getString(R.string.play_pause_intent)));
       }
     });
 
@@ -204,7 +196,7 @@ public class StreamingFragment extends Fragment {
     });
 
     getContext().registerReceiver(toggleReceiver,
-            new IntentFilter("com.uclaradio.uclaradio.togglePlayPause"));
+            new IntentFilter(getString(R.string.play_pause_intent)));
   }
 
   public interface OnFragmentInteractionListener {
@@ -214,9 +206,9 @@ public class StreamingFragment extends Fragment {
   private BroadcastReceiver showUpdateReceiver = new BroadcastReceiver() {
     @Override
     public void onReceive(final Context context, Intent intent) {
-        showTitleTv.setText(intent.getStringExtra("showTitle"));
+        showTitleTv.setText(intent.getStringExtra(getString(R.string.extra_showTitle)));
         Picasso.get()
-                .load(intent.getStringExtra("showArtUrl"))
+                .load(intent.getStringExtra(getString(R.string.extra_showArtUrl)))
                 .into(showArtIv, new com.squareup.picasso.Callback() {
                   @Override
                   public void onSuccess() {
@@ -233,6 +225,8 @@ public class StreamingFragment extends Fragment {
                       int newFgColor = color.getDarkVibrantColor(Color.parseColor("#FFFFFF"));
 //                      int newColor = bgSwatch != null ? bgSwatch.getRgb() : value.data;
                       ValueAnimator bgAnim = new ValueAnimator();
+                      // Background tint list should never be null, so this is f
+                      //noinspection ConstantConditions
                       bgAnim.setIntValues(
                               playPauseBtn.getBackgroundTintList().getDefaultColor(),
                               newBgColor
@@ -265,12 +259,17 @@ public class StreamingFragment extends Fragment {
   private BroadcastReceiver toggleReceiver = new BroadcastReceiver() {
     @Override
     public void onReceive(Context context, Intent intent) {
+      Palette color = Palette
+              .from(((BitmapDrawable) showArtIv.getDrawable()).getBitmap())
+              .generate();
+      int newFgColor = color.getDarkVibrantColor(Color.parseColor("#FFFFFF"));
       if (MainActivity.stream != null && MainActivity.stream.isPlaying())
         playPauseBtn.setImageDrawable
                 (ContextCompat.getDrawable(context, R.drawable.baseline_pause_white_48));
       else
         playPauseBtn.setImageDrawable
                 (ContextCompat.getDrawable(context, R.drawable.baseline_play_arrow_white_48));
+      playPauseBtn.getDrawable().mutate().setColorFilter(newFgColor, PorterDuff.Mode.SRC_IN);
     }
   };
 }

@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -33,18 +32,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * create an instance of this fragment.
  */
 public class ScheduleFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private RadioPlatform platform;
     private RecyclerView recyclerView;
 
     private ContentLoadingProgressBar scheduleProgress;
 
-    // TODO: Rename and change types of parameters
+    // Again, don't want to remove boilerplate so leaving this stuff here
+    @SuppressWarnings({"unused", "FieldCanBeLocal"})
     private String mParam1;
+    @SuppressWarnings({"unused", "FieldCanBeLocal"})
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
@@ -61,7 +60,7 @@ public class ScheduleFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment ScheduleFragment.
      */
-    // TODO: Rename and change types and number of parameters
+    @SuppressWarnings("unused")
     public static ScheduleFragment newInstance(String param1, String param2) {
         ScheduleFragment fragment = new ScheduleFragment();
         Bundle args = new Bundle();
@@ -87,7 +86,7 @@ public class ScheduleFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_schedule, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    @SuppressWarnings("unused")
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -113,8 +112,8 @@ public class ScheduleFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        recyclerView = getView().findViewById(R.id.shows_ids_rv);
-        scheduleProgress = getView().findViewById(R.id.schedule_progress);
+        recyclerView = view.findViewById(R.id.shows_ids_rv);
+        scheduleProgress = view.findViewById(R.id.schedule_progress);
         scheduleProgress.show();
 
         getSchedules();
@@ -126,7 +125,7 @@ public class ScheduleFragment extends Fragment {
                 .baseUrl("https://uclaradio.com/")
                 .build();
 
-        platform = retrofit.create(RadioPlatform.class);
+        RadioPlatform platform = retrofit.create(RadioPlatform.class);
 
         platform.getSchedules()
                 .enqueue(new Callback<ScheduleList>() {
@@ -180,7 +179,6 @@ public class ScheduleFragment extends Fragment {
          * >Communicating with Other Fragments</a> for more information.
          */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

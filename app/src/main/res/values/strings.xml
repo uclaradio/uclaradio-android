@@ -3,11 +3,39 @@
     <string name="about"><b>UCLA Radio</b> is a completely student-run organization offering cultural content created by 100+ DJs. Please direct any feedback to the web department at radio.web@media.ucla.edu\n\nFollow <b>@uclaradio</b> on social media!"</string>
     <string name="radio_graphic_url">https://raw.githubusercontent.com/uclaradio/uclaradio-iOS/master/UCLA%20Radio/UCLA%20Radio/images/radio_wide.png</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment_stream">STREAM</string>
-    <string name="hello_blank_fragment_schedule">SHOWS</string>
-    <string name="hello_blank_fragment_djs">DJs</string>
+    <string name="stream_h">STREAM</string>
+    <string name="shows_h">SHOWS</string>
+    <string name="djs_h">DJs</string>
+    <string name="about_h">ABOUT</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loading_stream">Loading stream…</string>
+    <string name="loading_show">Loading show…</string>
+    <string name="request">Request</string>
+    <string name="on_air">On Air</string>
+
+    <string name="website">https://uclaradio.com</string>
+    <string name="stream_url">http://uclaradio.com:8000/;</string>
+    <string name="time_and_day">%1$ss at %2$s</string>
+
+    <string name="play_pause_intent">com.uclaradio.uclaradio.togglePlayPause</string>
+    <string name="update_show_info_intent">com.uclaradio.uclaradio.updateShowInfo</string>
+    <string name="calling_disabled">Calling disabled</string>
+    <string name="no_perms_dialog">It looks like you\'ve permanently disabled calling from this app. To re-enable calling, navigate to Settings > Apps > UCLA Radio > Permissions and tap the \"Phone\" option.</string>
+    <string name="wrong_wifi_dialog">It looks like you\'re connected to %1$s. The UCLA Radio stream doesn\'t work due to security settings on this network, so please switch to a different network and restart this app.</string>
+    <string name="extra_showTitle">showTitle</string>
+    <string name="extra_showArtUrl">showArtUrl</string>
+    <string name="switch_network">SWITCH NETWORKS</string>
+    <string name="cancel_switch_network">I DIDN\'T WANT TO TUNE IN ANYWAY</string>
+    <string name="no_show_playing">No show scheduled right now.</string>
+
+    <string-array name="days_of_week">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
 </resources>

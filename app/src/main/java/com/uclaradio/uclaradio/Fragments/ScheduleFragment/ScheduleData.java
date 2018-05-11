@@ -8,9 +8,6 @@ import java.util.LinkedHashMap;
 
 public class ScheduleData {
 
-  @SerializedName("username")
-  private String username;
-
   @SerializedName("title")
   private String title;
 
@@ -33,11 +30,6 @@ public class ScheduleData {
   private LinkedHashMap<String, String> djs;
 
   private boolean newDay = false;
-
-
-  public String getUsername() {
-    return username;
-  }
 
   public String getTitle() {
     return title;

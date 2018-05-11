@@ -9,14 +9,16 @@ import com.uclaradio.uclaradio.Fragments.AboutFragment.AboutFragment;
 import com.uclaradio.uclaradio.Fragments.DJsFragment.DJsFragment;
 import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleFragment;
 import com.uclaradio.uclaradio.Fragments.StreamingFragment.StreamingFragment;
+import com.uclaradio.uclaradio.R;
 
 public class TabPager extends FragmentPagerAdapter {
 
-    private Context mContext;
+    @SuppressWarnings({"unused", "FieldCanBeLocal"})
+    private Context context;
 
     public TabPager(Context context, FragmentManager fm) {
         super(fm);
-        mContext = context;
+        this.context = context;
     }
 
     @Override
@@ -44,13 +46,13 @@ public class TabPager extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "STREAM";
+                return context.getString(R.string.stream_h);
             case 1:
-                return "SHOWS";
+                return context.getString(R.string.shows_h);
             case 2:
-                return "DJs";
+                return context.getString(R.string.djs_h);
             case 3:
-                return "ABOUT";
+                return context.getString(R.string.about_h);
             default:
                 return null;
         }

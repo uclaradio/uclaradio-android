@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
@@ -24,7 +22,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,21 +33,26 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
   private HashMap<String, String> dayToLongDay = new HashMap<>();
 
   private Context context;
+  private Resources resources;
+
+  private String baseUrl;
 
   private int convertDayToNum(String day) {
     return dayToNum.get(day);
   }
 
-  public ScheduleAdapter(List<ScheduleData> items, Context appContext) {
+  ScheduleAdapter(List<ScheduleData> items, Context appContext) {
     context = appContext;
+    resources = context.getResources();
+    baseUrl = resources.getString(R.string.website);
 
-    dayToNum.put("Sun",0); dayToLongDay.put("Sun", "Sunday");
-    dayToNum.put("Mon",1); dayToLongDay.put("Mon", "Monday");
-    dayToNum.put("Tue",2); dayToLongDay.put("Tue", "Tuesday");
-    dayToNum.put("Wed",3); dayToLongDay.put("Wed", "Wednesday");
-    dayToNum.put("Thu",4); dayToLongDay.put("Thu", "Thursday");
-    dayToNum.put("Fri",5); dayToLongDay.put("Fri", "Friday");
-    dayToNum.put("Sat",6); dayToLongDay.put("Sat", "Saturday");
+    dayToNum.put("Sun",0); dayToLongDay.put("Sun", resources.getStringArray(R.array.days_of_week)[0]);
+    dayToNum.put("Mon",1); dayToLongDay.put("Mon", resources.getStringArray(R.array.days_of_week)[1]);
+    dayToNum.put("Tue",2); dayToLongDay.put("Tue", resources.getStringArray(R.array.days_of_week)[2]);
+    dayToNum.put("Wed",3); dayToLongDay.put("Wed", resources.getStringArray(R.array.days_of_week)[3]);
+    dayToNum.put("Thu",4); dayToLongDay.put("Thu", resources.getStringArray(R.array.days_of_week)[4]);
+    dayToNum.put("Fri",5); dayToLongDay.put("Fri", resources.getStringArray(R.array.days_of_week)[5]);
+    dayToNum.put("Sat",6); dayToLongDay.put("Sat", resources.getStringArray(R.array.days_of_week)[6]);
 
     Comparator<ScheduleData> dateComparator = new Comparator<ScheduleData>() {
       @Override
@@ -62,6 +64,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
           return dayComp;
         }
         else {
+          @SuppressLint("SimpleDateFormat")
           SimpleDateFormat sdf = new SimpleDateFormat("hhaa"); //hourAM/PM
           try {
             Date aTime = sdf.parse(a.getTime().toUpperCase());
@@ -91,7 +94,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
   }
 
   @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
     View itemView = LayoutInflater.from(parent.getContext())
 //                    .inflate(R.layout.schedule_item, parent, false);
                     .inflate(R.layout.schedule_item_new, parent, false);
@@ -105,7 +108,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         if (show == null) return;
         BottomSheetDialog dialog = new BottomSheetDialog(context);
         View sheetView = ((Activity) context).getLayoutInflater()
-                .inflate(R.layout.show_bottom_sheet_layout, null);
+                .inflate(R.layout.show_bottom_sheet_layout, parent);
 
         ImageView showImage = sheetView.findViewById(R.id.show_image);
 
@@ -116,15 +119,16 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         TextView showBlurb = sheetView.findViewById(R.id.show_blurb);
 
 
-        String imageUrl = "https://uclaradio.com" + show.getPictureUrl();
+        String imageUrl = baseUrl + show.getPictureUrl();
         if (show.getPictureUrl() == null)
-          imageUrl = "https://uclaradio.com/img/radio.png";
+          imageUrl = baseUrl + "/img/radio.png";
         Picasso.get()
                 .load(imageUrl)
                 .resize(250, 250)
                 .into(showImage);
         showTitle.setText(show.getTitle());
-        showTime.setText(dayToLongDay.get(show.getDay()) + "s at " + show.getTime());
+        showTime.setText(resources.getString(R.string.time_and_day, dayToLongDay.get(show.getDay()), show.getTime()));
+//        showTime.setText(dayToLongDay.get(show.getDay()) + "s at " + show.getTime());
 
         if (show.getGenre() == null)
           showGenre.setVisibility(View.GONE);
@@ -171,9 +175,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         holder.text_day.setVisibility(View.INVISIBLE);
     }
 
-    String imageUrl = "https://uclaradio.com" + item.getPictureUrl();
+    String imageUrl = baseUrl + item.getPictureUrl();
     if (item.getPictureUrl() == null)
-      imageUrl = "https://uclaradio.com/img/radio.png";
+      imageUrl = baseUrl + "/img/radio.png";
     Log.d("TAG", "ALBUM IMAGE URL: " + imageUrl);
 
     Picasso.get()
@@ -245,6 +249,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     return items != null ? items.size() : 0;
   }
 
+  @SuppressWarnings("SameParameterValue")
   private int dpToPx(int dp) {
     return (int) TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -261,7 +266,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     private TextView text_details;
     private ImageView image_show;
 
-    public ViewHolder(View itemView) {
+    ViewHolder(View itemView) {
       super(itemView);
 //      this.text_title = itemView.findViewById(R.id.show_title);
 //      this.text_time = itemView.findViewById(R.id.show_time);
