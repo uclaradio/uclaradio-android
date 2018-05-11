@@ -80,7 +80,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         Log.d("Service", "Prepared!");
         Intent prepared = new Intent(BROADCAST_ACTION);
         LocalBroadcastManager.getInstance(this).sendBroadcast(prepared);
-        toggle(); toggle(); // If the stream cuts out and reconnects, toggle twice to reset state
+        toggle(); toggle(); // If the stream cuts out and reconnects, toggle to reset state
     }
 
     @Override
@@ -89,6 +89,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         stream.release();
         unregisterReceiver(toggleReceiver);
         Log.d("Service", "Destroyed");
+
         super.onDestroy();
     }
 
@@ -132,7 +133,9 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         stream.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                stream.prepareAsync();
+                stream.reset();
+                initStream();
+                sendBroadcast(new Intent("com.uclaradio.uclaradio.togglePlayPause"));
                 Log.d("Service", "Stream stopped. Reconnecting...");
             }
         });
@@ -141,13 +144,16 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
             public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
                 if (what == MediaPlayer.MEDIA_ERROR_SERVER_DIED) {
                     Log.d("Service", "Server died. Restarting media player...");
+                    stream.reset();
                     initStream();
                     return true;
                 }
 
                 if (extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT)
                     Log.d("Service", "Connection timed out. Retrying...");
-                return false;
+                else
+                    Log.d("Service", "The media player stopped for some reason. Retrying...");
+                return true;
             }
         });
         stream.prepareAsync();
