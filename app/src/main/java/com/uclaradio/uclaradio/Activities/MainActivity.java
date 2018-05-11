@@ -109,9 +109,15 @@ public class MainActivity extends AppCompatActivity
     actionBar.setElevation(0);
     actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     actionBar.setCustomView(R.layout.abs_layout);
-    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.logo_banner_white);
     ImageView logo = findViewById(R.id.logo);
-    logo.setImageBitmap(icon);
+    try { // If there isn't enough memory to load the bitmap on the UI thread, use Picasso to make it async
+      Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.logo_banner_white);
+      logo.setImageBitmap(icon);
+    } catch (OutOfMemoryError ex) {
+      Picasso.get()
+              .load(R.drawable.logo_banner_white)
+              .into(logo);
+    }
 
     actionBar.setDisplayShowTitleEnabled(true);
 

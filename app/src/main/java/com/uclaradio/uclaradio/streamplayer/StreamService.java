@@ -23,6 +23,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
+import android.util.TypedValue;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -188,7 +189,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                         if (response.isSuccessful()) {
                             ScheduleData currentShow = response.body();
                             if (currentShow.getTitle() == null)
-                                showTitle = "No show playing.";
+                                showTitle = "No show scheduled right now.";
                             else
                                 showTitle = "LIVE: " + currentShow.getTitle();
                             if (currentShow.getPictureUrl() != null)
@@ -257,14 +258,16 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
 
         Intent playPauseIntent = new Intent("com.uclaradio.uclaradio.togglePlayPause");
         int playPauseDrawable;
-        if (stream != null && isPlaying()) playPauseDrawable = android.R.drawable.ic_media_pause;
-        else playPauseDrawable = android.R.drawable.ic_media_play;
+        if (stream != null && isPlaying()) playPauseDrawable = R.drawable.baseline_pause_white_48;
+        else playPauseDrawable = R.drawable.baseline_play_arrow_white_48;
         PendingIntent playPausePendingIntent = PendingIntent.getBroadcast(context, 1, playPauseIntent, 0);
 
-        Palette.Swatch bgSwatch = Palette.from(newArt).generate().getVibrantSwatch();
+        TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorAccent, value, true);
+        int tintColor = Palette.from(newArt).generate().getVibrantColor(value.data);
 
         NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_stat_notification) // TODO: Change this to a better icon
+                .setSmallIcon(R.drawable.ic_stat_notification)
                 .setContentTitle(newTitle)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -272,11 +275,11 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                 .addAction(playPauseDrawable, "Play/Pause", playPausePendingIntent)
                 .setLargeIcon(newArt)
                 .setColorized(true)
+                .setColor(tintColor)
                 .setShowWhen(false)
                 .setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle()
                         .setShowActionsInCompactView(0));
 
-        if (bgSwatch != null) notifBuilder.setColor(bgSwatch.getRgb());
 
         createNotificationChannel();
         return notifBuilder.build();

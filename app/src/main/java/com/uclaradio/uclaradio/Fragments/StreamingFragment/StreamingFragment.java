@@ -1,49 +1,44 @@
 package com.uclaradio.uclaradio.Fragments.StreamingFragment;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.uclaradio.uclaradio.Activities.MainActivity;
-import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleData;
 import com.uclaradio.uclaradio.R;
 import com.uclaradio.uclaradio.RadioPlatform;
 import com.uclaradio.uclaradio.streamplayer.StreamService;
-
-import org.w3c.dom.Text;
-
-import java.util.Observable;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -55,7 +50,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * create an instance of this fragment.
  */
 public class StreamingFragment extends Fragment {
-  private ImageButton streamBtnImg;
+  private FloatingActionButton playPauseBtn;
 
   private TextView showTitleTv;
   private ImageView showArtIv;
@@ -151,7 +146,7 @@ public class StreamingFragment extends Fragment {
   // Only updates the current playing show whenever the view is created--obviously will
   //  not update if the show changes while the app is still open.
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    streamBtnImg = getView().findViewById(R.id.stream_btn_img);
+    playPauseBtn = getView().findViewById(R.id.playpause_btn);
     showArtIv = getView().findViewById(R.id.show_art_img);
     showTitleTv = getView().findViewById(R.id.show_title_text);
     onAirCallBtn = getView().findViewById(R.id.on_air_btn);
@@ -160,10 +155,13 @@ public class StreamingFragment extends Fragment {
     showArtProgress.show();
     final MainActivity mainActivity = (MainActivity) getActivity();
 
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+      playPauseBtn.setStateListAnimator(null);
+
     getContext().registerReceiver(showUpdateReceiver,
             new IntentFilter("UpdateShowInfo"));
 
-    streamBtnImg.setOnClickListener(new View.OnClickListener() {
+    playPauseBtn.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         if (!mainActivity.isBound()) {
           Log.d("Service", "Not yet bound");
@@ -215,7 +213,7 @@ public class StreamingFragment extends Fragment {
 
   private BroadcastReceiver showUpdateReceiver = new BroadcastReceiver() {
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, Intent intent) {
         showTitleTv.setText(intent.getStringExtra("showTitle"));
         Picasso.get()
                 .load(intent.getStringExtra("showArtUrl"))
@@ -223,6 +221,36 @@ public class StreamingFragment extends Fragment {
                   @Override
                   public void onSuccess() {
                       if (showArtProgress != null) showArtProgress.hide();
+
+                      TypedValue value = new TypedValue();
+                      context.getTheme().resolveAttribute(R.attr.colorAccent, value, true);
+
+                      Palette color = Palette
+                              .from(((BitmapDrawable) showArtIv.getDrawable()).getBitmap())
+                              .generate();
+
+                      int newBgColor = color.getVibrantColor(value.data);
+                      int newFgColor = color.getDarkVibrantColor(Color.parseColor("#FFFFFF"));
+//                      int newColor = bgSwatch != null ? bgSwatch.getRgb() : value.data;
+                      ValueAnimator bgAnim = new ValueAnimator();
+                      bgAnim.setIntValues(
+                              playPauseBtn.getBackgroundTintList().getDefaultColor(),
+                              newBgColor
+                      );
+                      bgAnim.setEvaluator(new ArgbEvaluator());
+
+                      bgAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                          playPauseBtn.setBackgroundTintList(
+                                  ColorStateList.valueOf((int) valueAnimator.getAnimatedValue())
+                          );
+                        }
+                      });
+                      playPauseBtn.getDrawable().mutate().setColorFilter(newFgColor, PorterDuff.Mode.SRC_IN);
+
+                      bgAnim.setDuration(500);
+                        bgAnim.start();
                   }
 
                   @Override
@@ -238,9 +266,11 @@ public class StreamingFragment extends Fragment {
     @Override
     public void onReceive(Context context, Intent intent) {
       if (MainActivity.stream != null && MainActivity.stream.isPlaying())
-        streamBtnImg.setImageResource(android.R.drawable.ic_media_pause);
+        playPauseBtn.setImageDrawable
+                (ContextCompat.getDrawable(context, R.drawable.baseline_pause_white_48));
       else
-        streamBtnImg.setImageResource(android.R.drawable.ic_media_play);
+        playPauseBtn.setImageDrawable
+                (ContextCompat.getDrawable(context, R.drawable.baseline_play_arrow_white_48));
     }
   };
 }
