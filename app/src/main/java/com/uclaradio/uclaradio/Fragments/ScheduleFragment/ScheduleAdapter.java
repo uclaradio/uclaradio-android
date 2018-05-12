@@ -94,7 +94,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
   }
 
   @Override
-  public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View itemView = LayoutInflater.from(parent.getContext())
 //                    .inflate(R.layout.schedule_item, parent, false);
                     .inflate(R.layout.schedule_item_new, parent, false);
@@ -107,8 +107,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         ScheduleData show = items.get(position);
         if (show == null) return;
         BottomSheetDialog dialog = new BottomSheetDialog(context);
+        @SuppressLint("InflateParams")
         View sheetView = ((Activity) context).getLayoutInflater()
-                .inflate(R.layout.show_bottom_sheet_layout, parent);
+                .inflate(R.layout.show_bottom_sheet_layout, null);
 
         ImageView showImage = sheetView.findViewById(R.id.show_image);
 

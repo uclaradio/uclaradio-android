@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity
       if (stream == null) Log.d("Service", "It looks like the stream is null, but...");
       Log.d("Service", binder.getService().toString());
       Log.d("Service", "Bound.");
-      stream.startForeground(SERVICE_ID, stream.setUpNotification(MainActivity.this));
+      stream.startForeground(SERVICE_ID, stream.setUpNotification(MainActivity.this, true));
       stream.updateCurrentShowInfo();
       Log.d("Service", "Started in foreground.");
     }

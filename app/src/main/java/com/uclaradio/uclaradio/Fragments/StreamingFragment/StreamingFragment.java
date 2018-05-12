@@ -107,6 +107,8 @@ public class StreamingFragment extends Fragment {
     mListener = null;
     getContext().unregisterReceiver(showUpdateReceiver);
     getContext().unregisterReceiver(toggleReceiver);
+    getContext().unregisterReceiver(connRestReceiver);
+    getContext().unregisterReceiver(connErrReceiver);
   }
 
   @Override
@@ -195,6 +197,10 @@ public class StreamingFragment extends Fragment {
       }
     });
 
+    getContext().registerReceiver(connErrReceiver,
+            new IntentFilter(getString(R.string.connection_error)));
+    getContext().registerReceiver(connRestReceiver,
+            new IntentFilter(getString(R.string.connection_restored)));
     getContext().registerReceiver(toggleReceiver,
             new IntentFilter(getString(R.string.play_pause_intent)));
   }
@@ -256,20 +262,47 @@ public class StreamingFragment extends Fragment {
     }
   };
 
-  private BroadcastReceiver toggleReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(Context context, Intent intent) {
+  private void togglePlayButton() {
+    if (MainActivity.stream != null && MainActivity.stream.isPlaying())
+      playPauseBtn.setImageResource(R.drawable.baseline_pause_white_48);
+    else
+      playPauseBtn.setImageResource(R.drawable.baseline_play_arrow_white_48);
+    if (showArtIv.getDrawable() != null) {
       Palette color = Palette
               .from(((BitmapDrawable) showArtIv.getDrawable()).getBitmap())
               .generate();
       int newFgColor = color.getDarkVibrantColor(Color.parseColor("#FFFFFF"));
-      if (MainActivity.stream != null && MainActivity.stream.isPlaying())
-        playPauseBtn.setImageDrawable
-                (ContextCompat.getDrawable(context, R.drawable.baseline_pause_white_48));
-      else
-        playPauseBtn.setImageDrawable
-                (ContextCompat.getDrawable(context, R.drawable.baseline_play_arrow_white_48));
       playPauseBtn.getDrawable().mutate().setColorFilter(newFgColor, PorterDuff.Mode.SRC_IN);
+    }
+  }
+
+  private BroadcastReceiver toggleReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        togglePlayButton();
+    }
+  };
+
+  private BroadcastReceiver connErrReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        playPauseBtn.setImageResource(R.drawable.baseline_error_outline_white_48);
+        if (showArtIv.getDrawable() != null) {
+          Palette color = Palette
+                  .from(((BitmapDrawable) showArtIv.getDrawable()).getBitmap())
+                  .generate();
+          int newFgColor = color.getDarkVibrantColor(Color.parseColor("#FFFFFF"));
+          playPauseBtn.getDrawable().mutate().setColorFilter(newFgColor, PorterDuff.Mode.SRC_IN);
+        }
+        Log.d("Service", "Connection error.");
+    }
+  };
+
+  private BroadcastReceiver connRestReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      togglePlayButton();
+      Log.d("Service", "Connection restored.");
     }
   };
 }

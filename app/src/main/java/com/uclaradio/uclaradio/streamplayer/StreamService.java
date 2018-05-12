@@ -52,6 +52,8 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
     private String showArtUrl;
     private String showTitle;
 
+    private boolean startUp = true;
+
     final Target[] notificationTarget = new Target[1];
 
     private MediaPlayer stream;
@@ -70,6 +72,8 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         showTitle = getString(R.string.loading_show);
         initStream();
         registerReceiver(toggleReceiver, new IntentFilter(getString(R.string.play_pause_intent)));
+        registerReceiver(connErrReceiver, new IntentFilter(getString(R.string.connection_error)));
+        registerReceiver(connRestReceiver, new IntentFilter(getString(R.string.connection_restored)));
         checkCurrentTime();
         Log.d("Service", "Started!");
 
@@ -81,7 +85,10 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         Log.d("Service", "Prepared!");
         Intent prepared = new Intent(BROADCAST_ACTION);
         LocalBroadcastManager.getInstance(this).sendBroadcast(prepared);
-        toggle(); toggle(); // If the stream cuts out and reconnects, toggle to reset state
+        if (startUp) toggle();
+        toggle(); // If the stream cuts out and reconnects, toggle to reset state
+        sendBroadcast(new Intent(getString(R.string.connection_restored)));
+        startUp = false;
     }
 
     @Override
@@ -89,12 +96,16 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         stream.stop();
         stream.release();
         unregisterReceiver(toggleReceiver);
+        unregisterReceiver(connErrReceiver);
+        unregisterReceiver(connRestReceiver);
         Log.d("Service", "Destroyed");
 
         super.onDestroy();
     }
 
-    public void play() { stream.start(); }
+    public void play() {
+        stream.start();
+    }
 
     public void pause() { stream.pause(); }
 
@@ -109,13 +120,13 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         } catch (IllegalStateException ex) {
             Log.e("Service", "Trying to call isPlaying() on an uninitialized MediaPlayer.");
             ex.printStackTrace();
-            initStream();
+            return isPlaying();
         } catch (NullPointerException ex) {
             Log.e("Service", "Trying to call isPlaying() on a null reference.");
             ex.printStackTrace();
             initStream();
+            return isPlaying();
         }
-        return stream.isPlaying();
     }
 
     private void initStream() {
@@ -134,10 +145,11 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         stream.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
+                Log.d("Service", "Stream stopped. Reconnecting...");
+                sendBroadcast(new Intent(getString(R.string.connection_error)));
                 stream.reset();
                 initStream();
-                sendBroadcast(new Intent("com.uclaradio.uclaradio.togglePlayPause"));
-                Log.d("Service", "Stream stopped. Reconnecting...");
+//                sendBroadcast(new Intent(getString(R.string.play_pause_intent)));
             }
         });
         stream.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -152,9 +164,11 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
 
                 if (extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT)
                     Log.d("Service", "Connection timed out. Retrying...");
-                else
+                else {
                     Log.d("Service", "The media player stopped for some reason. Retrying...");
-                return true;
+                    Log.d("Service", what + " " + extra);
+                }
+                return false;
             }
         });
         stream.prepareAsync();
@@ -210,7 +224,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                                     setShowArt(bitmap);
                                     if (manager != null)
                                         manager.notify(MainActivity.SERVICE_ID,
-                                                setUpNotification(getApplicationContext(), showTitle, bitmap));
+                                                setUpNotification(getApplicationContext(), showTitle, bitmap, true));
                                     Log.d("Test", "Bitmap loaded!");
                                 }
 
@@ -247,7 +261,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         Log.d("Test", "No update");
     }
 
-    public Notification setUpNotification(Context context, String newTitle, Bitmap newArt) {
+    public Notification setUpNotification(Context context, String newTitle, Bitmap newArt, boolean isConnected) {
         Intent applicationIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             applicationIntent = new Intent(context, PreSplashActivity.class);
@@ -261,6 +275,8 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         int playPauseDrawable;
         if (stream != null && isPlaying()) playPauseDrawable = R.drawable.baseline_pause_white_36;
         else playPauseDrawable = R.drawable.baseline_play_arrow_white_36;
+
+        if (!isConnected) playPauseDrawable = R.drawable.baseline_error_outline_white_36;
         PendingIntent playPausePendingIntent = PendingIntent.getBroadcast(context, 1, playPauseIntent, 0);
 
         TypedValue value = new TypedValue();
@@ -286,8 +302,8 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         return notifBuilder.build();
     }
 
-    public Notification setUpNotification(Context context) {
-        return setUpNotification(context, showTitle, showArt);
+    public Notification setUpNotification(Context context, boolean isConnected) {
+        return setUpNotification(context, showTitle, showArt, isConnected);
     }
 
     // For API 26 and above
@@ -313,7 +329,27 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
             NotificationManager manager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (manager != null)
-                manager.notify(MainActivity.SERVICE_ID, setUpNotification(context));
+                manager.notify(MainActivity.SERVICE_ID, setUpNotification(context, true));
+        }
+    };
+
+    private BroadcastReceiver connErrReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            NotificationManager manager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (manager != null)
+                manager.notify(MainActivity.SERVICE_ID, setUpNotification(context, false));
+        }
+    };
+
+    private BroadcastReceiver connRestReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            NotificationManager manager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (manager != null)
+                manager.notify(MainActivity.SERVICE_ID, setUpNotification(context, true));
         }
     };
 

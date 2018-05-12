@@ -20,6 +20,8 @@
 
     <string name="play_pause_intent">com.uclaradio.uclaradio.togglePlayPause</string>
     <string name="update_show_info_intent">com.uclaradio.uclaradio.updateShowInfo</string>
+    <string name="connection_error">com.uclaradio.uclaradio.connectionError</string>
+    <string name="connection_restored">com.uclaradio.uclaradio.connectionRestored</string>
     <string name="calling_disabled">Calling disabled</string>
     <string name="no_perms_dialog">It looks like you\'ve permanently disabled calling from this app. To re-enable calling, navigate to Settings > Apps > UCLA Radio > Permissions and tap the \"Phone\" option.</string>
     <string name="wrong_wifi_dialog">It looks like you\'re connected to %1$s. The UCLA Radio stream doesn\'t work due to security settings on this network, so please switch to a different network and restart this app.</string>
