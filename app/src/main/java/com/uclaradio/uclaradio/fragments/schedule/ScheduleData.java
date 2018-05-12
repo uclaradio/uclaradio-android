@@ -1,9 +1,8 @@
-package com.uclaradio.uclaradio.Fragments.ScheduleFragment;
+package com.uclaradio.uclaradio.fragments.schedule;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class ScheduleData {

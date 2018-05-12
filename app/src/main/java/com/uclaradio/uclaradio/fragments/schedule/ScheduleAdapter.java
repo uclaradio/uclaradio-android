@@ -1,4 +1,4 @@
-package com.uclaradio.uclaradio.Fragments.ScheduleFragment;
+package com.uclaradio.uclaradio.fragments.schedule;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

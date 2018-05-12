@@ -1,4 +1,4 @@
-package com.uclaradio.uclaradio.Activities;
+package com.uclaradio.uclaradio.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.uclaradio.uclaradio.R;
-import com.uclaradio.uclaradio.streamplayer.StreamService;
+import com.uclaradio.uclaradio.stream.StreamService;
 
 import java.util.ArrayList;
 import java.util.Arrays;

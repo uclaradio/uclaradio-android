@@ -1,4 +1,4 @@
-package com.uclaradio.uclaradio.Fragments.DJsFragment;
+package com.uclaradio.uclaradio.fragments.djs;
 
 import android.content.Context;
 import android.net.Uri;
@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.uclaradio.uclaradio.R;
-import com.uclaradio.uclaradio.RadioPlatform;
+import com.uclaradio.uclaradio.interfaces.RadioPlatform;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,14 +1,14 @@
-package com.uclaradio.uclaradio.TabPager;
+package com.uclaradio.uclaradio.activities.tabpager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.uclaradio.uclaradio.Fragments.AboutFragment.AboutFragment;
-import com.uclaradio.uclaradio.Fragments.DJsFragment.DJsFragment;
-import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleFragment;
-import com.uclaradio.uclaradio.Fragments.StreamingFragment.StreamingFragment;
+import com.uclaradio.uclaradio.fragments.about.AboutFragment;
+import com.uclaradio.uclaradio.fragments.djs.DJsFragment;
+import com.uclaradio.uclaradio.fragments.schedule.ScheduleFragment;
+import com.uclaradio.uclaradio.fragments.streaming.StreamingFragment;
 import com.uclaradio.uclaradio.R;
 
 public class TabPager extends FragmentPagerAdapter {

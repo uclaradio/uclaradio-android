@@ -1,8 +1,8 @@
-package com.uclaradio.uclaradio;
+package com.uclaradio.uclaradio.interfaces;
 
-import com.uclaradio.uclaradio.Fragments.DJsFragment.DjList;
-import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleData;
-import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleList;
+import com.uclaradio.uclaradio.fragments.djs.DjList;
+import com.uclaradio.uclaradio.fragments.schedule.ScheduleData;
+import com.uclaradio.uclaradio.fragments.schedule.ScheduleList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

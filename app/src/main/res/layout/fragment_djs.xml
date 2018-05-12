@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.uclaradio.uclaradio.Fragments.DJsFragment.DJsFragment">
+    tools:context="com.uclaradio.uclaradio.fragments.djs.DJsFragment">
 
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/djs_progress"

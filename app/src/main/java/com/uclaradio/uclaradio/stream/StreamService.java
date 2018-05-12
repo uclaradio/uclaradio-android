@@ -1,4 +1,4 @@
-package com.uclaradio.uclaradio.streamplayer;
+package com.uclaradio.uclaradio.stream;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -26,12 +26,12 @@ import android.util.TypedValue;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-import com.uclaradio.uclaradio.Activities.MainActivity;
-import com.uclaradio.uclaradio.Activities.PreSplashActivity;
-import com.uclaradio.uclaradio.Activities.SplashActivity;
-import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleData;
+import com.uclaradio.uclaradio.activities.MainActivity;
+import com.uclaradio.uclaradio.activities.PreSplashActivity;
+import com.uclaradio.uclaradio.activities.SplashActivity;
+import com.uclaradio.uclaradio.fragments.schedule.ScheduleData;
 import com.uclaradio.uclaradio.R;
-import com.uclaradio.uclaradio.RadioPlatform;
+import com.uclaradio.uclaradio.interfaces.RadioPlatform;
 
 import java.io.IOException;
 import java.util.Calendar;

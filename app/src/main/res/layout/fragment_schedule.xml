@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleFragment">
+    tools:context="com.uclaradio.uclaradio.fragments.schedule.ScheduleFragment">
 
 
     <android.support.v4.widget.ContentLoadingProgressBar

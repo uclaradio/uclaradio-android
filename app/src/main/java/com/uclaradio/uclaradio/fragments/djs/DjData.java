@@ -1,4 +1,4 @@
-package com.uclaradio.uclaradio.Fragments.DJsFragment;
+package com.uclaradio.uclaradio.fragments.djs;
 
 import com.google.gson.annotations.SerializedName;
 

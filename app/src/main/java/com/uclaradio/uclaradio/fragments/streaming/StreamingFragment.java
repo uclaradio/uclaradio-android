@@ -1,4 +1,4 @@
-package com.uclaradio.uclaradio.Fragments.StreamingFragment;
+package com.uclaradio.uclaradio.fragments.streaming;
 
 import android.Manifest;
 import android.animation.ArgbEvaluator;
@@ -34,7 +34,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.uclaradio.uclaradio.Activities.MainActivity;
+import com.uclaradio.uclaradio.activities.MainActivity;
 import com.uclaradio.uclaradio.R;
 
 

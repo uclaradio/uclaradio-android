@@ -1,4 +1,4 @@
-package com.uclaradio.uclaradio.Activities;
+package com.uclaradio.uclaradio.activities;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,13 +23,13 @@ import android.view.Display;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
-import com.uclaradio.uclaradio.Fragments.AboutFragment.AboutFragment;
-import com.uclaradio.uclaradio.Fragments.DJsFragment.DJsFragment;
-import com.uclaradio.uclaradio.Fragments.ScheduleFragment.ScheduleFragment;
-import com.uclaradio.uclaradio.Fragments.StreamingFragment.StreamingFragment;
+import com.uclaradio.uclaradio.fragments.about.AboutFragment;
+import com.uclaradio.uclaradio.fragments.djs.DJsFragment;
+import com.uclaradio.uclaradio.fragments.schedule.ScheduleFragment;
+import com.uclaradio.uclaradio.fragments.streaming.StreamingFragment;
 import com.uclaradio.uclaradio.R;
-import com.uclaradio.uclaradio.TabPager.TabPager;
-import com.uclaradio.uclaradio.streamplayer.StreamService;
+import com.uclaradio.uclaradio.activities.tabpager.TabPager;
+import com.uclaradio.uclaradio.stream.StreamService;
 
 public class MainActivity extends AppCompatActivity
         implements StreamingFragment.OnFragmentInteractionListener,

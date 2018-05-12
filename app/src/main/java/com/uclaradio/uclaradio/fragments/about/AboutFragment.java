@@ -1,4 +1,4 @@
-package com.uclaradio.uclaradio.Fragments.AboutFragment;
+package com.uclaradio.uclaradio.fragments.about;
 
 import android.content.Context;
 import android.content.Intent;
