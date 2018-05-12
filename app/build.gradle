@@ -14,7 +14,13 @@ android {
     }
     buildTypes {
         release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
             minifyEnabled false
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -29,7 +35,6 @@ dependencies {
 
     //noinspection GradleCompatible
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.manolovn:trianglify:1.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.0.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.0.1'
     //noinspection GradleCompatible
