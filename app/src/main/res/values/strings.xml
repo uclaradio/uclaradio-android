@@ -14,6 +14,8 @@
     <string name="on_air">On Air</string>
 
     <string name="website">https://uclaradio.com</string>
+    <string name="website_ip">192.241.193.240</string>
+    <string name="stream_port">8000</string>
     <string name="stream_url">http://uclaradio.com:8000/;</string>
     <string name="facebook">https://www.facebook.com/UCLARadio/?fref=ts</string>
     <string name="insta">https://www.instagram.com/uclaradio/</string>
@@ -30,7 +32,7 @@
 
     <string name="calling_disabled">Calling disabled</string>
     <string name="no_perms_dialog">It looks like you\'ve permanently disabled calling from this app. To re-enable calling, navigate to Settings > Apps > UCLA Radio > Permissions and tap the \"Phone\" option.</string>
-    <string name="wrong_wifi_dialog">It looks like you\'re connected to %1$s. The UCLA Radio stream doesn\'t work due to security settings on this network, so please switch to a different network and restart this app.</string>
+    <string name="wrong_wifi_dialog">We\'re having trouble connecting to the UCLA Radio stream. Some networks block our server, so try switching networks and restarting the app.</string>
     <string name="extra_showTitle">showTitle</string>
     <string name="extra_showArtUrl">showArtUrl</string>
     <string name="switch_network">SWITCH NETWORKS</string>
@@ -52,10 +54,5 @@
         <item>Thursday</item>
         <item>Friday</item>
         <item>Saturday</item>
-    </string-array>
-
-    <string-array name="bad_wifis">
-        <item>\"UCLA_WEB\"</item>
-        <item>\"UCLA_WEB_RES\"</item>
     </string-array>
 </resources>

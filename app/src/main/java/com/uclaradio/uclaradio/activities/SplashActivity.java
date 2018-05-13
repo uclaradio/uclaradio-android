@@ -5,8 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
@@ -17,12 +16,13 @@ import android.util.Log;
 import com.uclaradio.uclaradio.R;
 import com.uclaradio.uclaradio.stream.StreamService;
 
-import java.util.Arrays;
-import java.util.List;
+import java.lang.ref.WeakReference;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private boolean shouldStopService = false;
+    private static boolean shouldStopService = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,45 +31,79 @@ public class SplashActivity extends AppCompatActivity {
 
         Log.d("Test", "Real Splash");
 
-        WifiManager manager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-        if (manager != null) {
-            WifiInfo wifiInfo = manager.getConnectionInfo();
-
-            // For now, networks that block the stream are hardcoded into a list. In the future, though,
-            //  it will be more efficient and flexible to determine the block automatically.
-            List<String> badWifis =
-                    Arrays.asList(getResources().getStringArray(R.array.bad_wifis));
-
-            for (String badWifi : getResources().getStringArray(R.array.bad_wifis)) {
-                Log.d("Test", badWifi);
-            }
-            Log.d("Test", wifiInfo.getSSID() + " - " + badWifis.contains(wifiInfo.getSSID()));
-            if (badWifis.contains(wifiInfo.getSSID())) {
-                // Notify user that the connected network won't work
-                Log.d("Test", "Connected to wrong network...");
-                new AlertDialog.Builder(this)
-                        .setMessage(getResources().getString(R.string.wrong_wifi_dialog, wifiInfo.getSSID()))
-                        .setPositiveButton(R.string.switch_network, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                shouldStopService = true;
-                                finish();
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel_switch_network, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                shouldStopService = true;
-                                finish();
-                            }
-                        }).create().show();
-            }
-        }
+        new CheckConnectionAsync(this)
+                .execute(new Server(getString(R.string.website_ip),
+                        Integer.parseInt(getString(R.string.stream_port)), 10000));
 
         startService(new Intent(this, StreamService.class));
         LocalBroadcastManager.getInstance(this).registerReceiver(streamBroadcastReceiver,
                 new IntentFilter(getString(R.string.broadcast_complete)));
+    }
+
+    private static void showSwitchWifiDialog(final Context context) {
+        new AlertDialog.Builder(context)
+                .setMessage(context.getResources().getString(R.string.wrong_wifi_dialog))
+                .setPositiveButton(R.string.switch_network, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        context.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                        shouldStopService = true;
+                        ((SplashActivity) context).finish();
+                    }
+                })
+                .setNegativeButton(R.string.cancel_switch_network, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        shouldStopService = true;
+                        ((SplashActivity) context).finish();
+                    }
+                }).create().show();
+    }
+
+    private class Server {
+        String url;
+        int port;
+        int timeout;
+
+        Server(String url, int port, int timeout) {
+            this.url = url;
+            this.port = port;
+            this.timeout = timeout;
+        }
+    }
+
+    private static class CheckConnectionAsync extends AsyncTask<Server, Void, Boolean> {
+
+        WeakReference<Context> weakContext;
+
+        CheckConnectionAsync(Context context) {
+            weakContext = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Boolean doInBackground(Server... servers) {
+            Log.d("AsyncTask", "Testing...");
+            Server radioServer = servers[0];
+            try {
+                Socket socket = new Socket();
+                socket.connect(new InetSocketAddress(radioServer.url, radioServer.port), radioServer.timeout);
+
+                Log.d("AsyncTask", "Connecting...");
+                return true;
+            } catch (Exception ex) {
+                // Catching a general Exception is frowned upon, but any Exception means that the app couldn't
+                // connect to the server and so needs to be restarted.
+                Log.e("AsyncTask", "Error connecting to server.");
+                ex.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            Log.d("AsyncTask", "Connection: " + aBoolean);
+            if (!aBoolean) showSwitchWifiDialog(weakContext.get());
+        }
     }
 
     @Override
