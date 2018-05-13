@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -23,12 +22,12 @@ import android.view.Display;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.uclaradio.uclaradio.R;
+import com.uclaradio.uclaradio.activities.tabpager.TabPager;
 import com.uclaradio.uclaradio.fragments.about.AboutFragment;
 import com.uclaradio.uclaradio.fragments.djs.DJsFragment;
 import com.uclaradio.uclaradio.fragments.schedule.ScheduleFragment;
 import com.uclaradio.uclaradio.fragments.streaming.StreamingFragment;
-import com.uclaradio.uclaradio.R;
-import com.uclaradio.uclaradio.activities.tabpager.TabPager;
 import com.uclaradio.uclaradio.stream.StreamService;
 
 public class MainActivity extends AppCompatActivity
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity
         DJsFragment.OnFragmentInteractionListener,
         AboutFragment.OnFragmentInteractionListener {
 
-  public static final int SERVICE_ID = 41243;
+  private static int SERVICE_ID;
 
   public static StreamService stream;
   private boolean bound = false;
@@ -46,6 +45,8 @@ public class MainActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    SERVICE_ID = getResources().getInteger(R.integer.service_id);
 
     initializeActionBar();
   }
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity
     BitmapDrawable background_drawable = new BitmapDrawable(Bitmap.createScaledBitmap(background, width * 4, actionBarHeight * 4, false));
     background_drawable.setTileModeX(android.graphics.Shader.TileMode.REPEAT);
 //    actionBar.setBackgroundDrawable(background_drawable);
-    int color = Color.parseColor("#80333333");
+    int color = getResources().getColor(R.color.actionBarBackground);
     if (actionBar != null) {
       actionBar.setBackgroundDrawable(new ColorDrawable(color));
       actionBar.setElevation(0);
@@ -133,7 +134,8 @@ public class MainActivity extends AppCompatActivity
       if (stream == null) Log.d("Service", "It looks like the stream is null, but...");
       Log.d("Service", binder.getService().toString());
       Log.d("Service", "Bound.");
-      stream.startForeground(SERVICE_ID, stream.setUpNotification(MainActivity.this, true));
+      stream.startForeground
+              (SERVICE_ID, stream.setUpNotification(MainActivity.this, true));
       stream.updateCurrentShowInfo();
       Log.d("Service", "Started in foreground.");
     }

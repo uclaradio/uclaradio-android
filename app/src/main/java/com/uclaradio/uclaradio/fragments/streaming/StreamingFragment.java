@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -34,8 +33,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.uclaradio.uclaradio.activities.MainActivity;
 import com.uclaradio.uclaradio.R;
+import com.uclaradio.uclaradio.activities.MainActivity;
 
 
 /**
@@ -56,7 +55,7 @@ public class StreamingFragment extends Fragment {
 
   private final Intent callIntent = new Intent(Intent.ACTION_CALL);
 
-  private static final int REQUEST_PHONE_CALL = 982;
+  private static int REQUEST_PHONE_CALL;
 
   private OnFragmentInteractionListener mListener;
 
@@ -75,6 +74,8 @@ public class StreamingFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    REQUEST_PHONE_CALL = getResources().getInteger(R.integer.request_phone_call_id);
   }
 
   @Override
@@ -116,7 +117,7 @@ public class StreamingFragment extends Fragment {
                                          @NonNull String permissions[],
                                          @NonNull int grantResults[]) {
       switch (requestCode) {
-        case REQUEST_PHONE_CALL:
+        case R.integer.request_phone_call_id:
           if (grantResults.length > 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
               startActivity(callIntent);
@@ -177,7 +178,7 @@ public class StreamingFragment extends Fragment {
     onAirCallBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-          callIntent.setData(Uri.parse("tel:3107949348"));
+          callIntent.setData(Uri.parse(getString(R.string.tel_onair)));
           if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)
                     != PackageManager.PERMISSION_GRANTED)
             requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
@@ -188,7 +189,7 @@ public class StreamingFragment extends Fragment {
     requestCallBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        callIntent.setData(Uri.parse("tel:3108259999"));
+        callIntent.setData(Uri.parse(getString(R.string.tel_request)));
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)
                 != PackageManager.PERMISSION_GRANTED)
           ActivityCompat.requestPermissions(getActivity(),
@@ -228,7 +229,8 @@ public class StreamingFragment extends Fragment {
                               .generate();
 
                       int newBgColor = color.getVibrantColor(value.data);
-                      int newFgColor = color.getDarkVibrantColor(Color.parseColor("#FFFFFF"));
+                      int newFgColor = color
+                              .getDarkVibrantColor(getResources().getColor(android.R.color.white));
 //                      int newColor = bgSwatch != null ? bgSwatch.getRgb() : value.data;
                       ValueAnimator bgAnim = new ValueAnimator();
                       // Background tint list should never be null, so this is f
@@ -271,7 +273,7 @@ public class StreamingFragment extends Fragment {
       Palette color = Palette
               .from(((BitmapDrawable) showArtIv.getDrawable()).getBitmap())
               .generate();
-      int newFgColor = color.getDarkVibrantColor(Color.parseColor("#FFFFFF"));
+      int newFgColor = color.getDarkVibrantColor(getResources().getColor(android.R.color.white));
       playPauseBtn.getDrawable().mutate().setColorFilter(newFgColor, PorterDuff.Mode.SRC_IN);
     }
   }
@@ -291,7 +293,7 @@ public class StreamingFragment extends Fragment {
           Palette color = Palette
                   .from(((BitmapDrawable) showArtIv.getDrawable()).getBitmap())
                   .generate();
-          int newFgColor = color.getDarkVibrantColor(Color.parseColor("#FFFFFF"));
+          int newFgColor = color.getDarkVibrantColor(getResources().getColor(android.R.color.white));
           playPauseBtn.getDrawable().mutate().setColorFilter(newFgColor, PorterDuff.Mode.SRC_IN);
         }
         Log.d("Service", "Connection error.");

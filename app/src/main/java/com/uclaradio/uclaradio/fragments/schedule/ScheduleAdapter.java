@@ -32,6 +32,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
   private HashMap<String, Integer> dayToNum = new HashMap<>();
   private HashMap<String, String> dayToLongDay = new HashMap<>();
 
+  private static final int DAYS_IN_WEEK = 7;
+
   private Context context;
   private Resources resources;
 
@@ -46,13 +48,16 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     resources = context.getResources();
     baseUrl = resources.getString(R.string.website);
 
-    dayToNum.put("Sun",0); dayToLongDay.put("Sun", resources.getStringArray(R.array.days_of_week)[0]);
-    dayToNum.put("Mon",1); dayToLongDay.put("Mon", resources.getStringArray(R.array.days_of_week)[1]);
-    dayToNum.put("Tue",2); dayToLongDay.put("Tue", resources.getStringArray(R.array.days_of_week)[2]);
-    dayToNum.put("Wed",3); dayToLongDay.put("Wed", resources.getStringArray(R.array.days_of_week)[3]);
-    dayToNum.put("Thu",4); dayToLongDay.put("Thu", resources.getStringArray(R.array.days_of_week)[4]);
-    dayToNum.put("Fri",5); dayToLongDay.put("Fri", resources.getStringArray(R.array.days_of_week)[5]);
-    dayToNum.put("Sat",6); dayToLongDay.put("Sat", resources.getStringArray(R.array.days_of_week)[6]);
+    int numCols = appContext.getResources().getInteger(R.integer.num_show_cols);
+
+    String[] days = new String[] {
+      "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+    };
+
+    for (int i = 0; i < DAYS_IN_WEEK; i++) {
+      dayToNum.put(days[i], i);
+      dayToLongDay.put(days[i], resources.getStringArray(R.array.days_of_week)[i]);
+    }
 
     Comparator<ScheduleData> dateComparator = new Comparator<ScheduleData>() {
       @Override
@@ -84,8 +89,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     for (int i = 0; i < items.size(); i++) {
       ScheduleData item = items.get(i);
-      // Some trickery going on here
-      if (i % 2 == 1 && (items.get(i-1) != null && !item.getDay().equals(items.get(i-1).getDay()))) {
+      // What's going on here:
+      //   This code is just checking if the current show would normally be displayed on the rightmost
+      //   column but is on a day different from the preceding show. Then it'll push it onto a new
+      //   row and plop a null object where the show used to be.
+      // Why do this?
+      //   The labels for each day in the RecyclerView are actually part of an item being displayed;
+      //   this code is here in order to make sure each new day starts on a new row.
+      if (i % numCols == 1 && (items.get(i-1) != null && !item.getDay().equals(items.get(i-1).getDay()))) {
         items.add(i, null);
       }
     }
@@ -196,55 +207,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             });
   }
 
-  //region Old onBindViewHolder
-  /*
-  @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
-    holder.setIsRecyclable(false);
-    ScheduleData item = items.get(holder.getAdapterPosition());
-    holder.text_title.setText(item.getTitle());
-    holder.text_time.setText(item.getTime());
-    holder.text_day.setText(dayToLongDay.get(item.getDay()));
-//    final ContentLoadingProgressBar progress = holder.image_progress;
-//    progress.show();
-
-    if(item.getGenre() == null) {
-      holder.text_genre.setVisibility(View.GONE);
-    } else {
-      holder.text_genre.setText(item.getGenre());
-    }
-
-    // If it's the first item in the list or if the day doesn't match the previous
-    //  entry's day
-    if (holder.getAdapterPosition() == 0
-            || !item.getDay().equals(items.get(holder.getAdapterPosition()-1).getDay())) {
-        holder.text_day.setVisibility(View.VISIBLE);
-    }
-
-    String imageUrl = "https://uclaradio.com" + item.getPictureUrl();
-    if (item.getPictureUrl() == null)
-      imageUrl = "https://uclaradio.com/img/radio.png";
-    Log.d("TAG", "ALBUM IMAGE URL: " + imageUrl);
-
-    Picasso.get()
-            .load(imageUrl)
-            .resize(250, 250)
-            .into(holder.image_show, new Callback() {
-              @Override
-              public void onSuccess() {
-//                progress.hide();
-              }
-
-              @Override
-              public void onError(Exception e) {
-                Log.e("Picasso", "Error in Picasso!");
-                e.printStackTrace();
-              }
-            });
-  }
-  */
-  //endregion
-
   @Override
   public int getItemCount() {
     return items != null ? items.size() : 0;
@@ -260,18 +222,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
   }
 
   class ViewHolder extends RecyclerView.ViewHolder {
-//    private TextView text_title;
-//    private TextView text_genre;
-//    private TextView text_time;
     private TextView text_day;
     private TextView text_details;
     private ImageView image_show;
 
     ViewHolder(View itemView) {
       super(itemView);
-//      this.text_title = itemView.findViewById(R.id.show_title);
-//      this.text_time = itemView.findViewById(R.id.show_time);
-//      this.text_genre = itemView.findViewById(R.id.show_genre);
       this.image_show = itemView.findViewById(R.id.schedule_image);
       this.text_details = itemView.findViewById(R.id.schedule_details);
       this.text_day = itemView.findViewById(R.id.schedule_day);

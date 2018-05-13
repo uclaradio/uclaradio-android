@@ -76,7 +76,7 @@ public class AboutFragment extends Fragment {
         ImageButton fbk = view.findViewById(R.id.button1);
         fbk.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Uri uri = Uri.parse("https://www.facebook.com/UCLARadio/?fref=ts");
+                Uri uri = Uri.parse(getString(R.string.facebook));
                 Intent i = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(i);
             }
@@ -85,7 +85,7 @@ public class AboutFragment extends Fragment {
         ImageButton igm = view.findViewById(R.id.button2);
         igm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Uri uri = Uri.parse("https://www.instagram.com/uclaradio/");
+                Uri uri = Uri.parse(getString(R.string.insta));
                 Intent i = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(i);
             }
@@ -94,7 +94,7 @@ public class AboutFragment extends Fragment {
         ImageButton twr = view.findViewById(R.id.button3);
         twr.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Uri uri = Uri.parse("https://twitter.com/UCLAradio");
+                Uri uri = Uri.parse(getString(R.string.twitter));
                 Intent i = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(i);
             }
@@ -103,7 +103,7 @@ public class AboutFragment extends Fragment {
         ImageButton tbr = view.findViewById(R.id.button4);
         tbr.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Uri uri = Uri.parse("http://uclaradio.tumblr.com/");
+                Uri uri = Uri.parse(getString(R.string.tumblr));
                 Intent i = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(i);
             }

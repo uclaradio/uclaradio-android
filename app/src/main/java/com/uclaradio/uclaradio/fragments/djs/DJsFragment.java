@@ -3,6 +3,7 @@ package com.uclaradio.uclaradio.fragments.djs;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.ContentLoadingProgressBar;
@@ -23,31 +24,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DJsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DJsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DJsFragment extends Fragment {
     private RecyclerView recyclerView;
 
     private ContentLoadingProgressBar djsProgress;
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private final int numberOfCols = 2;
-
-    // These aren't being used anywhere, but I don't want to delete some of the boilerplate
-    //  in case it comes in handy later
-    @SuppressWarnings({"unused", "FieldCanBeLocal"})
-    private String mParam1;
-    @SuppressWarnings({"unused", "FieldCanBeLocal"})
-    private String mParam2;
+    private long pollRate = 1000;
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,31 +38,9 @@ public class DJsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DJsFragment.
-     */
-    @SuppressWarnings("unused")
-    public static DJsFragment newInstance(String param1, String param2) {
-        DJsFragment fragment = new DJsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -126,7 +87,7 @@ public class DJsFragment extends Fragment {
     private void getDjs() {
         Retrofit retrofit = new Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("https://uclaradio.com/")
+        .baseUrl(getString(R.string.website))
         .build();
 
         RadioPlatform platform = retrofit.create(RadioPlatform.class);
@@ -156,7 +117,14 @@ public class DJsFragment extends Fragment {
                     @Override
                     public void onFailure(Call<DjList> call, Throwable t) {
                         Log.e("TAG", "FAILED TO MAKE API CALL");
-                        getDjs();
+                        // Double the delay to try again, then try again
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                pollRate *= 2;
+                                getDjs();
+                            }
+                        }, pollRate);
                     }
                 });
     }

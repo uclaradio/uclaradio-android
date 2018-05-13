@@ -26,11 +26,10 @@ import android.util.TypedValue;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-import com.uclaradio.uclaradio.activities.MainActivity;
+import com.uclaradio.uclaradio.R;
 import com.uclaradio.uclaradio.activities.PreSplashActivity;
 import com.uclaradio.uclaradio.activities.SplashActivity;
 import com.uclaradio.uclaradio.fragments.schedule.ScheduleData;
-import com.uclaradio.uclaradio.R;
 import com.uclaradio.uclaradio.interfaces.RadioPlatform;
 
 import java.io.IOException;
@@ -44,9 +43,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StreamService extends Service implements MediaPlayer.OnPreparedListener {
-    private static final String STREAM_URL = "http://uclaradio.com:8000/;";
-    public  static final String BROADCAST_ACTION = "com.uclaradio.uclaradio.BROADCAST_COMPLETE";
-    private static final String CHANNEL_ID = "com.uclaradio.uclaradio.notificationChannelId124813759";
+    private static String STREAM_URL;
+    public  static String BROADCAST_ACTION;
+    private static String CHANNEL_ID;
+    private static int    SERVICE_ID;
 
     private Bitmap showArt;
     private String showArtUrl;
@@ -67,9 +67,15 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+        STREAM_URL = getString(R.string.stream_url);
+        BROADCAST_ACTION = getString(R.string.broadcast_complete);
+        CHANNEL_ID = getString(R.string.channel_id);
+        SERVICE_ID = getResources().getInteger(R.integer.service_id);
+
         showArt = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
         showArtUrl = getString(R.string.website) + "/img/radio.png";
         showTitle = getString(R.string.loading_show);
+
         initStream();
         registerReceiver(toggleReceiver, new IntentFilter(getString(R.string.play_pause_intent)));
         registerReceiver(connErrReceiver, new IntentFilter(getString(R.string.connection_error)));
@@ -223,7 +229,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                     setShowArt(bitmap);
                                     if (manager != null)
-                                        manager.notify(MainActivity.SERVICE_ID,
+                                        manager.notify(SERVICE_ID,
                                                 setUpNotification(getApplicationContext(), showTitle, bitmap, true));
                                     Log.d("Test", "Bitmap loaded!");
                                 }
@@ -329,7 +335,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
             NotificationManager manager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (manager != null)
-                manager.notify(MainActivity.SERVICE_ID, setUpNotification(context, true));
+                manager.notify(SERVICE_ID, setUpNotification(context, true));
         }
     };
 
@@ -339,7 +345,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
             NotificationManager manager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (manager != null)
-                manager.notify(MainActivity.SERVICE_ID, setUpNotification(context, false));
+                manager.notify(SERVICE_ID, setUpNotification(context, false));
         }
     };
 
@@ -349,7 +355,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
             NotificationManager manager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (manager != null)
-                manager.notify(MainActivity.SERVICE_ID, setUpNotification(context, true));
+                manager.notify(SERVICE_ID, setUpNotification(context, true));
         }
     };
 

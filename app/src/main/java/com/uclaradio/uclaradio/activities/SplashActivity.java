@@ -17,19 +17,12 @@ import android.util.Log;
 import com.uclaradio.uclaradio.R;
 import com.uclaradio.uclaradio.stream.StreamService;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
 
     private boolean shouldStopService = false;
-
-    // For now, networks that block the stream are hardcoded into a list. In the future, though,
-    //  it will be more efficient and flexible to determine the block automatically.
-    public static ArrayList<String> badWifis
-            = new ArrayList<>(Arrays.asList(
-            "\"UCLA_WEB\"", "\"UCLA_WEB_RES\""
-    ));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +35,12 @@ public class SplashActivity extends AppCompatActivity {
         if (manager != null) {
             WifiInfo wifiInfo = manager.getConnectionInfo();
 
-            for (String badWifi : badWifis) {
+            // For now, networks that block the stream are hardcoded into a list. In the future, though,
+            //  it will be more efficient and flexible to determine the block automatically.
+            List<String> badWifis =
+                    Arrays.asList(getResources().getStringArray(R.array.bad_wifis));
+
+            for (String badWifi : getResources().getStringArray(R.array.bad_wifis)) {
                 Log.d("Test", badWifi);
             }
             Log.d("Test", wifiInfo.getSSID() + " - " + badWifis.contains(wifiInfo.getSSID()));
@@ -71,7 +69,7 @@ public class SplashActivity extends AppCompatActivity {
 
         startService(new Intent(this, StreamService.class));
         LocalBroadcastManager.getInstance(this).registerReceiver(streamBroadcastReceiver,
-                new IntentFilter(StreamService.BROADCAST_ACTION));
+                new IntentFilter(getString(R.string.broadcast_complete)));
     }
 
     @Override

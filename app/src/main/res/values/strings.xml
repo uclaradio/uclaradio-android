@@ -8,7 +8,6 @@
     <string name="djs_h">DJs</string>
     <string name="about_h">ABOUT</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loading_stream">Loading stream…</string>
     <string name="loading_show">Loading show…</string>
     <string name="request">Request</string>
@@ -16,12 +15,19 @@
 
     <string name="website">https://uclaradio.com</string>
     <string name="stream_url">http://uclaradio.com:8000/;</string>
-    <string name="time_and_day">%1$ss at %2$s</string>
+    <string name="facebook">https://www.facebook.com/UCLARadio/?fref=ts</string>
+    <string name="insta">https://www.instagram.com/uclaradio/</string>
+    <string name="twitter">https://twitter.com/UCLAradio</string>
+    <string name="tumblr">http://uclaradio.tumblr.com/</string>
 
+    <string name="channel_id">com.uclaradio.uclaradio.notificationChannelId124813759</string>
+
+    <string name="broadcast_complete">com.uclaradio.uclaradio.BROADCAST_COMPLETE</string>
     <string name="play_pause_intent">com.uclaradio.uclaradio.togglePlayPause</string>
     <string name="update_show_info_intent">com.uclaradio.uclaradio.updateShowInfo</string>
     <string name="connection_error">com.uclaradio.uclaradio.connectionError</string>
     <string name="connection_restored">com.uclaradio.uclaradio.connectionRestored</string>
+
     <string name="calling_disabled">Calling disabled</string>
     <string name="no_perms_dialog">It looks like you\'ve permanently disabled calling from this app. To re-enable calling, navigate to Settings > Apps > UCLA Radio > Permissions and tap the \"Phone\" option.</string>
     <string name="wrong_wifi_dialog">It looks like you\'re connected to %1$s. The UCLA Radio stream doesn\'t work due to security settings on this network, so please switch to a different network and restart this app.</string>
@@ -30,6 +36,10 @@
     <string name="switch_network">SWITCH NETWORKS</string>
     <string name="cancel_switch_network">I DIDN\'T WANT TO TUNE IN ANYWAY</string>
     <string name="no_show_playing">No show scheduled right now.</string>
+    <string name="time_and_day">%1$ss at %2$s</string>
+
+    <string name="tel_onair">tel:3107949348</string>
+    <string name="tel_request">tel:3108259999</string>
 
     <string-array name="days_of_week">
         <item>Sunday</item>
@@ -39,5 +49,10 @@
         <item>Thursday</item>
         <item>Friday</item>
         <item>Saturday</item>
+    </string-array>
+
+    <string-array name="bad_wifis">
+        <item>\"UCLA_WEB\"</item>
+        <item>\"UCLA_WEB_RES\"</item>
     </string-array>
 </resources>

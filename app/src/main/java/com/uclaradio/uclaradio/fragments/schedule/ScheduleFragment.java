@@ -23,60 +23,19 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ScheduleFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ScheduleFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ScheduleFragment extends Fragment {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private RecyclerView recyclerView;
 
     private ContentLoadingProgressBar scheduleProgress;
-
-    // Again, don't want to remove boilerplate so leaving this stuff here
-    @SuppressWarnings({"unused", "FieldCanBeLocal"})
-    private String mParam1;
-    @SuppressWarnings({"unused", "FieldCanBeLocal"})
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
     public ScheduleFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ScheduleFragment.
-     */
-    @SuppressWarnings("unused")
-    public static ScheduleFragment newInstance(String param1, String param2) {
-        ScheduleFragment fragment = new ScheduleFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -137,7 +96,9 @@ public class ScheduleFragment extends Fragment {
 //                            LinearLayoutManager manager =
 //                                    new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                             GridLayoutManager manager =
-                                    new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
+                                    new GridLayoutManager(getContext(),
+                                            getResources().getInteger(R.integer.num_show_cols),
+                                            LinearLayoutManager.VERTICAL, false);
                             recyclerView.setLayoutManager(manager);
 
                             for (ScheduleData show : response.body().getScheduleList())
