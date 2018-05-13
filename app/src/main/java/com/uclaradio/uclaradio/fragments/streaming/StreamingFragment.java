@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -140,7 +141,7 @@ public class StreamingFragment extends Fragment {
 
   // Only updates the current playing show whenever the view is created--obviously will
   //  not update if the show changes while the app is still open.
-  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+  public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
     playPauseBtn = view.findViewById(R.id.playpause_btn);
     showArtIv = view.findViewById(R.id.show_art_img);
     showTitleTv = view.findViewById(R.id.show_title_text);
@@ -160,10 +161,14 @@ public class StreamingFragment extends Fragment {
       public void onClick(View v) {
         if (!mainActivity.isBound()) {
           Log.d("Service", "Not yet bound");
+          Snackbar.make(view, R.string.stream_not_loaded, Snackbar.LENGTH_LONG)
+                  .show();
           return;
         }
         if (MainActivity.stream == null) {
           Log.d("Service", "Stream is null...");
+          Snackbar.make(view, "The stream hasn't loaded yet. Try again after a few seconds!", Snackbar.LENGTH_LONG)
+                  .show();
           return;
         }
 //        if (MainActivity.stream.isPlaying())

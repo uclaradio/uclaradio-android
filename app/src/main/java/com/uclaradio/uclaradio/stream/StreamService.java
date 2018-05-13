@@ -23,6 +23,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -151,6 +152,12 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         stream.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
+                // Using a Toast instead of a Snackbar so that the user knows something's wrong
+                // even if they're using a different app. (If the screen is locked or something,
+                // the notification play/pause icon will change to an error symbol anyway).
+                Toast.makeText(StreamService.this, R.string.couldnt_connect, Toast.LENGTH_SHORT)
+                        .show();
+
                 Log.d("Service", "Stream stopped. Reconnecting...");
                 sendBroadcast(new Intent(getString(R.string.connection_error)));
                 stream.reset();
@@ -162,6 +169,9 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
             @Override
             public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
                 if (what == MediaPlayer.MEDIA_ERROR_SERVER_DIED) {
+                    // See above
+                    Toast.makeText(StreamService.this, R.string.something_wrong, Toast.LENGTH_SHORT)
+                            .show();
                     Log.d("Service", "Server died. Restarting media player...");
                     stream.reset();
                     initStream();
@@ -174,6 +184,8 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                     Log.d("Service", "The media player stopped for some reason. Retrying...");
                     Log.d("Service", what + " " + extra);
                 }
+                // No need to show an error message here because returning false from onError
+                // triggers the onCompletionListener
                 return false;
             }
         });
