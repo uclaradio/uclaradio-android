@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,8 +15,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Display;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -80,22 +76,7 @@ public class MainActivity extends AppCompatActivity
   }
 
   private void initializeActionBar() {
-    Display display = getWindowManager().getDefaultDisplay();
-    Point size = new Point();
-    display.getSize(size);
-    int width = size.x;
-
-    int actionBarHeight = 0;
-    TypedValue tv = new TypedValue();
-    if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-      actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-    }
-
     android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-    Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-    BitmapDrawable background_drawable = new BitmapDrawable(Bitmap.createScaledBitmap(background, width * 4, actionBarHeight * 4, false));
-    background_drawable.setTileModeX(android.graphics.Shader.TileMode.REPEAT);
-//    actionBar.setBackgroundDrawable(background_drawable);
     int color = getResources().getColor(R.color.actionBarBackground);
     if (actionBar != null) {
       actionBar.setBackgroundDrawable(new ColorDrawable(color));
