@@ -189,7 +189,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                 else
                     connectionDropMessage = getString(R.string.reconnecting);
 
-                Toast.makeText(StreamService.this, connectionDropMessage, Toast.LENGTH_SHORT)
+                Toast.makeText(StreamService.this, connectionDropMessage, Toast.LENGTH_LONG)
                             .show();
 
                 Log.d("Service", "Stream stopped. Reconnecting...");
@@ -204,7 +204,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
             public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
                 if (what == MediaPlayer.MEDIA_ERROR_SERVER_DIED) {
                     // See above
-                    Toast.makeText(StreamService.this, R.string.something_wrong, Toast.LENGTH_SHORT)
+                    Toast.makeText(StreamService.this, R.string.something_wrong, Toast.LENGTH_LONG)
                             .show();
                     Log.d("Service", "Server died. Restarting media player...");
                     stream.reset();
