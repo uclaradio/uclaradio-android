@@ -293,7 +293,7 @@ public class StreamingFragment extends Fragment {
   private BroadcastReceiver connErrReceiver = new BroadcastReceiver() {
     @Override
     public void onReceive(Context context, Intent intent) {
-        playPauseBtn.setImageResource(R.drawable.baseline_error_outline_white_48);
+        playPauseBtn.setImageResource(R.drawable.baseline_autorenew_white_48);
         if (showArtIv.getDrawable() != null) {
           Palette color = Palette
                   .from(((BitmapDrawable) showArtIv.getDrawable()).getBitmap())

@@ -45,6 +45,7 @@
     <string name="couldnt_connect">Couldn\'t connect to the Radio server. Reconnecting…</string>
     <string name="stream_not_loaded">The stream hasn\'t loaded yet. Try again after a few seconds!</string>
     <string name="something_wrong">Something went wrong with Radio. Reconnecting…</string>
+    <string name="reconnecting">Reconnecting to Radio stream...</string>
 
     <string-array name="days_of_week">
         <item>Sunday</item>

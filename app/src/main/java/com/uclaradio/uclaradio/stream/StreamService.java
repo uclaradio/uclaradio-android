@@ -16,6 +16,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -53,12 +54,17 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
     private String showArtUrl;
     private String showTitle;
 
+    private boolean isUserStopped = true;
+    private boolean isPreparing = false;
+
     private boolean startUp = true;
 
     final Target[] notificationTarget = new Target[1];
 
     private MediaPlayer stream;
     private final IBinder binder = new LocalBinder();
+
+    private Handler streamStopHandler;
 
     @Nullable
     @Override
@@ -76,6 +82,8 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         showArt = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
         showArtUrl = getString(R.string.website) + "/img/radio.png";
         showTitle = getString(R.string.loading_show);
+
+        streamStopHandler = new Handler();
 
         initStream();
         registerReceiver(toggleReceiver, new IntentFilter(getString(R.string.play_pause_intent)));
@@ -96,12 +104,15 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         toggle(); // If the stream cuts out and reconnects, toggle to reset state
         sendBroadcast(new Intent(getString(R.string.connection_restored)));
         startUp = false;
+        isUserStopped = false;
+        isPreparing = false;
     }
 
     @Override
     public void onDestroy() {
         stream.stop();
         stream.release();
+        streamStopHandler.removeCallbacks(streamStopper); // Otherwise an IllegalStateException is thrown
         unregisterReceiver(toggleReceiver);
         unregisterReceiver(connErrReceiver);
         unregisterReceiver(connRestReceiver);
@@ -111,10 +122,26 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
     }
 
     public void play() {
-        stream.start();
+        streamStopHandler.removeCallbacks(streamStopper); // If there's a stop in the queue, remove it
+        if (isUserStopped && !isPreparing) {
+            // Notify user that stream is reloading
+            Log.d("Service", "Stream reloading...");
+            sendBroadcast(new Intent(getString(R.string.connection_error)));
+            initStream();
+        }
+        else {
+            stream.start();
+            Log.d("Service", "Stream started");
+        }
     }
 
-    public void pause() { stream.pause(); }
+    public void pause() {
+        stream.pause();
+        Log.d("Service", "Stream paused");
+        // Queue up a stop for after a given delay
+        streamStopHandler.postDelayed(streamStopper,
+                getResources().getInteger(R.integer.stream_pause_stop_delay));
+    }
 
     public void toggle() {
         if (isPlaying()) pause();
@@ -138,6 +165,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
 
     private void initStream() {
         stream = new MediaPlayer();
+        isPreparing = true;
         stream.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             stream.setDataSource(STREAM_URL);
@@ -155,8 +183,14 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                 // Using a Toast instead of a Snackbar so that the user knows something's wrong
                 // even if they're using a different app. (If the screen is locked or something,
                 // the notification play/pause icon will change to an error symbol anyway).
-                Toast.makeText(StreamService.this, R.string.couldnt_connect, Toast.LENGTH_SHORT)
-                        .show();
+                String connectionDropMessage;
+                if (!isUserStopped) // If the stream stopped unexpectedly
+                    connectionDropMessage = getString(R.string.couldnt_connect);
+                else
+                    connectionDropMessage = getString(R.string.reconnecting);
+
+                Toast.makeText(StreamService.this, connectionDropMessage, Toast.LENGTH_SHORT)
+                            .show();
 
                 Log.d("Service", "Stream stopped. Reconnecting...");
                 sendBroadcast(new Intent(getString(R.string.connection_error)));
@@ -202,7 +236,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                 if (currMin % 60 < 3)
                     updateCurrentShowInfo();
             }
-        }, 0, 20000); // Run every 15 seconds
+        }, 0, 20000); // Run every 20 seconds
     }
 
     public void updateCurrentShowInfo() {
@@ -294,7 +328,7 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         if (stream != null && isPlaying()) playPauseDrawable = R.drawable.baseline_pause_white_36;
         else playPauseDrawable = R.drawable.baseline_play_arrow_white_36;
 
-        if (!isConnected) playPauseDrawable = R.drawable.baseline_error_outline_white_36;
+        if (!isConnected) playPauseDrawable = R.drawable.baseline_autorenew_white_36;
         PendingIntent playPausePendingIntent = PendingIntent.getBroadcast(context, 1, playPauseIntent, 0);
 
         TypedValue value = new TypedValue();
@@ -376,6 +410,16 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
     public void setShowArt(Bitmap bitmap) { showArt = bitmap; }
 
     public String getShowTitle() { return showTitle; }
+
+    private Runnable streamStopper = new Runnable() {
+        @Override
+        public void run() {
+            stream.stop();
+            stream.reset();
+            isUserStopped = true;
+            Log.d("Service", "Stream has stopped.");
+        }
+    };
 
     public class LocalBinder extends Binder {
         public StreamService getService() {

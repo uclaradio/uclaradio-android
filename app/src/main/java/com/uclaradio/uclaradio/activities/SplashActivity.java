@@ -33,7 +33,8 @@ public class SplashActivity extends AppCompatActivity {
 
         new CheckConnectionAsync(this)
                 .execute(new Server(getString(R.string.website_ip),
-                        Integer.parseInt(getString(R.string.stream_port)), 10000));
+                        Integer.parseInt(getString(R.string.stream_port)),
+                        getResources().getInteger(R.integer.server_ping_timeout)));
 
         startService(new Intent(this, StreamService.class));
         LocalBroadcastManager.getInstance(this).registerReceiver(streamBroadcastReceiver,

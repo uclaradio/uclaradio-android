@@ -3,4 +3,6 @@
     <integer name="request_phone_call_id">1284983</integer>
     <integer name="service_id">1048248</integer>
     <integer name="num_show_cols">2</integer>
+    <integer name="stream_pause_stop_delay">30000</integer> <!-- 30 seconds -->
+    <integer name="server_ping_timeout">15000</integer>
 </resources>
