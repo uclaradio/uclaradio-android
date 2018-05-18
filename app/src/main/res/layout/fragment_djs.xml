@@ -1,11 +1,22 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uclaradio.uclaradio.Fragments.DJsFragment.DJsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.uclaradio.uclaradio.fragments.djs.DJsFragment">
+
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/djs_progress"
+        android:layout_marginTop="20dp"
+        style="?android:attr/progressBarStyle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/dj_ids_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
