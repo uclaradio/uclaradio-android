@@ -22,7 +22,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.graphics.Palette;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
 
@@ -90,14 +89,12 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         registerReceiver(connErrReceiver, new IntentFilter(getString(R.string.connection_error)));
         registerReceiver(connRestReceiver, new IntentFilter(getString(R.string.connection_restored)));
         checkCurrentTime();
-        Log.d("Service", "Started!");
 
         return START_STICKY;
     }
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        Log.d("Service", "Prepared!");
         Intent prepared = new Intent(BROADCAST_ACTION);
         LocalBroadcastManager.getInstance(this).sendBroadcast(prepared);
         if (startUp) toggle();
@@ -116,7 +113,6 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         unregisterReceiver(toggleReceiver);
         unregisterReceiver(connErrReceiver);
         unregisterReceiver(connRestReceiver);
-        Log.d("Service", "Destroyed");
 
         super.onDestroy();
     }
@@ -125,19 +121,16 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         streamStopHandler.removeCallbacks(streamStopper); // If there's a stop in the queue, remove it
         if (isUserStopped && !isPreparing) {
             // Notify user that stream is reloading
-            Log.d("Service", "Stream reloading...");
             sendBroadcast(new Intent(getString(R.string.connection_error)));
             initStream();
         }
         else {
             stream.start();
-            Log.d("Service", "Stream started");
         }
     }
 
     public void pause() {
         stream.pause();
-        Log.d("Service", "Stream paused");
         // Queue up a stop for after a given delay
         streamStopHandler.postDelayed(streamStopper,
                 getResources().getInteger(R.integer.stream_pause_stop_delay));
@@ -152,11 +145,9 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         try {
             return stream.isPlaying();
         } catch (IllegalStateException ex) {
-            Log.e("Service", "Trying to call isPlaying() on an uninitialized MediaPlayer.");
             ex.printStackTrace();
             return isPlaying();
         } catch (NullPointerException ex) {
-            Log.e("Service", "Trying to call isPlaying() on a null reference.");
             ex.printStackTrace();
             initStream();
             return isPlaying();
@@ -169,11 +160,10 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
         stream.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             stream.setDataSource(STREAM_URL);
-            Log.d("MediaPlayer", "Set data source");
         } catch (IOException ex) {
-            Log.e("MediaPlayerErr", ex.getMessage());
+            ex.printStackTrace();
         } catch (IllegalArgumentException ex) {
-            Log.e("MediaPlayerErr", ex.getMessage());
+            ex.printStackTrace();
         }
         stream.setOnPreparedListener(this);
         stream.setLooping(false);
@@ -192,7 +182,6 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                 Toast.makeText(StreamService.this, connectionDropMessage, Toast.LENGTH_LONG)
                             .show();
 
-                Log.d("Service", "Stream stopped. Reconnecting...");
                 sendBroadcast(new Intent(getString(R.string.connection_error)));
                 stream.reset();
                 initStream();
@@ -206,25 +195,15 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                     // See above
                     Toast.makeText(StreamService.this, R.string.something_wrong, Toast.LENGTH_LONG)
                             .show();
-                    Log.d("Service", "Server died. Restarting media player...");
                     stream.reset();
                     initStream();
                     return true;
                 }
 
-                if (extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT)
-                    Log.d("Service", "Connection timed out. Retrying...");
-                else {
-                    Log.d("Service", "The media player stopped for some reason. Retrying...");
-                    Log.d("Service", what + " " + extra);
-                }
-                // No need to show an error message here because returning false from onError
-                // triggers the onCompletionListener
                 return false;
             }
         });
         stream.prepareAsync();
-        Log.d("Service", "Preparing...");
     }
 
     private void checkCurrentTime() {
@@ -240,7 +219,6 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
     }
 
     public void updateCurrentShowInfo() {
-        Log.d("Test", "Updating");
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(getString(R.string.website))
@@ -277,12 +255,10 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                                     if (manager != null)
                                         manager.notify(SERVICE_ID,
                                                 setUpNotification(getApplicationContext(), showTitle, bitmap, true));
-                                    Log.d("Test", "Bitmap loaded!");
                                 }
 
                                 @Override
                                 public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                    Log.e("Test", "Bitmap load failed...");
                                     Picasso.get()
                                             .load(showArtUrl)
                                             .into(this);
@@ -296,21 +272,17 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                             Picasso.get()
                                     .load(showArtUrl)
                                     .into(notificationTarget[0]);
-                            Log.d("Test", "Updated show info!");
                         } else {
-                            Log.e("TAG", "RESPONSE FAILED");
                             updateCurrentShowInfo();
                         }
                     }
 
                     @Override
                     public void onFailure(retrofit2.Call<ScheduleData> call, Throwable t) {
-                        Log.e("Error", "FAILED TO MAKE API CALL");
                         updateCurrentShowInfo();
                     }
                 });
 
-        Log.d("Test", "No update");
     }
 
     public Notification setUpNotification(Context context, String newTitle, Bitmap newArt, boolean isConnected) {
@@ -417,7 +389,6 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
             stream.stop();
             stream.reset();
             isUserStopped = true;
-            Log.d("Service", "Stream has stopped.");
         }
     };
 

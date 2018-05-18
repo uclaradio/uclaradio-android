@@ -10,7 +10,6 @@ import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,19 +103,14 @@ public class DJsFragment extends Fragment {
                             recyclerView.setLayoutManager(manager);
                             DjAdapter adapter = new DjAdapter(response.body().getDjList(), getContext());
                             recyclerView.setAdapter(adapter);
-                            for (DjData dj : response.body().getDjList()) {
-                                Log.d("TAG", "DJ NAME IS: " + dj.getUsername());
-                            }
                             djsProgress.hide();
                         } else {
-                            Log.e("TAG", "HERE FAILED");
                             getDjs();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<DjList> call, Throwable t) {
-                        Log.e("TAG", "FAILED TO MAKE API CALL");
                         // Double the delay to try again, then try again
                         new Handler().postDelayed(new Runnable() {
                             @Override

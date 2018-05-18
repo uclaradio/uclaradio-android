@@ -24,7 +24,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.graphics.Palette;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -160,13 +159,11 @@ public class StreamingFragment extends Fragment {
     playPauseBtn.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         if (!mainActivity.isBound()) {
-          Log.d("Service", "Not yet bound");
           Snackbar.make(view, R.string.stream_not_loaded, Snackbar.LENGTH_LONG)
                   .show();
           return;
         }
         if (MainActivity.stream == null) {
-          Log.d("Service", "Stream is null...");
           Snackbar.make(view, "The stream hasn't loaded yet. Try again after a few seconds!", Snackbar.LENGTH_LONG)
                   .show();
           return;
@@ -262,7 +259,6 @@ public class StreamingFragment extends Fragment {
 
                   @Override
                   public void onError(Exception e) {
-                      Log.e("Picasso", "Error in Picasso!");
                       e.printStackTrace();
                   }
                 });
@@ -301,7 +297,6 @@ public class StreamingFragment extends Fragment {
           int newFgColor = color.getDarkVibrantColor(getResources().getColor(android.R.color.white));
           playPauseBtn.getDrawable().mutate().setColorFilter(newFgColor, PorterDuff.Mode.SRC_IN);
         }
-        Log.d("Service", "Connection error.");
     }
   };
 
@@ -309,7 +304,6 @@ public class StreamingFragment extends Fragment {
     @Override
     public void onReceive(Context context, Intent intent) {
       togglePlayButton();
-      Log.d("Service", "Connection restored.");
     }
   };
 }

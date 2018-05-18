@@ -11,7 +11,6 @@ import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.uclaradio.uclaradio.R;
 import com.uclaradio.uclaradio.stream.StreamService;
@@ -28,8 +27,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        Log.d("Test", "Real Splash");
 
         new CheckConnectionAsync(this)
                 .execute(new Server(getString(R.string.website_ip),
@@ -83,18 +80,15 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Server... servers) {
-            Log.d("AsyncTask", "Testing...");
             Server radioServer = servers[0];
             try {
                 Socket socket = new Socket();
                 socket.connect(new InetSocketAddress(radioServer.url, radioServer.port), radioServer.timeout);
 
-                Log.d("AsyncTask", "Connecting...");
                 return true;
             } catch (Exception ex) {
                 // Catching a general Exception is frowned upon, but any Exception means that the app couldn't
                 // connect to the server and so needs to be restarted.
-                Log.e("AsyncTask", "Error connecting to server.");
                 ex.printStackTrace();
                 return false;
             }
@@ -102,7 +96,6 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            Log.d("AsyncTask", "Connection: " + aBoolean);
             if (!aBoolean) showSwitchWifiDialog(weakContext.get());
         }
     }

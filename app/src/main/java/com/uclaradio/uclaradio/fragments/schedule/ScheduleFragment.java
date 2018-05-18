@@ -9,7 +9,6 @@ import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,26 +100,15 @@ public class ScheduleFragment extends Fragment {
                                             LinearLayoutManager.VERTICAL, false);
                             recyclerView.setLayoutManager(manager);
 
-                            for (ScheduleData show : response.body().getScheduleList())
-                            {
-                                if (show == null) continue;
-                                Log.d("TAG", "SHOW NAME IS " + show.getTitle());
-                                Log.d("TAG", "Time: " + show.getTime());
-                                Log.d("TAG", "Day: " + show.getDay());
-                                Log.d("TAG", "Genre: " + show.getGenre());
-                            }
-
                             scheduleProgress.hide();
 
                         } else {
-                            Log.e("TAG", "HERE FAILED");
                             getSchedules();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ScheduleList> call, Throwable t) {
-                        Log.e("TAG", "FAILED TO MAKE API CALL");
                         getSchedules();
                     }
 

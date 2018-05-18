@@ -14,7 +14,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   protected void onStop() {
-    Log.d("Service", "Stopped");
     super.onStop();
   }
 
@@ -67,7 +65,6 @@ public class MainActivity extends AppCompatActivity
     bound = false;
     stream.stopForeground(true);
     stream.stopSelf();
-    Log.d("Service", "Destroying stream...");
     super.onDestroy();
   }
 
@@ -112,19 +109,14 @@ public class MainActivity extends AppCompatActivity
       StreamService.LocalBinder binder = (StreamService.LocalBinder) iBinder;
       stream = binder.getService();
       bound = true;
-      if (stream == null) Log.d("Service", "It looks like the stream is null, but...");
-      Log.d("Service", binder.getService().toString());
-      Log.d("Service", "Bound.");
       stream.startForeground
               (SERVICE_ID, stream.setUpNotification(MainActivity.this, true));
       stream.updateCurrentShowInfo();
-      Log.d("Service", "Started in foreground.");
     }
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
         bound = false;
-        Log.d("Service", "Disconnected.");
     }
   };
 }

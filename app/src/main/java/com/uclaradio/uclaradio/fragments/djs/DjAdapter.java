@@ -3,7 +3,6 @@ package com.uclaradio.uclaradio.fragments.djs;
 import android.content.Context;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,6 @@ public class DjAdapter extends RecyclerView.Adapter<DjAdapter.ViewHolder> {
     String imageUrl = baseUrl + item.getPictureUrl();
     if (item.getPictureUrl() == null)
       imageUrl = baseUrl + "/img/bear_transparent.png";
-    Log.d("TAG", "IMAGE URL: " + imageUrl);
     Picasso.get()
             .load(imageUrl)
             .resize(250, 250)
@@ -58,7 +56,6 @@ public class DjAdapter extends RecyclerView.Adapter<DjAdapter.ViewHolder> {
 
               @Override
               public void onError(Exception e) {
-                Log.e("Picasso", "Error in Picasso!");
                 e.printStackTrace();
               }
             });

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,13 +72,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
           SimpleDateFormat sdf = new SimpleDateFormat("hhaa"); //hourAM/PM
           try {
             Date aTime = sdf.parse(a.getTime().toUpperCase());
-            Log.d("aTime", aTime.toString());
             Date bTime = sdf.parse(b.getTime().toUpperCase());
-            Log.d("bTime", bTime.toString());
 
             return aTime.compareTo(bTime);
           } catch (ParseException ex) {
-              Log.e("ERROR", ex.getMessage());
               return a.getTime().compareTo(b.getTime());
           }
         }
@@ -190,7 +186,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     String imageUrl = baseUrl + item.getPictureUrl();
     if (item.getPictureUrl() == null)
       imageUrl = baseUrl + "/img/radio.png";
-    Log.d("TAG", "ALBUM IMAGE URL: " + imageUrl);
 
     Picasso.get()
             .load(imageUrl)
@@ -201,7 +196,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
               @Override
               public void onError(Exception e) {
-                Log.e("Picasso", "Error in Picasso!");
                 e.printStackTrace();
               }
             });
