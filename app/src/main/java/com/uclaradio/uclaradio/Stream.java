@@ -47,7 +47,7 @@ public class Stream extends AppCompatActivity {
                     streamBtnImg.setImageResource(android.R.drawable.ic_media_pause);
 
                     if (initialStage) {
-                        new Player().execute("http://uclaradio.com:8000/;");
+                        new Player().execute("https://uclaradio.com/stream/;");
                     } else {
                         if(!mediaPlayer.isPlaying())
                             mediaPlayer.start();
