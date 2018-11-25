@@ -58,3 +58,8 @@ freeline_project_description.json
 
 # Vim swap files
 .*swp
+
+# Build
+.project
+.settings
+.classpath
