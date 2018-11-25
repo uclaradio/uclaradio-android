@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+    android:background="#80333333"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="50dp">
+
+    <TextView
+      android:id="@+id/chat_label"
+      android:layout_width="wrap_content"
+      android:layout_height="50dp"
+      android:text="CHAT"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      android:textColor="@android:color/white"
+      android:textSize="16sp" />
+
+    <TextView
+      android:id="@+id/chat_icon"
+      android:layout_width="wrap_content"
+      android:layout_height="50dp"
+      android:text="[icon]"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:textColor="@android:color/white"
+      android:textSize="16sp" />
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/chat_messages"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:scrollbars="vertical"
+      app:layout_constraintTop_toBottomOf="@id/chat_label"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintBottom_toTopOf="@id/chat_newmessage" />
+
+    <android.support.constraint.ConstraintLayout
+      android:id="@+id/chat_newmessage"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      app:layout_constraintTop_toBottomOf="@id/chat_messages"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent">
+      <EditText
+        android:id="@+id/newmessage_edit"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="@string/new_message"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/newmessage_send"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+      <TextView
+        android:id="@+id/newmessage_send"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="[icon]"
+        app:layout_constraintTop_toTopOf="@id/newmessage_edit"
+        app:layout_constraintBottom_toBottomOf="@id/newmessage_edit"
+        app:layout_constraintStart_toEndOf="@id/newmessage_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@android:color/white" />
+      
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
