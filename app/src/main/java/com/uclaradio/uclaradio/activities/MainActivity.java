@@ -1,5 +1,7 @@
 package com.uclaradio.uclaradio.activities;
 
+import java.util.ArrayList;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +16,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.widget.ImageView;
+import android.view.View;
 
 import com.squareup.picasso.Picasso;
 import com.uclaradio.uclaradio.R;
@@ -24,6 +29,8 @@ import com.uclaradio.uclaradio.fragments.djs.DJsFragment;
 import com.uclaradio.uclaradio.fragments.schedule.ScheduleFragment;
 import com.uclaradio.uclaradio.fragments.streaming.StreamingFragment;
 import com.uclaradio.uclaradio.stream.StreamService;
+import com.uclaradio.uclaradio.chat.ChatMessage;
+import com.uclaradio.uclaradio.chat.MessageListAdapter;
 
 public class MainActivity extends AppCompatActivity
         implements StreamingFragment.OnFragmentInteractionListener,
@@ -36,12 +43,27 @@ public class MainActivity extends AppCompatActivity
   public static StreamService stream;
   private boolean bound = false;
 
+  private View chatBottomSheet;
+  private RecyclerView chatRecycler;
+  private MessageListAdapter chatAdapter;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
     SERVICE_ID = getResources().getInteger(R.integer.service_id);
+
+    ArrayList<ChatMessage> messages = new ArrayList<>();
+    messages.add(new ChatMessage(0, "TestUser", "testing 213", "asaf"));
+    messages.add(new ChatMessage(0, "OtherUser", "testing 542", "asaf"));
+    messages.add(new ChatMessage(0, "OtherUser", "testing 509", "asaf"));
+    messages.add(new ChatMessage(0, "TestUser", "testing 253", "asaf"));
+
+    chatBottomSheet = findViewById(R.id.chat_bottomsheet);
+    chatRecycler = (RecyclerView) findViewById(R.id.chat_messages);
+    chatAdapter = new MessageListAdapter(this, messages);
+    chatRecycler.setLayoutManager(new LinearLayoutManager(this));
 
     initializeActionBar();
   }

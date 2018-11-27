@@ -30,5 +30,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/chat_bottom_sheet_layout" />
+    <include 
+      android:id="@+id/chat_bottomsheet"
+      layout="@layout/chat_bottom_sheet_layout" />
 </android.support.design.widget.CoordinatorLayout>
