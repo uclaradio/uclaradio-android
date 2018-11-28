@@ -15,8 +15,8 @@
 
     <string name="website">https://uclaradio.com</string>
     <string name="website_ip">192.241.193.240</string>
-    <string name="stream_port">8000</string>
-    <string name="stream_url">http://uclaradio.com:8000/;</string>
+    <string name="stream_port">80</string>
+    <string name="stream_url">https://uclaradio.com/stream/;</string>
     <string name="facebook">https://www.facebook.com/UCLARadio/?fref=ts</string>
     <string name="insta">https://www.instagram.com/uclaradio/</string>
     <string name="twitter">https://twitter.com/UCLAradio</string>
