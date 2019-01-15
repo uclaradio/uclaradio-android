@@ -6,10 +6,10 @@ import android.view.View;
 
 import com.uclaradio.uclaradio.R;
 
-public class MessageHolder extends RecyclerView.ViewHolder {
+public class SentMessageHolder extends RecyclerView.ViewHolder {
   TextView bodyText, userText, timeText;
 
-  MessageHolder(View itemView) {
+  SentMessageHolder(View itemView) {
     super(itemView);
 
     bodyText = (TextView) itemView.findViewById(R.id.message_body_text);

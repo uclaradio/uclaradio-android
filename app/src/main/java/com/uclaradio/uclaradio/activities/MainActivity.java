@@ -1,6 +1,7 @@
 package com.uclaradio.uclaradio.activities;
 
 import java.util.ArrayList;
+import java.lang.Math;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,12 +13,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.widget.ImageView;
 import android.view.View;
 
@@ -55,15 +59,55 @@ public class MainActivity extends AppCompatActivity
     SERVICE_ID = getResources().getInteger(R.integer.service_id);
 
     ArrayList<ChatMessage> messages = new ArrayList<>();
-    messages.add(new ChatMessage(0, "TestUser", "testing 213", "asaf"));
-    messages.add(new ChatMessage(0, "OtherUser", "testing 542", "asaf"));
-    messages.add(new ChatMessage(0, "OtherUser", "testing 509", "asaf"));
-    messages.add(new ChatMessage(0, "TestUser", "testing 253", "asaf"));
+    messages.add(new ChatMessage(0, "Guest121", "first message", "09:00:12"));
+    messages.add(new ChatMessage(1, "Guest102", "sup", "09:10:44"));
+    messages.add(new ChatMessage(2, "Guest123", "i am out of message ideas", "10:04:00"));
+    messages.add(new ChatMessage(3, "Guest177", "Hello world!", "11:05:23"));
+    messages.add(new ChatMessage(4, "named-user", "yo this is my jam", "11:49:12"));
+    messages.add(new ChatMessage(5, "Guest177", "I love that song!!", "11:50:11"));
+    messages.add(new ChatMessage(6, "Guest115", "generic spam message", "12:39:22"));
+    messages.add(new ChatMessage(7, "Guest121", "show now?", "01:00:12"));
+    messages.add(new ChatMessage(8, "OnAirDiscJockey", "yes i have show now", "01:05:42"));
+
+    for (ChatMessage message : messages) {
+      Log.d("TEST", message.getUser());
+    }
+
 
     chatBottomSheet = findViewById(R.id.chat_bottomsheet);
     chatRecycler = (RecyclerView) findViewById(R.id.chat_messages);
     chatAdapter = new MessageListAdapter(this, messages);
-    chatRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+    LinearLayoutManager manager = new LinearLayoutManager(this);
+    // manager.setStackFromEnd(true);
+    // manager.setReverseLayout(true);
+
+    chatRecycler.setLayoutManager(manager);
+    chatRecycler.setAdapter(chatAdapter);
+    chatRecycler.scrollToPosition(messages.size() - 1);
+
+    BottomSheetBehavior chatBehavior = BottomSheetBehavior.from(chatBottomSheet);
+    // final View dimOverlay = findViewById(R.id.dim_overlay);
+    final View tabContainer = findViewById(R.id.tab_container);
+    final ImageView chatIcon = findViewById(R.id.chat_icon);
+    chatBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+      @Override
+      public void onStateChanged(@NonNull View bottomSheet, int newState) {
+        if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+        //  dimOverlay.setVisibility(View.GONE);
+          chatIcon.setImageResource(R.drawable.chat_icon);
+        } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+          chatIcon.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24);
+        }
+      }
+
+      @Override
+      public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+        // dimOverlay.setVisibility(View.VISIBLE);
+        // dimOverlay.setAlpha((float) Math.sqrt(slideOffset));
+        tabContainer.setAlpha(1-slideOffset); 
+      }
+    });
 
     initializeActionBar();
   }
