@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity
     bound = false;
     stream.stopForeground(true);
     stream.stopSelf();
+    socketDisconnect();
     super.onDestroy();
   }
 
@@ -121,9 +122,14 @@ public class MainActivity extends AppCompatActivity
     try { radioSocket = IO.socket(getString(R.string.website)); }
     catch (URISyntaxException ex) { ex.printStackTrace(); }
 
+    // listener to grab site-generated username (i.e. GuestXXX)
     radioSocket.on("assign username", onAddUser);
     radioSocket.connect();
-    radioSocket.emit("add user");
+    radioSocket.emit("add user"); // add the user to the site's server
+  }
+
+  private void socketDisconnect() {
+    radioSocket.disconnect();
   }
 
   private void setUsername(String username) {
