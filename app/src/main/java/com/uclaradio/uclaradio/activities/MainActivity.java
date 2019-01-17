@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
 
     messages = new ArrayList<>();
 
-    getMessages(null, 10);
+    getMessages(null, 30 /* X */); // Get the X newest messages
 
     context = this;
 
