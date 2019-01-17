@@ -1,7 +1,9 @@
 package com.uclaradio.uclaradio.activities;
 
+import java.util.List;
 import java.util.ArrayList;
-import java.lang.Math;
+import java.util.Collections;
+import java.lang.Integer;
 import java.net.URISyntaxException;
 
 import android.content.ComponentName;
@@ -23,8 +25,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Button;
 import android.view.View;
+import org.json.JSONObject; import org.json.JSONException;
 
 import com.squareup.picasso.Picasso;
 
@@ -40,7 +45,15 @@ import com.uclaradio.uclaradio.fragments.schedule.ScheduleFragment;
 import com.uclaradio.uclaradio.fragments.streaming.StreamingFragment;
 import com.uclaradio.uclaradio.stream.StreamService;
 import com.uclaradio.uclaradio.chat.ChatMessage;
+import com.uclaradio.uclaradio.chat.ChatMessageList;
+import com.uclaradio.uclaradio.chat.ChatMessageRequest;
 import com.uclaradio.uclaradio.chat.MessageListAdapter;
+import com.uclaradio.uclaradio.interfaces.RadioPlatform;
+
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
         implements StreamingFragment.OnFragmentInteractionListener,
@@ -53,9 +66,12 @@ public class MainActivity extends AppCompatActivity
   public static StreamService stream;
   private boolean bound = false;
 
+  // Chat views
   private View chatBottomSheet;
   private RecyclerView chatRecycler;
   private MessageListAdapter chatAdapter;
+  private Button sendMessageBtn;
+  private EditText messageEdit;
 
   private ArrayList<ChatMessage> messages;
   private String chatUsername;
@@ -72,15 +88,8 @@ public class MainActivity extends AppCompatActivity
     SERVICE_ID = getResources().getInteger(R.integer.service_id);
 
     messages = new ArrayList<>();
-    messages.add(new ChatMessage(0, "Guest121", "first message", "09:00:12"));
-    messages.add(new ChatMessage(1, "Guest102", "sup", "09:10:44"));
-    messages.add(new ChatMessage(2, "Guest123", "i am out of message ideas", "10:04:00"));
-    messages.add(new ChatMessage(3, "Guest177", "Hello world!", "11:05:23"));
-    messages.add(new ChatMessage(4, "named-user", "yo this is my jam", "11:49:12"));
-    messages.add(new ChatMessage(5, "Guest177", "I love that song!!", "11:50:11"));
-    messages.add(new ChatMessage(6, "Guest115", "generic spam message", "12:39:22"));
-    messages.add(new ChatMessage(7, "Guest121", "show now?", "01:00:12"));
-    messages.add(new ChatMessage(8, "OnAirDiscJockey", "yes i have show now", "01:05:42"));
+
+    getMessages(null, 10);
 
     context = this;
 
@@ -89,6 +98,19 @@ public class MainActivity extends AppCompatActivity
     initializeChat(messages);
 
     initializeActionBar();
+
+    sendMessageBtn = (Button) findViewById(R.id.newmessage_send);
+    messageEdit = (EditText) findViewById(R.id.newmessage_edit);
+    sendMessageBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        try {
+          sendMessage();
+        } catch (JSONException ex) {
+          ex.printStackTrace();
+        }
+      }
+    });
   }
 
   @Override
@@ -124,6 +146,7 @@ public class MainActivity extends AppCompatActivity
 
     // listener to grab site-generated username (i.e. GuestXXX)
     radioSocket.on("assign username", onAddUser);
+    radioSocket.on("new message", onNewMessage);
     radioSocket.connect();
     radioSocket.emit("add user"); // add the user to the site's server
   }
@@ -134,7 +157,85 @@ public class MainActivity extends AppCompatActivity
 
   private void setUsername(String username) {
     chatUsername = username;
+    chatAdapter.setUsername(username);
+    chatAdapter.notifyDataSetChanged();
     Log.d("DEBUGGING", chatUsername);
+  }
+
+  private void newMessage(ChatMessage message) { newMessage(message, false); }
+  private void newMessage(ChatMessage message, Boolean push) {
+    if (push) messages.add(0, message);
+    else messages.add(message);
+    chatAdapter.notifyDataSetChanged();
+    scrollToBottom();
+  }
+  
+  private void addDummyMessages() {
+    messages.add(new ChatMessage(0, "Guest121", "first message", "09:00:12"));
+    messages.add(new ChatMessage(1, "Guest102", "sup", "09:10:44"));
+    messages.add(new ChatMessage(2, "Guest123", "i am out of message ideas", "10:04:00"));
+    messages.add(new ChatMessage(3, "Guest177", "Hello world!", "11:05:23"));
+    messages.add(new ChatMessage(4, "named-user", "yo this is my jam", "11:49:12"));
+    messages.add(new ChatMessage(5, "Guest177", "I love that song!!", "11:50:11"));
+    messages.add(new ChatMessage(6, "Guest115", "generic spam message", "12:39:22"));
+    messages.add(new ChatMessage(7, "Guest121", "show now?", "01:00:12"));
+    messages.add(new ChatMessage(8, "OnAirDiscJockey", "yes i have show now", "01:05:42"));
+  }
+
+  private void sendMessage() throws JSONException {
+    String message = messageEdit.getText().toString().trim();
+    
+    if (message.isEmpty()) {
+      Log.e("ERROR!!!", "Empty message");
+      return;
+    }
+
+    String jsonMessageStr
+      = "{\"user\": \"" + chatUsername + "\", \"text\":\"" + message + "\"}";
+    JSONObject jsonMessage = new JSONObject(jsonMessageStr);
+
+    radioSocket.emit("new message", jsonMessage);
+
+    messageEdit.setText("");
+  }
+
+  private void getMessages(Integer id, int volume) {
+    Retrofit retrofit = new Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(getString(R.string.website))
+            .build();
+
+    Log.d("MESSAGE", "attempting to get message");
+    RadioPlatform platform = retrofit.create(RadioPlatform.class);
+    platform.getNextMessages(new ChatMessageRequest(id, volume))
+            .enqueue(new Callback<List<ChatMessage>>() {
+              @Override
+              public void onResponse(retrofit2.Call<List<ChatMessage>> call, Response<List<ChatMessage>> response) {
+                if (response.isSuccessful()) {
+                  Log.d("MESSAGE", "succesfully got messages");
+                  List<ChatMessage> messageList = response.body();
+                  for (ChatMessage message : messageList) {
+                    Log.d("MESSAGE", "found message " + message.getUser() + ": " + message.getBody());
+                    newMessage(message, true /* push */);
+                  }
+                } else {
+                  Log.d("MESSAGE", "got response but failed");
+                  // TODO: Show "could not load more messages" error
+                }
+              }
+
+              @Override
+              public void onFailure(retrofit2.Call<List<ChatMessage>> call, Throwable t) {
+                // TODO: Show "could not load more messages" error
+                  Log.d("MESSAGE", "failed");
+                  Log.d("MESSAGE", t.getCause().toString());
+              }
+            });
+  }
+
+  private void scrollToBottom() {
+    if (messages.size() > 0)
+      chatRecycler.smoothScrollToPosition(messages.size() - 1);
   }
 
   private void initializeChat(ArrayList<ChatMessage> messages) {
@@ -146,7 +247,23 @@ public class MainActivity extends AppCompatActivity
 
     chatRecycler.setLayoutManager(manager);
     chatRecycler.setAdapter(chatAdapter);
-    chatRecycler.scrollToPosition(messages.size() - 1);
+    scrollToBottom();
+
+    // Scroll to bottom if keyboard is up
+    chatRecycler.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+      @Override
+      public void onLayoutChange(View v, int left, int top, int right, int bottom, 
+                                  int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        if (bottom < oldBottom) {
+          chatRecycler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+              scrollToBottom();
+            }
+          }, 100);
+        }
+      }
+    });
 
     BottomSheetBehavior chatBehavior = BottomSheetBehavior.from(chatBottomSheet);
     // final View dimOverlay = findViewById(R.id.dim_overlay);
@@ -228,6 +345,31 @@ public class MainActivity extends AppCompatActivity
         public void run() {
           String username = (String) args[0];
           setUsername(username);
+        }
+      });
+    }
+  };
+
+  private Emitter.Listener onNewMessage = new Emitter.Listener() {
+    @Override
+    public void call(final Object... args) {
+      ((MainActivity) context).runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          JSONObject data = (JSONObject) args[0];
+          int id;
+          String username, message, date;
+          try {
+            id = data.getInt("id");
+            username = data.getString("user");
+            message = data.getString("text");
+            date = data.getString("date");
+          } catch (JSONException ex) {
+            ex.printStackTrace();
+            return;
+          }
+
+          newMessage(new ChatMessage(id, username, message, date));
         }
       });
     }

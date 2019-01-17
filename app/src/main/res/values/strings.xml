@@ -13,10 +13,10 @@
     <string name="request">Request</string>
     <string name="on_air">On Air</string>
 
-    <!--<string name="website">https://uclaradio.com</string>-->
-    <!--<string name="website_ip">192.241.193.240</string>-->
-    <string name="website">http://10.0.2.2:3000</string>
-    <string name="website_ip">10.0.2.2</string>
+    <string name="website">https://uclaradio.com</string>
+    <string name="website_ip">192.241.193.240</string>
+    <!--<string name="website">http://10.0.2.2:3000</string>-->
+    <!--<string name="website_ip">10.0.2.2</string>-->
     <string name="stream_port">8000</string>
     <string name="stream_url">http://uclaradio.com:8000/;</string>
     <string name="facebook">https://www.facebook.com/UCLARadio/?fref=ts</string>

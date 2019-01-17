@@ -1,7 +1,16 @@
 package com.uclaradio.uclaradio.chat;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ChatMessage {
-  private String body, user, time;
+
+  @SerializedName("text")
+  private String body;
+  @SerializedName("user")
+  private String user;
+  @SerializedName("time")
+  private String time;
+  @SerializedName("id")
   private int id;
 
   public ChatMessage(int id, String user, String body, String time) {

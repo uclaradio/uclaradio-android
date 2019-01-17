@@ -28,7 +28,7 @@
       android:src="@drawable/chat_icon"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintEnd_toEndOf="parent" />
-
+    
     <android.support.v7.widget.RecyclerView
       android:id="@+id/chat_messages"
       android:layout_width="match_parent"

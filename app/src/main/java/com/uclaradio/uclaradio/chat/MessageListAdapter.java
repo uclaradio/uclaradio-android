@@ -1,6 +1,7 @@
 package com.uclaradio.uclaradio.chat;
 
 import java.util.List;
+import java.util.ArrayList;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.uclaradio.uclaradio.R;
 public class MessageListAdapter extends RecyclerView.Adapter {
   private Context context;
   private List<ChatMessage> messages;
+  private String username;
 
   private static final int VIEW_TYPE_MESSAGE_SENT     = 0;
   private static final int VIEW_TYPE_MESSAGE_RECEIVED = 1;
@@ -31,8 +33,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
   public int getItemViewType(int position) {
     ChatMessage message = (ChatMessage) messages.get(position);
 
-    // TODO: Change this condition to something better
-    if (message.getUser().equals("Guest121"))
+    if (message.getUser().equals(username))
       return VIEW_TYPE_MESSAGE_SENT;
     else
       return VIEW_TYPE_MESSAGE_RECEIVED;
@@ -64,5 +65,15 @@ public class MessageListAdapter extends RecyclerView.Adapter {
       ((SentMessageHolder) holder).bind(message);
     else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED)
       ((ReceivedMessageHolder) holder).bind(message);
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  private static class DefaultViewHolder extends RecyclerView.ViewHolder {
+    public DefaultViewHolder(View view) {
+      super(view);
+    }
   }
 }
