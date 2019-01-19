@@ -10,31 +10,38 @@
     app:behavior_hideable="false"
     app:behavior_peekHeight="50dp">
 
-    <TextView
-      android:id="@+id/chat_label"
-      android:layout_width="wrap_content"
-      android:layout_height="50dp"
-      android:text="CHAT"
+    <android.support.constraint.ConstraintLayout
+      android:id="@+id/chat_heading"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintBottom_toTopOf="@id/chat_messages"
-      android:textColor="@android:color/white"
-      android:textSize="16sp" />
+      app:layout_constraintBottom_toTopOf="@id/chat_messages">
+      <TextView
+        android:id="@+id/chat_label"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="CHAT"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 
-    <ImageView
-      android:id="@+id/chat_icon"
-      android:layout_width="25dp"
-      android:layout_height="25dp"
-      android:src="@drawable/chat_icon"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintEnd_toEndOf="parent" />
+      <ImageView
+        android:id="@+id/chat_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/chat_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+    </android.support.constraint.ConstraintLayout>
     
     <android.support.v7.widget.RecyclerView
       android:id="@+id/chat_messages"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:scrollbars="vertical"
-      app:layout_constraintTop_toBottomOf="@id/chat_label"
+      app:layout_constraintTop_toBottomOf="@id/chat_heading"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintBottom_toTopOf="@id/chat_newmessage" />

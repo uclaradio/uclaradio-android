@@ -24,10 +24,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
+import android.support.constraint.ConstraintLayout;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Button;
+import android.widget.Toast;
 import android.view.View;
 import org.json.JSONObject; import org.json.JSONException;
 
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity
 
   public static StreamService stream;
   private boolean bound = false;
+  private boolean chat_open = false;
 
   // Chat views
   private View chatBottomSheet;
@@ -159,7 +161,6 @@ public class MainActivity extends AppCompatActivity
     chatUsername = username;
     chatAdapter.setUsername(username);
     chatAdapter.notifyDataSetChanged();
-    Log.d("DEBUGGING", chatUsername);
   }
 
   private void newMessage(ChatMessage message) { newMessage(message, false); }
@@ -186,7 +187,6 @@ public class MainActivity extends AppCompatActivity
     String message = messageEdit.getText().toString().trim();
     
     if (message.isEmpty()) {
-      Log.e("ERROR!!!", "Empty message");
       return;
     }
 
@@ -205,30 +205,26 @@ public class MainActivity extends AppCompatActivity
             .baseUrl(getString(R.string.website))
             .build();
 
-    Log.d("MESSAGE", "attempting to get message");
     RadioPlatform platform = retrofit.create(RadioPlatform.class);
     platform.getNextMessages(new ChatMessageRequest(id, volume))
             .enqueue(new Callback<List<ChatMessage>>() {
               @Override
               public void onResponse(retrofit2.Call<List<ChatMessage>> call, Response<List<ChatMessage>> response) {
                 if (response.isSuccessful()) {
-                  Log.d("MESSAGE", "succesfully got messages");
                   List<ChatMessage> messageList = response.body();
                   for (ChatMessage message : messageList) {
-                    Log.d("MESSAGE", "found message " + message.getUser() + ": " + message.getBody());
                     newMessage(message, true /* push */);
                   }
                 } else {
-                  Log.d("MESSAGE", "got response but failed");
-                  // TODO: Show "could not load more messages" error
+                  Toast.makeText(context, context.getString(R.string.chat_load_failed), Toast.LENGTH_SHORT)
+                    .show();
                 }
               }
 
               @Override
               public void onFailure(retrofit2.Call<List<ChatMessage>> call, Throwable t) {
-                // TODO: Show "could not load more messages" error
-                  Log.d("MESSAGE", "failed");
-                  Log.d("MESSAGE", t.getCause().toString());
+                Toast.makeText(context, context.getString(R.string.chat_load_failed), Toast.LENGTH_SHORT)
+                  .show();
               }
             });
   }
@@ -265,7 +261,7 @@ public class MainActivity extends AppCompatActivity
       }
     });
 
-    BottomSheetBehavior chatBehavior = BottomSheetBehavior.from(chatBottomSheet);
+    final BottomSheetBehavior chatBehavior = BottomSheetBehavior.from(chatBottomSheet);
     // final View dimOverlay = findViewById(R.id.dim_overlay);
     final View tabContainer = findViewById(R.id.tab_container);
     final ImageView chatIcon = findViewById(R.id.chat_icon);
@@ -274,8 +270,10 @@ public class MainActivity extends AppCompatActivity
       public void onStateChanged(@NonNull View bottomSheet, int newState) {
         if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
         //  dimOverlay.setVisibility(View.GONE);
+          chat_open = false;
           chatIcon.setImageResource(R.drawable.chat_icon);
         } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+          chat_open = true;
           chatIcon.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24);
         }
       }
@@ -285,6 +283,17 @@ public class MainActivity extends AppCompatActivity
         // dimOverlay.setVisibility(View.VISIBLE);
         // dimOverlay.setAlpha((float) Math.sqrt(slideOffset));
         tabContainer.setAlpha(1-slideOffset); 
+      }
+    });
+
+    final ConstraintLayout chat_heading = findViewById(R.id.chat_heading);
+    chat_heading.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if (chat_open)
+          chatBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        else
+          chatBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
       }
     });
   }
