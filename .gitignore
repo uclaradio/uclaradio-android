@@ -39,6 +39,8 @@ captures/
 .idea/gradle.xml
 .idea/dictionaries
 .idea/libraries
+.idea/caches
+.idea/codeStyles
 
 # Keystore files
 *.jks
@@ -53,3 +55,11 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+
+# Vim swap files
+.*swp
+
+# Build
+.project
+.settings
+.classpath

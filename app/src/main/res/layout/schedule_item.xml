@@ -1,64 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="?attr/colorBackgroundFloating"
+    android:background="@android:color/transparent"
+    android:clipToPadding="false"
     android:orientation="horizontal"
     android:padding="5dp">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/schedule_day"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="20dp"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".75"
-            android:orientation="vertical">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/details_group"
+        app:layout_constraintTop_toBottomOf="@id/schedule_day"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/schedule_image"
+        app:layout_constraintHorizontal_weight="0.75"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/show_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+        <TextView
+            android:id="@+id/show_genre"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/show_title"
+            android:textAlignment="gravity" />
 
-                <TextView
-                    android:id="@+id/schedule_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+        <TextView
+            android:id="@+id/show_time"
+            android:layout_width="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/show_genre"
+            android:layout_height="30dp" />
+    </android.support.constraint.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/schedule_genre"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:textAlignment="gravity"
-                    />
-            </LinearLayout>
+    <ImageView
+        android:id="@+id/schedule_image"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintHorizontal_weight="0.25"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="@+id/details_group"
+        app:layout_constraintStart_toEndOf="@id/details_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:outlineProvider="bounds"
+        android:elevation="2dp"
+        android:scaleType="centerCrop" />
 
+    <!-- <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/schedule_details_progress"
+        style="?android:attr/progressBarStyle"
+        app:layout_constraintStart_toStartOf="@id/schedule_image"
+        app:layout_constraintTop_toTopOf="@id/schedule_image"
+        app:layout_constraintBottom_toBottomOf="@id/schedule_image"
+        app:layout_constraintEnd_toEndOf="@id/schedule_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" /> -->
 
-            <TextView
-                android:id="@+id/schedule_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/schedule_image"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:layout_weight=".25"/>
-    </LinearLayout>
-
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
