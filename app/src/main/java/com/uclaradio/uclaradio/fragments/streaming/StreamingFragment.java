@@ -168,11 +168,6 @@ public class StreamingFragment extends Fragment {
                   .show();
           return;
         }
-//        if (MainActivity.stream.isPlaying())
-//          ((ImageButton) v).setImageResource(android.R.drawable.ic_media_play);
-//        else
-//          ((ImageButton) v).setImageResource(android.R.drawable.ic_media_pause);
-//        MainActivity.stream.toggle();
         getContext().sendBroadcast(new Intent(getString(R.string.play_pause_intent)));
       }
     });
@@ -233,7 +228,6 @@ public class StreamingFragment extends Fragment {
                       int newBgColor = color.getVibrantColor(value.data);
                       int newFgColor = color
                               .getDarkVibrantColor(getResources().getColor(android.R.color.white));
-//                      int newColor = bgSwatch != null ? bgSwatch.getRgb() : value.data;
                       ValueAnimator bgAnim = new ValueAnimator();
                       // Background tint list should never be null, so this is f
                       //noinspection ConstantConditions

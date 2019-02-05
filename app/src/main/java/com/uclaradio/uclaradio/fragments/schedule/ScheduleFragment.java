@@ -92,8 +92,6 @@ public class ScheduleFragment extends Fragment {
                         if(response.isSuccessful()) {
                             ScheduleAdapter adapter = new ScheduleAdapter(response.body().getScheduleList(), getActivity());
                             recyclerView.setAdapter(adapter);
-//                            LinearLayoutManager manager =
-//                                    new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                             GridLayoutManager manager =
                                     new GridLayoutManager(getContext(),
                                             getResources().getInteger(R.integer.num_show_cols),

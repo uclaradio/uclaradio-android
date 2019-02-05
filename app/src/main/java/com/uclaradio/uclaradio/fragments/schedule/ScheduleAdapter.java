@@ -103,7 +103,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View itemView = LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.schedule_item, parent, false);
                     .inflate(R.layout.schedule_item_new, parent, false);
     final ViewHolder holder = new ViewHolder(itemView);
     itemView.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +135,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                 .into(showImage);
         showTitle.setText(show.getTitle());
         showTime.setText(resources.getString(R.string.time_and_day, dayToLongDay.get(show.getDay()), show.getTime()));
-//        showTime.setText(dayToLongDay.get(show.getDay()) + "s at " + show.getTime());
 
         if (show.getGenre() == null)
           showGenre.setVisibility(View.GONE);

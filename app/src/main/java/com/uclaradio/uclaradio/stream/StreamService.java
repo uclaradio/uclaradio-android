@@ -185,7 +185,6 @@ public class StreamService extends Service implements MediaPlayer.OnPreparedList
                 sendBroadcast(new Intent(getString(R.string.connection_error)));
                 stream.reset();
                 initStream();
-//                sendBroadcast(new Intent(getString(R.string.play_pause_intent)));
             }
         });
         stream.setOnErrorListener(new MediaPlayer.OnErrorListener() {

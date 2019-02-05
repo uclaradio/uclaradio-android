@@ -171,18 +171,6 @@ public class MainActivity extends AppCompatActivity
     scrollToBottom();
   }
   
-  private void addDummyMessages() {
-    messages.add(new ChatMessage(0, "Guest121", "first message", "09:00:12"));
-    messages.add(new ChatMessage(1, "Guest102", "sup", "09:10:44"));
-    messages.add(new ChatMessage(2, "Guest123", "i am out of message ideas", "10:04:00"));
-    messages.add(new ChatMessage(3, "Guest177", "Hello world!", "11:05:23"));
-    messages.add(new ChatMessage(4, "named-user", "yo this is my jam", "11:49:12"));
-    messages.add(new ChatMessage(5, "Guest177", "I love that song!!", "11:50:11"));
-    messages.add(new ChatMessage(6, "Guest115", "generic spam message", "12:39:22"));
-    messages.add(new ChatMessage(7, "Guest121", "show now?", "01:00:12"));
-    messages.add(new ChatMessage(8, "OnAirDiscJockey", "yes i have show now", "01:05:42"));
-  }
-
   private void sendMessage() throws JSONException {
     String message = messageEdit.getText().toString().trim();
     
@@ -262,14 +250,12 @@ public class MainActivity extends AppCompatActivity
     });
 
     final BottomSheetBehavior chatBehavior = BottomSheetBehavior.from(chatBottomSheet);
-    // final View dimOverlay = findViewById(R.id.dim_overlay);
     final View tabContainer = findViewById(R.id.tab_container);
     final ImageView chatIcon = findViewById(R.id.chat_icon);
     chatBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
       @Override
       public void onStateChanged(@NonNull View bottomSheet, int newState) {
         if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-        //  dimOverlay.setVisibility(View.GONE);
           chat_open = false;
           chatIcon.setImageResource(R.drawable.chat_icon);
         } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
@@ -280,8 +266,6 @@ public class MainActivity extends AppCompatActivity
 
       @Override
       public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-        // dimOverlay.setVisibility(View.VISIBLE);
-        // dimOverlay.setAlpha((float) Math.sqrt(slideOffset));
         tabContainer.setAlpha(1-slideOffset); 
       }
     });
