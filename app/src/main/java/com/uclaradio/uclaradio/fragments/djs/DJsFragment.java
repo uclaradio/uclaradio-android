@@ -96,8 +96,6 @@ public class DJsFragment extends Fragment {
                     @Override
                     public void onResponse(Call<DjList> call, Response<DjList> response) {
                         if (response.isSuccessful()) {
-//                            LinearLayoutManager manager =
-//                                    new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                             GridLayoutManager manager =
                                     new GridLayoutManager(getContext(), numberOfCols, LinearLayoutManager.VERTICAL, false);
                             recyclerView.setLayoutManager(manager);

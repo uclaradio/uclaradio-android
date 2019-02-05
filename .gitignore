@@ -56,10 +56,10 @@ freeline.py
 freeline/
 freeline_project_description.json
 
-# Misc project settings
-.project
-.settings/
-app/.classpath
-app/.project
-app/.settings/
+# Vim swap files
+.*swp
 
+# Build
+.project
+.settings
+.classpath
