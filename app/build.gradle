@@ -27,6 +27,12 @@ android {
     sourceSets { main { java.srcDirs = ['src/main/java', 'com.uclaradio.uclaradio'] } }
 }
 
+configurations {
+  all {
+    exclude group: 'org.json', module: 'json'
+  }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
